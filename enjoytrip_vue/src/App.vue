@@ -7,14 +7,16 @@ import TheFooter from "@/components/layout/TheFooter.vue";
 
 <template>
   <div class="body bg-body-tertiary">
-    <div v-if="$route.name != 'login'">
-      <TheHeadingNavbar style="width: 100%"></TheHeadingNavbar>
+    <TheHeadingNavbar style="width: 100%"></TheHeadingNavbar>
+
+    <div v-if="$route.name != 'login' && $route.name != 'join'">
       <div class="box">
         <router-view></router-view>
       </div>
       <TheFooter></TheFooter>
     </div>
-    <div v-if="$route.name == 'login'" class="loginbox">
+
+    <div v-if="$route.name == 'login' || $route.name == 'join'" class="loginbox">
       <router-view></router-view>
     </div>
   </div>
