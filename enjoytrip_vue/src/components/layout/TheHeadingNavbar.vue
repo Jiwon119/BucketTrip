@@ -53,6 +53,9 @@
           </ul>
 
           <button class="btn btn-outline-secondary my-2 my-sm-0">
+            <router-link :to="{ name: 'join' }" class="nav-link">회원가입</router-link>
+          </button>
+          <button class="btn btn-outline-secondary my-2 my-sm-0">
             <router-link :to="{ name: 'login' }" class="nav-link">로그인</router-link>
           </button>
         </div>

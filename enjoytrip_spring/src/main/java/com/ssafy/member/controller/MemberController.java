@@ -46,7 +46,8 @@ public class MemberController {
 
 	@ApiOperation(value = "regist", notes = "회원가입")
 	@PostMapping("/regist")
-	protected ResponseEntity<?> regist(MemberDto member) throws Exception {
+	protected ResponseEntity<?> regist(@RequestBody MemberDto member) throws Exception {
+		System.out.println(member);
 		Map<String, String> map = new HashMap<String, String>();
 		memberService.regist(member);
 		map.put("msg", "회원가입 성공");
