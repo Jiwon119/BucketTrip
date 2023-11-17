@@ -5,10 +5,10 @@ import { listAttraction } from "@/api/attraction";
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
 
 const attractionData = ref([]);
-const selectCampsite = ref({
+const selected = ref({
   contentId: '',
-  mapX : '',
-  mapY : '',
+  mapX: '',
+  mapY: '',
   title: '',
   firstImage: '',
   addr: '',
@@ -23,17 +23,18 @@ const getAttractionList = () => {
   listAttraction(
     ({ data }) => {
       console.log(data);
-        data.forEach(element => {
-          attractionData.value.push({
-            id: element.contentId,
-            title: element.title,
-            content: element.addr1,
-            mapY: element.latitude,
-            mapX: element.longitude
-          });
+      data.forEach(element => {
+        attractionData.value.push({
+          id: element.contentId,
+          title: element.title,
+          content: element.addr1,
+          mapY: element.latitude,
+          mapX: element.longitude,
+          img: element.firstImage
         });
-        console.log(attractionData.value);
 
+      });
+      console.log(attractionData.value);
     },
     (error) => {
       console.log(error);
@@ -42,51 +43,48 @@ const getAttractionList = () => {
   console.log(attractionData);
 };
 
-const viewcampsite = (camp) => {
-  // selectCampsite.value = camp;
-  selectCampsite.value.mapX = camp.longitude;
-  selectCampsite.value.mapY = camp.latitude;
-  console.log(selectCampsite.value);
+
+const viewMarker = (data) => {
+  // selected.value = camp;
+  selected.value = data;
 };
 
 </script>
 
 <template>
-    <div>
-        <h2>캠핑장 정보</h2>
-        <div class="row">
-        <div class="col-8">
-            <VKakaoMap :campingData="attractionData" :selectCampsite="selectCampsite" />
-        </div>
-        <div class="col-4">
-            <table class="table table-hover">
-            <thead>
-                <tr class="text-center">
-                <th scope="col">캠핑장 이름</th>
-                <!-- <th scope="col">소개</th> -->
-                <!-- <th scope="col">캠핑장 소개</th> -->
-                <th scope="col">위치</th>
-                <!-- <th scope="col">시설</th> -->
-                <!-- <th scope="col">이미지</th> -->
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="text-center" v-for="camp in attractionData" :key="camp.contentId" @click="viewcampsite(camp)">
-                <td>{{ camp.title }}</td>
-                <!-- <td>{{ camp.lineIntro }}</td> -->
-                <!-- <td v-if="camp.featureNm == ''">{{ camp.lineIntro }}</td> -->
-                <!-- <td v-else>{{ camp.featureNm }}</td> -->
-                <td>{{ camp.content }}</td>
-                <!-- <td>{{ camp.sbrsEtc }}</td> -->
-                <!-- <td><img :src="camp.firstImageUrl" style="width: 180px;"> </td> -->
-                </tr>
-            </tbody>
-            </table>
-        </div>
-        </div>
+  <div>
+    <h2>캠핑장 정보</h2>
+    <div class="row">
+      <div class="col-8">
+        <VKakaoMap :data="attractionData" :selected="selected" />
+      </div>
+      <div class="col-4">
+        <table class="table table-hover">
+          <thead>
+            <tr class="text-center">
+              <th scope="col">이름</th>
+              <!-- <th scope="col">소개</th> -->
+              <!-- <th scope="col">캠핑장 소개</th> -->
+              <th scope="col">위치</th>
+              <!-- <th scope="col">시설</th> -->
+              <!-- <th scope="col">이미지</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center" v-for="list in attractionData" :key="list.contentId" @click="viewMarker(list)">
+              <td>{{ list.title }}</td>
+              <!-- <td>{{ camp.lineIntro }}</td> -->
+              <!-- <td v-if="camp.featureNm == ''">{{ camp.lineIntro }}</td> -->
+              <!-- <td v-else>{{ camp.featureNm }}</td> -->
+              <td>{{ list.content }}</td>
+              <!-- <td>{{ camp.sbrsEtc }}</td> -->
+              <!-- <td><img :src="camp.firstImageUrl" style="width: 180px;"> </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
