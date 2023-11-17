@@ -1,3 +1,13 @@
+<!-- 
+    필요한 데이터
+    id
+    title
+    content
+    mapX
+    mapY
+    img
+ -->
+ 
 <script setup>
 import { ref, watch, onMounted } from "vue";
 
@@ -8,35 +18,34 @@ const infoWindow = ref([]);
 const data = ref([]);
 
 // const props = defineProps({ campingArea: Array, selectedOption: Object });
-const props = defineProps({ campingData: Array, selectCampsite: Object });
+const props = defineProps({ data: Array, selected: Object });
 
 watch(
-    () => props.selectCampsite,
+    () => props.selected,
     () => {
 
         // 이동할 위도 경도 위치를 생성합니다
-        var moveLatLon = new kakao.maps.LatLng(props.selectCampsite.mapY, props.selectCampsite.mapX);
+        var moveLatLon = new kakao.maps.LatLng(props.selected.mapY, props.selected.mapX);
         map.setLevel(3);
-        console.log(props.selectCampsite);
+        console.log(props.selected);
 
         infoWindow.value.forEach(info => {
             info.setMap(null);
         });
         markers.value.forEach(m => {
-            if (m.id == props.selectCampsite.contentId) {
+            if (m.id == props.selected.id) {
                 // 인포윈도우를 생성합니다
                 var content = '<div class="wrap">' +
                     '    <div class="info">' +
                     '        <div class="title">' +
-                    `            ${props.selectCampsite.title}` +
+                    `            ${props.selected.title}` +
                     '        </div>' +
                     '        <div class="body">' +
                     '            <div class="img">' +
-                    `                <img src="${props.selectCampsite.firstImage}" width="73" height="70">` +
+                    `                <img src="${props.selected.img}" width="73" height="70">` +
                     '           </div>' +
                     '            <div class="desc">' +
-                    `                <div class="ellipsis">${props.selectCampsite.addr}</div>` +
-                    // `                <div class="jibun ellipsis">${props.selectCampsite.posblFcltyCl}</div>` +
+                    `                <div class="ellipsis">${props.selected.content}</div>` +
                     '            </div>' +
                     '        </div>' +
                     '    </div>' +
@@ -75,28 +84,39 @@ onMounted(() => {
 });
 
 watch(
-    () => props.campingData,
+    () => props.data,
     () => {
-        data.value = props.campingData;
-        console.log("dddd", props.campingData);
-        positions.value = [];
-        console.log("props.campingData", props.campingData);
-        console.log("data", data.value);
-        data.value.forEach((el) => {
-            console.log("el");
-            let obj = {};
-            obj.latlng = new kakao.maps.LatLng(el.mapY, el.mapX);
-            obj.id = el.id;
-            obj.title = el.title;
-            obj.info = el.content;
-
-            console.log("obj", obj);
-            positions.value.push(obj);
-        });
-        loadMarkers();
+        if (!window.kakao || !window.kakao.maps) {
+            setTimeout(() => {
+                setData();
+            }, 300)
+        } else {
+            setData();
+        }
     },
     { deep: true },
 );
+
+const setData = () => {
+    data.value = props.data;
+    console.log("data", props.data.length);
+    console.log("data", props.data);
+    positions.value = [];
+    props.data.forEach((el) => {
+        console.log(el);
+        let obj = {};
+        obj.id = el.id;
+        obj.title = el.title;
+        obj.content = el.content;
+        obj.latlng = new kakao.maps.LatLng(el.mapY, el.mapX);
+        console.log("obj", obj);
+
+        positions.value.push(obj);
+    });
+    console.log(positions.value);
+    loadMarkers();
+}
+
 
 const initMap = () => {
     const container = document.getElementById("map");
@@ -105,8 +125,8 @@ const initMap = () => {
         level: 3,
     };
     map = new kakao.maps.Map(container, options);
-    console.log("dddD" ,positions);
-    loadMarkers();
+
+    // loadMarkers();
 };
 
 const loadMarkers = () => {
@@ -163,16 +183,97 @@ const deleteMarkers = () => {
     height: 700px;
 }
 
-.wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 152px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
-    .wrap * {padding: 0;margin: 0;}
-    .wrap .info {width: 286px;height: 140px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
-    .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
-    .info .title {padding: 5px 0 0 10px; height: 40px;background: #eee;border-bottom: 1px solid #ddd;font-size: 20px;font-weight: bold;}
-    .info .body {position: relative;overflow: hidden;}
-    .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
-    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis; white-space: wrap; font-size: 14px;}
-    .desc .jibun {font-size: 14px;color: #888; margin-top: -2px; margin-right: 8px;}
-    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
-    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-    .info .link {color: #5085BB;}
+.wrap {
+    position: absolute;
+    left: 0;
+    bottom: 40px;
+    width: 288px;
+    height: 152px;
+    margin-left: -144px;
+    text-align: left;
+    overflow: hidden;
+    font-size: 12px;
+    font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+    line-height: 1.5;
+}
+
+.wrap * {
+    padding: 0;
+    margin: 0;
+}
+
+.wrap .info {
+    width: 286px;
+    height: 140px;
+    border-radius: 5px;
+    border-bottom: 2px solid #ccc;
+    border-right: 1px solid #ccc;
+    overflow: hidden;
+    background: #fff;
+}
+
+.wrap .info:nth-child(1) {
+    border: 0;
+    box-shadow: 0px 1px 2px #888;
+}
+
+.info .title {
+    padding: 5px 0 0 10px;
+    height: 40px;
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.info .body {
+    position: relative;
+    overflow: hidden;
+}
+
+.info .desc {
+    position: relative;
+    margin: 13px 0 0 90px;
+    height: 75px;
+}
+
+.desc .ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    font-size: 14px;
+}
+
+.desc .jibun {
+    font-size: 14px;
+    color: #888;
+    margin-top: -2px;
+    margin-right: 8px;
+}
+
+.info .img {
+    position: absolute;
+    top: 6px;
+    left: 5px;
+    width: 73px;
+    height: 71px;
+    border: 1px solid #ddd;
+    color: #888;
+    overflow: hidden;
+}
+
+.info:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: 0;
+    width: 22px;
+    height: 12px;
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+}
+
+.info .link {
+    color: #5085BB;
+}
 </style>
