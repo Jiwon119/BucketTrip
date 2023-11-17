@@ -11,7 +11,10 @@ export const useMemberStore = defineStore("memberStore", () => {
 
   const isLogin = ref(false);
   const isLoginError = ref(false);
-  const userInfo = ref(null);
+  const userInfo = ref({
+    id: "",
+    name: ""
+  });
   const isValidToken = ref(false);
 
   const userLogin = async (loginUser) => {
@@ -53,8 +56,11 @@ export const useMemberStore = defineStore("memberStore", () => {
       decodeToken.userId,
       (response) => {
         if (response.status === httpStatusCode.OK) {
-          userInfo.value = response.data.userInfo;
-          console.log("3. getUserInfo data >> ", response.data);
+          userInfo.value.id = response.data.id;
+          userInfo.value.name = response.data.name;
+          console.log("3. getUserInfo data >> ", response.data.id);
+          console.log("userInfo ", userInfo.value);
+
         } else {
           console.log("유저 정보 없음!!!!");
         }
@@ -114,8 +120,9 @@ export const useMemberStore = defineStore("memberStore", () => {
   };
 
   const userLogout = async (userid) => {
+    console.log("userInfo.value", userInfo.value);
     await logout(
-      userid,
+      userInfo.value.id,
       (response) => {
         if (response.status === httpStatusCode.OK) {
           isLogin.value = false;
