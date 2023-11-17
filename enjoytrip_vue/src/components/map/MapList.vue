@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 // import { useRouter } from "vue-router";
-import { listAttraction } from "@/api/attraction";
+import { listAttraction, searchAttraction } from "@/api/attraction";
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
 
 const attractionData = ref([]);
@@ -43,6 +43,42 @@ const getAttractionList = () => {
   console.log(attractionData);
 };
 
+const param = ref({
+  area: "",
+  type: "",
+  keyword: "",
+});
+
+const getSearchAttractionList = () => {
+  console.log(param.value);
+  searchAttraction(
+    param.value,
+    ({ data }) => {
+      console.log(data);
+      console.log("나오나요");
+      // articles.value = data.articles;
+      // currentPage.value = data.currentPage;
+      // totalPage.value = data.totalPageCount;
+      attractionData.value = [];
+      data.forEach(element => {
+        attractionData.value.push({
+          id: element.contentId,
+          title: element.title,
+          content: element.addr1,
+          mapY: element.latitude,
+          mapX: element.longitude,
+          img: element.firstImage
+        });
+      });
+
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+  console.log("gdㅎㅇ");
+}
+
 
 const viewMarker = (data) => {
   // selected.value = camp;
@@ -53,12 +89,50 @@ const viewMarker = (data) => {
 
 <template>
   <div>
-    <h2>캠핑장 정보</h2>
+    <h2>관광지 정보</h2>
     <div class="row">
       <div class="col-8">
         <VKakaoMap :data="attractionData" :selected="selected" />
       </div>
       <div class="col-4">
+        <form class="d-flex my-3" @submit.prevent="searchAttraction" role="search" action="/map">
+          <input type="hidden" name="action" value="mapSearch" />
+          <select id="search-area" class="form-select me-2" name="area" v-model="param.area">
+            <option value="0" selected>검색 할 지역 선택</option>
+            <option value="1">서울</option>
+            <option value="2">인천</option>
+            <option value="3">대전</option>
+            <option value="4">대구</option>
+            <option value="5">광주</option>
+            <option value="6">부산</option>
+            <option value="7">울산</option>
+            <option value="8">세종</option>
+            <option value="31">경기도</option>
+            <option value="32">강원도</option>
+            <option value="33">충청북도</option>
+            <option value="34">충청남도</option>
+            <option value="35">경상북도</option>
+            <option value="36">경상남도</option>
+            <option value="37">전라북도</option>
+            <option value="38">전라남도</option>
+            <option value="39">제주</option>
+          </select>
+          <select id="search-content-id" class="form-select me-2" name="type" v-model="param.type">
+            <option value="0" selected>관광지 유형</option>
+            <option value="12">관광지</option>
+            <option value="14">문화시설</option>
+            <option value="15">축제공연행사</option>
+            <option value="25">여행코스</option>
+            <option value="28">레포츠</option>
+            <option value="32">숙박</option>
+            <option value="38">쇼핑</option>
+            <option value="39">음식점</option>
+          </select>
+          <input id="search-keyword" class="form-control me-2" type="search" placeholder="검색어" aria-label="검색어" name="keyword" v-model="param.keyword"/>
+          <!-- <input id="btn-search" class="btn btn-outline-success" type="submit" /> -->
+          <button type="button" class="btn btn-outline-danger mb-3 ms-1" @click="getSearchAttractionList">검색</button>
+        </form>
+
         <table class="table table-hover">
           <thead>
             <tr class="text-center">
