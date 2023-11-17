@@ -25,8 +25,18 @@
               <router-link :to="{ name: 'camp' }" class="nav-link">camp</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <router-link to="/" class="nav-link">-----</router-link>
             </li>
+            <li class="nav-item">
+              <router-link :to="{ name: 'bookmark' }" class="nav-link">즐겨찾기</router-link>
+            </li>
+              <li class="nav-item">
+              <router-link :to="{ name: 'map' }" class="nav-link">지도</router-link>
+            </li>
+              <li class="nav-item">
+              <router-link :to="{ name: 'review' }" class="nav-link">후기</router-link>
+            </li>
+
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                 aria-expanded="false">Dropdown</a>

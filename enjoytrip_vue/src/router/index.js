@@ -52,9 +52,20 @@ const router = createRouter({
       name: "camp",
       component: () => import("@/views/TheCapmingView.vue")
     },
+
     {
-      path: "/user",
-      name: "user",
+      path: "/bookmark",
+      name: "bookmark",
+      component: () => import("@/views/TheUserView.vue")
+    },
+    {
+      path: "/map",
+      name: "map",
+      component: () => import("@/views/TheUserView.vue")
+    },
+    {
+      path: "/review",
+      name: "review",
       component: () => import("@/views/TheUserView.vue")
     }
   ],
