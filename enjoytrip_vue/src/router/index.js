@@ -67,7 +67,34 @@ const router = createRouter({
       path: "/review",
       name: "review",
       component: () => import("@/views/TheUserView.vue")
-    }
+    },
+    {
+      path: "/user",
+      name: "user",
+      component: () => import("@/views/TheUserView.vue"),
+      children: [
+        {
+          path: "login",
+          name: "login",
+          component: () => import("@/components/users/UserLogin.vue"),
+        },
+        {
+          path: "join",
+          name: "join",
+          component: () => import("@/components/users/UserRegister.vue"),
+        },
+        {
+          path: "mypage",
+          name: "mypage",
+          component: () => import("@/components/users/UserMyPage.vue"),
+        },
+        // {
+        //   path: "modify/:userid",
+        //   name: "user-modify",
+        //   component: () => import("@/components/users/UserModify.vue"),
+        // },
+      ],
+    },
   ],
 });
 
