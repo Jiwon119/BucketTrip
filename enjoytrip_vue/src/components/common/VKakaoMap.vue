@@ -5,6 +5,7 @@ var map;
 const positions = ref([]);
 const markers = ref([]);
 const infoWindow = ref([]);
+const data = ref([]);
 
 // const props = defineProps({ campingArea: Array, selectedOption: Object });
 const props = defineProps({ campingData: Array, selectCampsite: Object });
@@ -27,15 +28,15 @@ watch(
                 var content = '<div class="wrap">' +
                     '    <div class="info">' +
                     '        <div class="title">' +
-                    `            ${props.selectCampsite.facltNm}` +
+                    `            ${props.selectCampsite.title}` +
                     '        </div>' +
                     '        <div class="body">' +
                     '            <div class="img">' +
-                    `                <img src="${props.selectCampsite.firstImageUrl}" width="73" height="70">` +
+                    `                <img src="${props.selectCampsite.firstImage}" width="73" height="70">` +
                     '           </div>' +
                     '            <div class="desc">' +
-                    `                <div class="ellipsis">${props.selectCampsite.addr1}</div>` +
-                    `                <div class="jibun ellipsis">${props.selectCampsite.posblFcltyCl}</div>` +
+                    `                <div class="ellipsis">${props.selectCampsite.addr}</div>` +
+                    // `                <div class="jibun ellipsis">${props.selectCampsite.posblFcltyCl}</div>` +
                     '            </div>' +
                     '        </div>' +
                     '    </div>' +
@@ -74,21 +75,27 @@ onMounted(() => {
 });
 
 watch(
-    () => props.campingData.value,
+    () => props.campingData,
     () => {
+        data.value = props.campingData;
+        console.log("dddd", props.campingData);
         positions.value = [];
-        props.campingData.forEach((camp) => {
+        console.log("props.campingData", props.campingData);
+        console.log("data", data.value);
+        data.value.forEach((el) => {
+            console.log("el");
             let obj = {};
-            obj.latlng = new kakao.maps.LatLng(camp.mapY, camp.mapX);
-            obj.id = camp.contentId;
-            obj.title = camp.facltNm;
-            obj.info = camp.lineIntro;
+            obj.latlng = new kakao.maps.LatLng(el.mapY, el.mapX);
+            obj.id = el.id;
+            obj.title = el.title;
+            obj.info = el.content;
 
+            console.log("obj", obj);
             positions.value.push(obj);
         });
         loadMarkers();
     },
-    { deep: true }
+    { deep: true },
 );
 
 const initMap = () => {
@@ -98,8 +105,8 @@ const initMap = () => {
         level: 3,
     };
     map = new kakao.maps.Map(container, options);
-
-    // loadMarkers();
+    console.log("dddD" ,positions);
+    loadMarkers();
 };
 
 const loadMarkers = () => {
