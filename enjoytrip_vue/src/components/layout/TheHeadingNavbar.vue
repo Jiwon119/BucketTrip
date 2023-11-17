@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+
+</script>
 
 <template>
   <div>
@@ -30,10 +32,10 @@
             <li class="nav-item">
               <router-link :to="{ name: 'bookmark' }" class="nav-link">즐겨찾기</router-link>
             </li>
-              <li class="nav-item">
+            <li class="nav-item">
               <router-link :to="{ name: 'map' }" class="nav-link">지도</router-link>
             </li>
-              <li class="nav-item">
+            <li class="nav-item">
               <router-link :to="{ name: 'review' }" class="nav-link">후기</router-link>
             </li>
 
@@ -49,12 +51,10 @@
               </div>
             </li>
           </ul>
-          <form class="d-flex">
-            <input class="form-control me-sm-2" type="search" placeholder="Search" />
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-              Search
-            </button>
-          </form>
+
+          <button class="btn btn-outline-secondary my-2 my-sm-0">
+            <router-link :to="{ name: 'login' }" class="nav-link">로그인</router-link>
+          </button>
         </div>
       </div>
     </nav>
