@@ -1,17 +1,12 @@
 <script setup>
 import { ref } from "vue";
-import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
-import { useMenuStore } from "@/stores/menu";
 
 const router = useRouter();
-
 const memberStore = useMemberStore();
 
-const { isLogin } = storeToRefs(memberStore);
 const { userRegist } = memberStore;
-const { changeMenuState } = useMenuStore();
 
 const registInfo = ref({
     id: "jw",
@@ -24,7 +19,6 @@ const registInfo = ref({
 });
 
 const regist = async () => {
-
     console.log("회원가입 시작 ----");
     await userRegist(registInfo.value);
     router.push("/");

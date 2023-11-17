@@ -70,9 +70,12 @@ public class MemberController {
 				log.debug("access token : {}", accessToken);
 				log.debug("refresh token : {}", refreshToken);
 
+				log.debug("loginUser: {}", loginUser);
+//				발급받은 refresh token을 DB에 저장.
 				memberService.saveRefreshToken(loginUser.getId(), refreshToken);
+				log.debug("토근 저장");
 
-//			JSON으로 token 전달.
+//				JSON으로 token 전달.
 				resultMap.put("access-token", accessToken);
 				resultMap.put("refresh-token", refreshToken);
 
@@ -90,9 +93,9 @@ public class MemberController {
 		return new ResponseEntity<>(resultMap, status);
 	}
 
-	@ApiOperation(value = "mypage", notes = "유저 정보 페이지")
-	@GetMapping("/mypage/{userId}")
-	public ResponseEntity<MemberDto> mypage(@PathVariable("userId") String id) throws Exception {
+	@ApiOperation(value = "userInfo", notes = "유저 정보 페이지")
+	@GetMapping("/info/{userId}")
+	public ResponseEntity<MemberDto> userInfo(@PathVariable("userId") String id) throws Exception {
 		MemberDto member = memberService.selectMember(id);
 		return new ResponseEntity<MemberDto>(member, HttpStatus.OK);
 	}
@@ -110,13 +113,21 @@ public class MemberController {
 	}
 
 	@ApiOperation(value = "logout", notes = "로그아웃")
-	@GetMapping("/logout")
-	public ResponseEntity<?> logout(HttpSession session) {
-		Map<String, String> map = new HashMap<String, String>();
-		session.invalidate();
-		map.put("msg", "로그아웃 성공");
+	@GetMapping("/logout/{userId}")
+	public ResponseEntity<?> logout(@PathVariable("userId") String id) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			log.debug(id);
+			memberService.deleRefreshToken(id);
+			status = HttpStatus.OK;
+		} catch (Exception e) {
+			log.error("로그아웃 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
 
-		return new ResponseEntity<>(map, HttpStatus.OK);
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
 	@ApiOperation(value = "searchPass", notes = "비밀번호 찾기_회원 정보 일치 검사")

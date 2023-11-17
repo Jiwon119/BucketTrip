@@ -54,7 +54,8 @@
 		delete from member
 		where user_id=#{id}
 	</delete>
-		<update id="saveRefreshToken" parameterType="map">
+	
+	<update id="saveRefreshToken" parameterType="map">
 		update member
 		set token = #{token}
 		where user_id = #{id}

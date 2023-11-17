@@ -1,5 +1,23 @@
 <script setup>
+import { useMenuStore } from "@/stores/menu";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
 
+const menuStore = useMenuStore();
+const memberStore = useMemberStore();
+
+// 반응형을 유지하면서 스토어에서 속성을 추출하려면, storeToRefs()를 사용
+// https://pinia.vuejs.kr/core-concepts/
+const { menuList } = storeToRefs(menuStore);
+const { changeMenuState } = menuStore;
+const { userLogout } = memberStore;
+
+const logout = () => {
+  console.log("로그아웃!!!!");
+  userLogout("ssafy");
+
+  changeMenuState();
+};
 </script>
 
 <template>
@@ -52,12 +70,27 @@
             </li>
           </ul>
 
-          <button class="btn btn-outline-secondary my-2 my-sm-0">
-            <router-link :to="{ name: 'join' }" class="nav-link">회원가입</router-link>
-          </button>
-          <button class="btn btn-outline-secondary my-2 my-sm-0">
-            <router-link :to="{ name: 'login' }" class="nav-link">로그인</router-link>
-          </button>
+
+          <ul class="navbar-nav me-3">
+            <template v-for="menu in menuList" :key="menu.routeName">
+              <template v-if="menu.show">
+                <template v-if="menu.routeName === 'logout'">
+                  <li class="nav-item">
+                    <router-link to="/" @click.prevent="logout" class="nav-link">{{
+                      menu.name
+                    }}</router-link>
+                  </li>
+                </template>
+                <template v-else>
+                  <li class="nav-item">
+                    <router-link :to="{ name: menu.routeName }" class="nav-link">{{
+                      menu.name
+                    }}</router-link>
+                  </li>
+                </template>
+              </template>
+            </template>
+          </ul>
         </div>
       </div>
     </nav>

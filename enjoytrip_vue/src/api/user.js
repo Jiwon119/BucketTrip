@@ -23,7 +23,6 @@ async function logout(userid, success, fail) {
 }
 
 async function regist(param, success, fail) {
-  console.log("ddddddddddddddddddddddddddd", param);
   await local.post(`/member/regist`, param).then(success).catch(fail);
 }
 

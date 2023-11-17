@@ -26,7 +26,7 @@ const login = async () => {
     console.log("isLogin: ", isLogin);
     if (isLogin) {
         console.log("로그인 성공아닌가???");
-        // getUserInfo(token);
+        getUserInfo(token);
         changeMenuState();
     }
     router.push("/");
