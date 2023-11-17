@@ -91,7 +91,13 @@ watch(
                 setData();
             }, 300)
         } else {
-            setData();
+            if(props.data.length == 0){
+                var moveLatLon = new kakao.maps.LatLng(37.5013068, 127.0396597);
+                map.setLevel(5);
+                map.panTo(moveLatLon);
+            }else{
+                setData();
+            }
         }
     },
     { deep: true },
