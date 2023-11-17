@@ -19,8 +19,9 @@ public class AttractionServiceImpl implements AttractionService {
 	}
 	
 	@Override
-	public List<AttractionInfoDto> attractionList(AttractionInfoDto attractionInfoDto, String title) {
-		return mapper.attractionList(attractionInfoDto, title);
+	public List<AttractionInfoDto> attractionList(AttractionInfoDto attractionInfoDto, String keyword) {
+		System.out.println(attractionInfoDto);
+		return mapper.attractionList(attractionInfoDto, keyword);
 	}
 	@Override
 	public List<AttractionInfoDto> searchByTitle(String title, int sidoCode) {
