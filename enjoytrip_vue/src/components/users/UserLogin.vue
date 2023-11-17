@@ -14,8 +14,8 @@ const { userLogin, getUserInfo } = memberStore;
 const { changeMenuState } = useMenuStore();
 
 const loginUser = ref({
-    userId: "",
-    userPwd: "",
+    id: "ssafy",
+    password: "1234",
 });
 
 const login = async () => {
@@ -26,7 +26,7 @@ const login = async () => {
     console.log("isLogin: ", isLogin);
     if (isLogin) {
         console.log("로그인 성공아닌가???");
-        getUserInfo(token);
+        // getUserInfo(token);
         changeMenuState();
     }
     router.push("/");
@@ -36,16 +36,16 @@ const login = async () => {
 
 <template>
     <div class="main">
-        <form>
+        <form v-on:submit.prevent>
             <img class="mb-4" src="@/assets/logo1.png" width="200">
             <h1 class="h3 mb-3 fw-normal">로그인</h1>
 
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <input type="text" class="form-control" placeholder="ID" v-model="loginUser.id">
                 <label for="floatingInput">아이디</label>
             </div>
             <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <input type="password" class="form-control" placeholder="Password" v-model="loginUser.password">
                 <label for="floatingPassword">비밀번호</label>
             </div>
 
@@ -55,7 +55,7 @@ const login = async () => {
                     Remember me
                 </label>
             </div>
-            <button class="btn w-100 py-2" type="submit">로그인</button>
+            <button class="btn w-100 py-2" @click="login">로그인</button>
             <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
         </form>
 

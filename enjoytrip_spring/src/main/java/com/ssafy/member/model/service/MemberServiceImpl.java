@@ -1,6 +1,8 @@
 package com.ssafy.member.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -57,6 +59,27 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<MemberDto> selectAllMember() {
 		return memberMapper.selectAllMember();
+	}
+
+	@Override
+	public void saveRefreshToken(String id, String refreshToken) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", id);
+		map.put("token", refreshToken);
+		memberMapper.saveRefreshToken(map);
+	}
+
+	@Override
+	public Object getRefreshToken(String id) throws Exception {
+		return memberMapper.getRefreshToken(id);
+	}
+
+	@Override
+	public void deleRefreshToken(String id) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", id);
+		map.put("token", null);
+		memberMapper.deleteRefreshToken(map);
 	}
 
 
