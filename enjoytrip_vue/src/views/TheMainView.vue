@@ -12,11 +12,7 @@ const content = ref("내용")
 <template>
   <div>Main 화면 입니다.</div>
 
-  <VCard :imgSrc="imgSrc" :title="title" :content="content" />
+  <VCard :imgSrc="imgSrc" :title="title" :content="content" width="200px" />
 </template>
 
-<style scoped>
-img {
-  width: 100px;
-}
-</style>
+<style scoped></style>

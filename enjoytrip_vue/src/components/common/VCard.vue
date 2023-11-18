@@ -1,14 +1,20 @@
 <script setup>
 
-const props = defineProps({ imgSrc: String, title: String, content: String });
+const props = defineProps({
+  imgSrc: String,
+  title: String,
+  content: String,
+  width: String,
+  height: String,
+});
 
 
 </script>
 
 <template>
-  <div class="card" style="width: 18rem;">
-    <img :src="imgSrc" class="card-img-top" alt="...">
-    <div class="card-body">
+  <div class="card" :style="{ width: width, height: height }">
+    <img :src="imgSrc" class="card-img-top">
+    <div class=" card-body">
       <div class="card-title">{{ title }}</div>
       <div class="card-content">{{ content }}</div>
     </div>
@@ -17,13 +23,17 @@ const props = defineProps({ imgSrc: String, title: String, content: String });
 
 <style scoped>
 .card {
+  width: 18rem;
   margin: 10px;
+  min-width: 150px;
 }
 
 .card-title {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
 }
 
-.card-content {}
+.card-content {
+  font-size: 15px;
+}
 </style>
