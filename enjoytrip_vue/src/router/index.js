@@ -45,28 +45,28 @@ const router = createRouter({
     {
       path: "/estations",
       name: "estations",
-      component: () => import("@/views/TheElectricChargingStation.vue")
+      component: () => import("@/views/TheElectricChargingStation.vue"),
     },
     {
       path: "/camp",
       name: "camp",
-      component: () => import("@/views/TheCapmingView.vue")
+      component: () => import("@/views/TheCapmingView.vue"),
     },
 
     {
       path: "/bookmark",
       name: "bookmark",
-      component: () => import("@/views/TheUserView.vue")
+      component: () => import("@/views/TheUserView.vue"),
     },
     {
       path: "/map",
       name: "map",
-      component: () => import("@/views/TheMapView.vue")
+      component: () => import("@/views/TheMapView.vue"),
     },
     {
-      path: "/review",
-      name: "review",
-      component: () => import("@/views/TheUserView.vue")
+      path: "/hotplace",
+      name: "hotplace",
+      component: () => import("@/views/TheHotPlaceView.vue"),
     },
     {
       path: "/user",

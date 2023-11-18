@@ -54,7 +54,7 @@ const logout = () => {
               <router-link :to="{ name: 'map' }" class="nav-link">지도</router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="{ name: 'review' }" class="nav-link">후기</router-link>
+              <router-link :to="{ name: 'hotplace' }" class="nav-link">후기</router-link>
             </li>
 
             <li class="nav-item dropdown">
