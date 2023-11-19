@@ -14,5 +14,4 @@ public interface AttractionMapper {
 
 	List<AttractionInfoDto> searchByTitle(String title, int sidoCode);
 
-//	List<AttractionDescriptionDto> attractionDesc(AttractionInfoDto attractionInfoDto);
 }
