@@ -2,9 +2,10 @@
 import { ref, watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { searchAttractionId } from "@/api/attraction";
-import favoriteList from "./favoriteList.vue";
 import favoriteMap from "./favoriteMap.vue";
 import VCard from "../common/VCard.vue";
+import dragList from "./plan/dragList.vue";
+
 
 const list = ref(useRoute().query.checkList);
 
@@ -19,28 +20,25 @@ onMounted(() => {
 })
 
 const setData = () => {
-  console.log("setData 시작  list:", list.value);
+  console.log("1. 실행");
   list.value.forEach(element => {
-    console.log("---------------------", element);
     getArticleList(element)
   });
 }
 
+watch(
+  () => favorites.value,
+  () => { console.log(favorites.value); },
+  { deep: true }
+)
+
 
 const getArticleList = (id) => {
+  console.log("2. 실행");
   searchAttractionId(
     { id: id },
     ({ data }) => {
-      console.log(data);
-      favorites.value.push({
-        id: data.contentId,
-        mapY: data.latitude,
-        mapX: data.longitude,
-        title: data.title,
-        content: data.addr1,
-        img: data.firstImage
-      });
-      console.log(favorites.value);
+      favorites.value.push(data);
     },
     (error) => {
       console.log(error);
@@ -48,22 +46,18 @@ const getArticleList = (id) => {
   );
 };
 
-
-
 </script>
 
 <template>
   <div class="row">
-    <div class="col-8">
+    <div class="col-6">
       <favoriteMap :favoriteList="favorites" :selectedList="selected" />
     </div>
-    <div class="col-4">
-      즐겨찾기 목록
-      <div class="row">
-        <div class="col" v-for="(item, index) in favorites" :key="favorites.id">
-          {{ item.id }}
-        </div>
-      </div>
+    <div class="col-6">
+      <h5>즐겨찾기 목록</h5>
+      <br>
+
+      <dragList :list="favorites" />
 
       <template v-for="list in favorites" :key="favorites.id">
         <div class="favoriteCard">

@@ -39,13 +39,15 @@ import TheFooter from "@/components/layout/TheFooter.vue";
 }
 
 .box {
-  flex: 1;
+  /* flex: 1;
   background-color: cornflowerblue;
   margin: 30px 15% 30px 15%;
   background-color: white;
   border-radius: 30px;
   box-shadow: -10px -10px 15px rgba(212, 212, 212, 0.12),
-    10px 10px 15px rgba(186, 186, 186, 0.12);
+    10px 10px 15px rgba(186, 186, 186, 0.12); */
+
+  margin: 30px;
 }
 
 .loginbox {

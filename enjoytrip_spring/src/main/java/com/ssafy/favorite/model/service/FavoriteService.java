@@ -13,6 +13,6 @@ public interface FavoriteService {
 	
 	List<FavoriteDto> getList(String userId);
 	
-	
+	void addFavorite(FavoriteDto favoriteDto) throws Exception;
 	
 }

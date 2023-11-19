@@ -9,5 +9,7 @@ import com.ssafy.favorite.model.FavoriteDto;
 public interface FavoriteMapper {
 
 	List<FavoriteDto> getList(String userId);
-
+	
+	void addFavorite(FavoriteDto favoriteDto) throws Exception;
+	
 }

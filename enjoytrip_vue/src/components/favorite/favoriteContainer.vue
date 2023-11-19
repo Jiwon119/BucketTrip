@@ -22,7 +22,12 @@ const getFavoriteList = () => {
   listFavorite(
     userInfo.value.id,
     ({ data }) => {
-      favorites.value = data.favoriteList;
+      console.log("data.favoriteList------", data.favoriteList)
+      data.favoriteList.forEach(element => {
+        favorites.value.push(element.attrInfo)
+      });
+      console.log("favorites", favorites.value)
+
     },
     (error) => {
       console.log(error);
@@ -38,15 +43,12 @@ const selectedList = (val) => {
 }
 
 const onCheckboxClick = (value) => {
-  console.log(value.contentId);
-
   var idx = checkbox.value.indexOf(value.contentId);
   if (idx == -1) {
     checkbox.value.push(value.contentId)
   } else {
     checkbox.value.splice(idx, 1);
   }
-  console.log("checkbox.value : ", checkbox.value);
 }
 // { name: 'Query', query: { name: 'Query 선언적 방식', age: 1 } }
 const moveWrite = () => {

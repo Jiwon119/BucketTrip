@@ -11,7 +11,6 @@ const content = ref("내용")
 
 <template>
   <div>Main 화면 입니다.</div>
-
   <VCard :imgSrc="imgSrc" :title="title" :content="content" width="200px" />
 </template>
 

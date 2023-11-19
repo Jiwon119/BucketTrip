@@ -3,6 +3,7 @@ import { ref, watch } from "vue";
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
 
 const props = defineProps({ favoriteList: Array, selectedList: Object })
+console.log("props.favoriteList.value", props.favoriteList)
 
 const attractionData = ref([]);
 
@@ -32,17 +33,20 @@ watch(
 watch(
   () => props.favoriteList,
   () => {
+    attractionData.value = [];
     props.favoriteList.forEach(element => {
       attractionData.value.push({
-        id: element.attrInfo.contentId,
-        mapY: element.attrInfo.latitude,
-        mapX: element.attrInfo.longitude,
-        title: element.attrInfo.title,
-        content: element.attrInfo.addr1,
-        img: element.attrInfo.firstImage
+        id: element.contentId,
+        mapY: element.latitude,
+        mapX: element.longitude,
+        title: element.title,
+        content: element.addr1,
+        img: element.firstImage
       });
     });
-  }
+    console.log("attractionData", attractionData.value);
+  },
+  { deep: true }
 )
 
 </script>

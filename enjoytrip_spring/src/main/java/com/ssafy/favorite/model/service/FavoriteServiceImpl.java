@@ -22,17 +22,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FavoriteServiceImpl implements FavoriteService {
 	
-	private FavoriteMapper mapper;
+	private FavoriteMapper favoriteMapper;
 	
 	public FavoriteServiceImpl(FavoriteMapper favoriteMapper) {
 		super();
-		this.mapper = favoriteMapper;
+		this.favoriteMapper = favoriteMapper;
 	}
-
 	
 	@Override
+	public void addFavorite(FavoriteDto favoriteDto) throws Exception {
+		favoriteMapper.addFavorite(favoriteDto);
+	}
+
+	@Override
 	public List<FavoriteDto> getList(String userId) {
-		return mapper.getList(userId);
+		return favoriteMapper.getList(userId);
 	}
 	
 }

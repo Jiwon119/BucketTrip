@@ -103,11 +103,11 @@ function moveList() {
 }
 
 function upload() {
-     
-      console.log(this)
-      // this.imageUploaded = URL.createObjectURL(this.image)
-    }
-  
+
+  console.log(this)
+  // this.imageUploaded = URL.createObjectURL(this.image)
+}
+
 
 </script>
 
@@ -127,9 +127,9 @@ function upload() {
     </div>
 
     <div class="mb-3">
-				<label for="upfile" class="form-label">파일:</label>
-				<input type="file" class="form-control border" @change="upload(this)" id="upfile" name="upfile" multiple="multiple">
-			</div>
+      <label for="upfile" class="form-label">파일:</label>
+      <input type="file" class="form-control border" @change="upload(this)" id="upfile" name="upfile" multiple="multiple">
+    </div>
 
     <div class="col-auto text-center">
       <button type="submit" class="btn btn-outline-primary mb-3" v-if="type === 'regist'" @click="writeArticle">
