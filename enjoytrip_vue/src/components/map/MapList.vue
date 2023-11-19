@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 // import { useRouter } from "vue-router";
 import { listAttraction, searchAttraction } from "@/api/attraction";
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
+import MapListItem from "@/components/map/item/MapListItem.vue";
 
 const attractionData = ref([]);
 const selected = ref({
@@ -12,6 +13,7 @@ const selected = ref({
   title: '',
   firstImage: '',
   addr: '',
+  detail: '',
 });
 
 onMounted(() => {
@@ -30,7 +32,8 @@ const getAttractionList = () => {
           content: element.addr1,
           mapY: element.latitude,
           mapX: element.longitude,
-          img: element.firstImage
+          img: element.firstImage,
+          detail: element.attractionDescriptionDto.overview,
         });
 
       });
@@ -55,10 +58,7 @@ const getSearchAttractionList = () => {
     param.value,
     ({ data }) => {
       console.log(data);
-      console.log("나오나요");
-      // articles.value = data.articles;
-      // currentPage.value = data.currentPage;
-      // totalPage.value = data.totalPageCount;
+      
       attractionData.value = [];
       data.forEach(element => {
         attractionData.value.push({
@@ -67,10 +67,10 @@ const getSearchAttractionList = () => {
           content: element.addr1,
           mapY: element.latitude,
           mapX: element.longitude,
-          img: element.firstImage
+          img: element.firstImage,
+          detail: element.attractionDescriptionDto.overview,
         });
       });
-
     },
     (error) => {
       console.log(error);
@@ -81,7 +81,6 @@ const getSearchAttractionList = () => {
 
 
 const viewMarker = (data) => {
-  // selected.value = camp;
   selected.value = data;
 };
 
@@ -132,33 +131,51 @@ const viewMarker = (data) => {
           <!-- <input id="btn-search" class="btn btn-outline-success" type="submit" /> -->
           <button type="button" class="btn btn-outline-danger mb-3 ms-1" @click="getSearchAttractionList">검색</button>
         </form>
-
-        <table class="table table-hover">
-          <thead>
-            <tr class="text-center">
-              <th scope="col">이름</th>
-              <!-- <th scope="col">소개</th> -->
-              <!-- <th scope="col">캠핑장 소개</th> -->
-              <th scope="col">위치</th>
-              <!-- <th scope="col">시설</th> -->
-              <!-- <th scope="col">이미지</th> -->
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="text-center" v-for="list in attractionData" :key="list.contentId" @click="viewMarker(list)">
-              <td>{{ list.title }}</td>
-              <!-- <td>{{ camp.lineIntro }}</td> -->
-              <!-- <td v-if="camp.featureNm == ''">{{ camp.lineIntro }}</td> -->
-              <!-- <td v-else>{{ camp.featureNm }}</td> -->
-              <td>{{ list.content }}</td>
-              <!-- <td>{{ camp.sbrsEtc }}</td> -->
-              <!-- <td><img :src="camp.firstImageUrl" style="width: 180px;"> </td> -->
-            </tr>
-          </tbody>
-        </table>
+        <div class="map-list-item">
+          <table class="table table-hover table-fixed">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">이름</th>
+                <th scope="col"></th>
+                <th scope="col">위치</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr class="text-center" v-for="list in attractionData" :key="list.contentId" @click="viewMarker(list)"> -->
+                <MapListItem
+                  class="text-center" 
+                  v-for="list in attractionData" 
+                  :key="list.contentId" 
+                  :attraction="list"
+                  @click="viewMarker(list)"></MapListItem>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.map-list-item {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.table-fixed thead {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  background-color: white; /* 배경색을 지정해주면 좀 더 보기 좋아집니다. */
+}
+
+.table-fixed tbody td {
+  width: 25%; /* 각 열의 너비를 조절하세요. */
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 필요에 따라 생략 부호를 사용하세요. */
+  white-space: nowrap;
+}
+
+</style>

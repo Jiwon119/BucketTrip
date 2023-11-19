@@ -2,6 +2,7 @@ package com.ssafy.attraction.model.service;
 
 import java.util.List;
 
+//import com.ssafy.attraction.model.AttractionDescriptionDto;
 import com.ssafy.attraction.model.AttractionInfoDto;
 
 public interface AttractionService {
@@ -11,5 +12,7 @@ public interface AttractionService {
 	List<AttractionInfoDto> searchByTitle(String title, int sidoCode);
 
 	AttractionInfoDto searchAttractionId(String id);
+	
+//	List<AttractionDescriptionDto> attractionDesc(AttractionInfoDto attractionInfoDto);
 	
 }
