@@ -33,6 +33,7 @@ const getAttractionList = () => {
           mapY: element.latitude,
           mapX: element.longitude,
           img: element.firstImage,
+          detail: element.attractionDescriptionDto.overview,
         });
 
       });
@@ -66,7 +67,8 @@ const getSearchAttractionList = () => {
           content: element.addr1,
           mapY: element.latitude,
           mapX: element.longitude,
-          img: element.firstImage
+          img: element.firstImage,
+          detail: element.attractionDescriptionDto.overview,
         });
       });
 
