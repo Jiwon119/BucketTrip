@@ -61,7 +61,7 @@ public class FavoriteController {
 		this.favoriteService = favoriteService;
 	}
 	
-	@ApiOperation(value = "favorite", notes = "회원가입")
+	@ApiOperation(value = "favorite", notes = "즐겨찾기 리스트")
 	@GetMapping("/list/{userId}")
 	protected ResponseEntity<?> listFavorite(
 			 @PathVariable String userId) throws Exception {
@@ -75,6 +75,21 @@ public class FavoriteController {
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "즐겨찾기 추가", notes = "즐찾 추가")
+	@PostMapping("/favoriteAdd")
+	public ResponseEntity<?> addFavorite(FavoriteDto favoriteDto){
+		try {
+			favoriteService.addFavorite(favoriteDto);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	private ResponseEntity<String> exceptionHandling(Exception e) {
+		e.printStackTrace();
+		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 //	
 //	@ApiOperation(value = "게시판 글보기", notes = "글번호에 해당하는 게시글의 정보를 반환한다.", response = BoardDto.class)

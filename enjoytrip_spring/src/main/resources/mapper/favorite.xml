@@ -37,4 +37,12 @@
 		where user_id = #{userId};
 	</select>
 
+	<insert id="addFavorite" parameterType="favoriteDto">
+		insert into favorites (user_id, destination_id)
+		values (#{userId}, #{destinationId})
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+
 </mapper>

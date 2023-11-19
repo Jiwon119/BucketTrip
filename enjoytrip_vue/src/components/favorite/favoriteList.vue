@@ -6,6 +6,7 @@ const props = defineProps({ favoriteList: Array })
 const emit = defineEmits(["onFavoriteSelect", "onCheckboxClick"]);
 
 const onSelect = (list) => {
+  console.log(list);
   emit("onFavoriteSelect", list);
 };
 
@@ -19,9 +20,8 @@ const checkboxClick = (val) => {
 <template>
   <template v-for="list in props.favoriteList" :key="props.favoriteList.id">
     <div class="favoriteCard">
-      <input type="checkbox" class="form-check-input checkbox" @click="checkboxClick(list.attrInfo)">
-      <VCard :title="list.attrInfo.title" :imgSrc="list.attrInfo.firstImage" :content="list.attrInfo.addr1"
-        @click="onSelect(list.attrInfo)" />
+      <input type="checkbox" class="form-check-input checkbox" @click="checkboxClick(list)">
+      <VCard :title="list.title" :imgSrc="list.firstImage" :content="list.addr1" @click="onSelect(list)" />
     </div>
   </template>
 </template>

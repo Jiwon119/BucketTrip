@@ -19,6 +19,7 @@ const data = ref([]);
 
 // const props = defineProps({ campingArea: Array, selectedOption: Object });
 const props = defineProps({ data: Array, selected: Object });
+console.log("data", props.data);
 
 watch(
     () => props.selected,
