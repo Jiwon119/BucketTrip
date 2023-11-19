@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 // import { useRouter } from "vue-router";
 import { listAttraction, searchAttraction } from "@/api/attraction";
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
+import MapListItem from "@/components/map/item/MapListItem.vue";
 
 const attractionData = ref([]);
 const selected = ref({
@@ -12,6 +13,7 @@ const selected = ref({
   title: '',
   firstImage: '',
   addr: '',
+  detail: '',
 });
 
 onMounted(() => {
@@ -30,7 +32,7 @@ const getAttractionList = () => {
           content: element.addr1,
           mapY: element.latitude,
           mapX: element.longitude,
-          img: element.firstImage
+          img: element.firstImage,
         });
 
       });
@@ -55,10 +57,7 @@ const getSearchAttractionList = () => {
     param.value,
     ({ data }) => {
       console.log(data);
-      console.log("나오나요");
-      // articles.value = data.articles;
-      // currentPage.value = data.currentPage;
-      // totalPage.value = data.totalPageCount;
+      
       attractionData.value = [];
       data.forEach(element => {
         attractionData.value.push({
@@ -81,7 +80,6 @@ const getSearchAttractionList = () => {
 
 
 const viewMarker = (data) => {
-  // selected.value = camp;
   selected.value = data;
 };
 
@@ -137,23 +135,19 @@ const viewMarker = (data) => {
           <thead>
             <tr class="text-center">
               <th scope="col">이름</th>
-              <!-- <th scope="col">소개</th> -->
-              <!-- <th scope="col">캠핑장 소개</th> -->
+              <th scope="col"></th>
               <th scope="col">위치</th>
-              <!-- <th scope="col">시설</th> -->
-              <!-- <th scope="col">이미지</th> -->
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <tr class="text-center" v-for="list in attractionData" :key="list.contentId" @click="viewMarker(list)">
-              <td>{{ list.title }}</td>
-              <!-- <td>{{ camp.lineIntro }}</td> -->
-              <!-- <td v-if="camp.featureNm == ''">{{ camp.lineIntro }}</td> -->
-              <!-- <td v-else>{{ camp.featureNm }}</td> -->
-              <td>{{ list.content }}</td>
-              <!-- <td>{{ camp.sbrsEtc }}</td> -->
-              <!-- <td><img :src="camp.firstImageUrl" style="width: 180px;"> </td> -->
-            </tr>
+            <!-- <tr class="text-center" v-for="list in attractionData" :key="list.contentId" @click="viewMarker(list)"> -->
+              <MapListItem
+                class="text-center" 
+                v-for="list in attractionData" 
+                :key="list.contentId" 
+                :attraction="list"
+                @click="viewMarker(list)"></MapListItem>
           </tbody>
         </table>
       </div>
