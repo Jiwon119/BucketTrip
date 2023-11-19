@@ -21,26 +21,46 @@
 		<result column="latitude" property="latitude" />
 		<result column="longitude" property="longitude" />
 		<result column="mlevel" property="mlevel" />
+		<collection property="attractionDescriptionDto" resultMap="attractionDesc" />
 	</resultMap>
-
+	
+	<resultMap type="attractionDescriptionDto" id="attractionDesc">
+		<result column="content_id" property="contentId" />
+		<result column="homepage" property="homepage" />
+		<result column="overview" property="overview" />
+		<result column="telname" property="telname" />
+	</resultMap>
+	
 	<select id="attractionList" resultMap="attraction">
-		<!-- select content_id, content_type_id, title, addr1, addr2, zipcode, 
-			tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, 
-			longitude, mlevel -->
-		select *
-		from attraction_info
+		select a.content_id, a.content_type_id, a.title, a.addr1, a.addr2, a.zipcode, 
+			a.tel, a.first_image, a.first_image2, a.readcount, a.sido_code, a.gugun_code, a.latitude, 
+			a.longitude, a.mlevel, b.overview
+		<!--select *-->
+		from attraction_info a
+		
+		left join
+			attraction_description b
+			
+		on
+			a.content_id = b.content_id
+		
 		<where>
 			<if test="attractionInfoDto.sidoCode != 0">
-				and sido_code = #{attractionInfoDto.sidoCode}
+				and a.sido_code = #{attractionInfoDto.sidoCode}
 			</if>
 			<if test="attractionInfoDto.contentTypeId != 0">
-				and content_type_id = #{attractionInfoDto.contentTypeId}
+				and a.content_type_id = #{attractionInfoDto.contentTypeId}
 			</if>
 			<if test="attractionInfoDto.title != null and !attractionInfoDto.title.isEmpty()">
-				and title like concat('%', #{attractionInfoDto.title}, '%')
+				and a.title like concat('%', #{attractionInfoDto.title}, '%')
 			</if>
 		</where>
-		order by content_id limit 100
+		order by a.content_id limit 100
 	</select>
+	
+<!--	<select id="attractionDesc" resultMap="attractionDesc">
+		select * from attraction_description
+		where #{attractionInfoDto.contentId} = contentId;
+	</select>-->
 
 </mapper>

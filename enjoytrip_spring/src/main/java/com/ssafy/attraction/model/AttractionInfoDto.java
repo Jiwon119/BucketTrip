@@ -25,5 +25,7 @@ public class AttractionInfoDto {
 	private double latitude;
 	private double longitude;
 	private String mlevel;
+	
+	private AttractionDescriptionDto attractionDescriptionDto;
 
 }

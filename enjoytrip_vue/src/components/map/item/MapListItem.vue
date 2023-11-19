@@ -71,11 +71,11 @@ const closeModal = () => {
                 <div class="modal-body">
                 <h2>{{ props.attraction.title }}</h2>
                 <p>{{ props.attraction.content }}</p>
-                <!-- <p>{{props.attraction.}}</p> -->
+                <p>{{ props.attraction.detail }}</p>
                 </div>
                 <div class="modal-footer">
-                <button @click="button1Click">버튼1</button>
-                <button @click="button2Click">버튼2</button>
+                <button @click="button1Click">즐겨찾기</button>
+                <button @click="button2Click">글쓰기</button>
                 </div>
             </div>
         </div>
