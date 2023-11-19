@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.ssafy.favorite.model.mapper.FavoriteMapper">
+
+	<resultMap type="attractionInfoDto" id="attraction">
+		<result column="content_id" property="contentId" />
+		<result column="content_type_id" property="contentTypeId" />
+		<result column="title" property="title" />
+		<result column="addr1" property="addr1" />
+		<result column="addr2" property="addr2" />
+		<result column="zipcode" property="zipcode" />
+		<result column="tel" property="tel" />
+		<result column="first_image" property="firstImage" />
+		<result column="first_image2" property="firstImage2" />
+		<result column="readcount" property="readcount" />
+		<result column="sido_code" property="sidoCode" />
+		<result column="gugun_code" property="gugunCode" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+		<result column="mlevel" property="mlevel" />
+	</resultMap>
+
+	<resultMap type="FavoriteDto" id="favorite">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="destination_id" property="destinationId" />
+		<collection resultMap="attraction" property="attrInfo" />
+	</resultMap>
+
+	<select id="getList" parameterType="String" resultMap="favorite">
+		select *
+		from favorites f inner join attraction_info a
+		on (a.content_id = f.destination_id)
+		where user_id = #{userId};
+	</select>
+
+</mapper>
