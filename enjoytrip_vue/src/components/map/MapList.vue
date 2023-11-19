@@ -71,7 +71,6 @@ const getSearchAttractionList = () => {
           detail: element.attractionDescriptionDto.overview,
         });
       });
-
     },
     (error) => {
       console.log(error);
@@ -132,29 +131,51 @@ const viewMarker = (data) => {
           <!-- <input id="btn-search" class="btn btn-outline-success" type="submit" /> -->
           <button type="button" class="btn btn-outline-danger mb-3 ms-1" @click="getSearchAttractionList">검색</button>
         </form>
-
-        <table class="table table-hover">
-          <thead>
-            <tr class="text-center">
-              <th scope="col">이름</th>
-              <th scope="col"></th>
-              <th scope="col">위치</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- <tr class="text-center" v-for="list in attractionData" :key="list.contentId" @click="viewMarker(list)"> -->
-              <MapListItem
-                class="text-center" 
-                v-for="list in attractionData" 
-                :key="list.contentId" 
-                :attraction="list"
-                @click="viewMarker(list)"></MapListItem>
-          </tbody>
-        </table>
+        <div class="map-list-item">
+          <table class="table table-hover table-fixed">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">이름</th>
+                <th scope="col"></th>
+                <th scope="col">위치</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr class="text-center" v-for="list in attractionData" :key="list.contentId" @click="viewMarker(list)"> -->
+                <MapListItem
+                  class="text-center" 
+                  v-for="list in attractionData" 
+                  :key="list.contentId" 
+                  :attraction="list"
+                  @click="viewMarker(list)"></MapListItem>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.map-list-item {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.table-fixed thead {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  background-color: white; /* 배경색을 지정해주면 좀 더 보기 좋아집니다. */
+}
+
+.table-fixed tbody td {
+  width: 25%; /* 각 열의 너비를 조절하세요. */
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 필요에 따라 생략 부호를 사용하세요. */
+  white-space: nowrap;
+}
+
+</style>

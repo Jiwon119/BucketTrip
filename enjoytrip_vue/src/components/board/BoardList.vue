@@ -72,7 +72,7 @@ const moveWrite = () => {
       <div class="col-lg-10">
         <h2 class="my-3 py-3 text-center">글목록</h2>
       </div>
-      <div class="col-lg-10">
+      <div class="col-lg-10 board-list-item">
         <div class="row align-self-center mb-2">
           <div class="col-md-2 text-start">
             <button
@@ -132,4 +132,5 @@ const moveWrite = () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
