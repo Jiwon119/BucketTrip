@@ -10,11 +10,12 @@ function listAttraction(success, fail) {
   local.get(`${url}/mapList`).then(success).catch(fail);
 }
 
-function searchAttraction(param, success, fail){
+function searchAttraction(param, success, fail) {
   local.get(`${url}/mapSearch`, { params: param }).then(success).catch(fail);
 }
 
-export {
-  listAttraction,
-  searchAttraction,
-};
+function searchAttractionId(param, success, fail) {
+  local.get(`${url}/mapSearchId`, { params: param }).then(success).catch(fail);
+}
+
+export { listAttraction, searchAttraction, searchAttractionId };

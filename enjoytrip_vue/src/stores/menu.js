@@ -11,8 +11,12 @@ export const useMenuStore = defineStore("menuStore", () => {
   ]);
 
   const changeMenuState = () => {
-    menuList.value = menuList.value.map((item) => ({ ...item, show: !item.show }));
+    menuList.value = menuList.value.map((item) => ({
+      ...item,
+      show: !item.show,
+    }));
   };
+
   return {
     menuList,
     changeMenuState,

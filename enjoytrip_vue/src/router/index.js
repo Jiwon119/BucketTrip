@@ -4,6 +4,7 @@ import TheMainView from "../views/TheMainView.vue";
 
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
+import { useMenuStore } from "@/stores/menu";
 
 const onlyAuthUser = async (to, from, next) => {
   const memberStore = useMemberStore();
@@ -72,13 +73,6 @@ const router = createRouter({
       name: "camp",
       component: () => import("@/views/TheCapmingView.vue"),
     },
-
-    {
-      path: "/favorite",
-      name: "favorite",
-      beforeEnter: onlyAuthUser,
-      component: () => import("@/views/TheFavorite.vue"),
-    },
     {
       path: "/map",
       name: "map",
@@ -88,6 +82,27 @@ const router = createRouter({
       path: "/hotplace",
       name: "hotplace",
       component: () => import("@/views/TheHotPlaceView.vue"),
+    },
+    {
+      path: "/favorite",
+      name: "favorite",
+      beforeEnter: onlyAuthUser,
+      component: () => import("@/views/TheFavorite.vue"),
+      redirect: { name: "favoriteList" },
+      children: [
+        {
+          path: "list",
+          name: "favoriteList",
+          component: () =>
+            import("@/components/favorite/favoriteContainer.vue"),
+        },
+        {
+          path: "write",
+          name: "writePlan",
+          component: () =>
+            import("@/components/favorite/favoritePlanWrite.vue"),
+        },
+      ],
     },
     {
       path: "/user",
@@ -119,5 +134,25 @@ const router = createRouter({
     },
   ],
 });
+
+// router.beforeEach(async (to, from, next) => {
+//   const memberStore = useMemberStore();
+//   const { userInfo, isValidToken } = storeToRefs(memberStore);
+//   const { getUserInfo } = memberStore;
+
+//   let token = sessionStorage.getItem("accessToken");
+
+//   if (userInfo.value != null && token) {
+//     await getUserInfo(token);
+//   }
+//   if (!isValidToken.value || userInfo.value === null) {
+//     next();
+//   } else {
+//     const menuStore = useMenuStore();
+//     const { changeMenuState } = menuStore;
+//     changeMenuState();
+//     next();
+//   }
+// });
 
 export default router;
