@@ -42,5 +42,11 @@
 		</where>
 		order by content_id limit 100
 	</select>
+	
+	<select id="searchById" resultMap="attraction">
+		select *
+		from attraction_info
+		where content_id=#{id}
+	</select>
 
 </mapper>

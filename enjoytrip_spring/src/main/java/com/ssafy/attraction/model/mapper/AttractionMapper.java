@@ -13,4 +13,6 @@ public interface AttractionMapper {
 
 	List<AttractionInfoDto> searchByTitle(String title, int sidoCode);
 
+	AttractionInfoDto searchById(String id);
+
 }

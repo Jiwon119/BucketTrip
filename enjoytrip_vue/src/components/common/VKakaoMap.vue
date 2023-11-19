@@ -6,8 +6,8 @@
     mapX
     mapY
     img
- -->
- 
+-->
+
 <script setup>
 import { ref, watch, onMounted } from "vue";
 
@@ -23,15 +23,13 @@ const props = defineProps({ data: Array, selected: Object });
 watch(
     () => props.selected,
     () => {
-
         // 이동할 위도 경도 위치를 생성합니다
         var moveLatLon = new kakao.maps.LatLng(props.selected.mapY, props.selected.mapX);
         map.setLevel(3);
-        console.log(props.selected);
-
         infoWindow.value.forEach(info => {
             info.setMap(null);
         });
+
         markers.value.forEach(m => {
             if (m.id == props.selected.id) {
                 // 인포윈도우를 생성합니다
@@ -50,7 +48,6 @@ watch(
                     '        </div>' +
                     '    </div>' +
                     '</div>';
-
 
                 // 인포윈도우를 생성합니다
                 var mapCustomOverlay = new kakao.maps.CustomOverlay({
@@ -91,11 +88,11 @@ watch(
                 setData();
             }, 300)
         } else {
-            if(props.data.length == 0){
+            if (props.data.length == 0) {
                 var moveLatLon = new kakao.maps.LatLng(37.5013068, 127.0396597);
                 map.setLevel(5);
                 map.panTo(moveLatLon);
-            }else{
+            } else {
                 setData();
             }
         }
@@ -105,8 +102,6 @@ watch(
 
 const setData = () => {
     data.value = props.data;
-    console.log("data", props.data.length);
-    console.log("data", props.data);
     positions.value = [];
     props.data.forEach((el) => {
         console.log(el);
@@ -115,6 +110,7 @@ const setData = () => {
         obj.title = el.title;
         obj.content = el.content;
         obj.latlng = new kakao.maps.LatLng(el.mapY, el.mapX);
+        obj.img = el.img;
         console.log("obj", obj);
 
         positions.value.push(obj);
@@ -131,7 +127,6 @@ const initMap = () => {
         level: 3,
     };
     map = new kakao.maps.Map(container, options);
-
     // loadMarkers();
 };
 
@@ -158,6 +153,45 @@ const loadMarkers = () => {
         marker.id = position.id;
         markers.value.push(marker);
 
+
+
+        // 마커에 click 이벤트를 등록합니다
+        kakao.maps.event.addListener(marker, 'click', function () {
+            infoWindow.value.forEach(info => {
+                info.setMap(null);
+            });
+
+            // 인포윈도우 생성
+            var content = '<div class="wrap">' +
+                '    <div class="info">' +
+                '        <div class="title">' +
+                `            ${position.title}` +
+                '        </div>' +
+                '        <div class="body">' +
+                '            <div class="img">' +
+                `                <img src="${position.img}" width="73" height="70">` +
+                '           </div>' +
+                '            <div class="desc">' +
+                `                <div class="ellipsis">${position.content}</div>` +
+                '            </div>' +
+                '        </div>' +
+                '    </div>' +
+                '</div>';
+
+            // 인포윈도우를 생성합니다
+            var mapCustomOverlay = new kakao.maps.CustomOverlay({
+                content: content,
+                removable: true,
+                map: map,
+                position: position.latlng
+            });
+
+            infoWindow.value.push(mapCustomOverlay);
+            var moveLatLon = position.latlng;
+            map.panTo(moveLatLon);
+            // 마커 위에 인포윈도우를 표시합니다
+            mapCustomOverlay.setMap(map);
+        });
     });
 
     // 4. 지도를 이동시켜주기

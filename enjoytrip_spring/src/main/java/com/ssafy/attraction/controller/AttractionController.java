@@ -55,4 +55,15 @@ public class AttractionController {
 		return new ResponseEntity<List<AttractionInfoDto>>(list, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "map", notes = "지도의 <big>검색 결과</big>을 반환해 줍니다.")
+	@GetMapping("/mapSearchId")
+	public ResponseEntity<AttractionInfoDto> searchId(
+			@RequestParam(value = "id", required = false) String id) {
+		log.debug("id : {}", id);
+		AttractionInfoDto attractionInfoDto = attractionService.searchAttractionId(id);
+
+		
+		return new ResponseEntity<AttractionInfoDto>(attractionInfoDto, HttpStatus.OK);
+	}
+	
 }

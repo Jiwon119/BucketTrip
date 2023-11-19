@@ -9,5 +9,7 @@ public interface AttractionService {
 	List<AttractionInfoDto> attractionList(AttractionInfoDto attractionInfoDto, String title);
 
 	List<AttractionInfoDto> searchByTitle(String title, int sidoCode);
+
+	AttractionInfoDto searchAttractionId(String id);
 	
 }
