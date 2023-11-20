@@ -1,7 +1,11 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
+import { addFavorite, isFavorited } from "@/api/favorite";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
@@ -18,15 +22,54 @@ const starButtonStyle = ref({
   color: "#ccc",
 });
 
-const toggleFavorite = () => {  
+const param = ref({
+  id: null,
+  userId: "",
+  destinationId: null,
+  attrInfo: null,
+  attrDesc: null
+});
+
+const toggleFavorite = async () => {
   isFavorite.value = !isFavorite.value;
-  console.log(props.attraction.id);
-  console.log(userInfo.value);
-  console.log(isFavorite.value);
+  param.value.destinationId = props.attraction.id;
+  param.value.userId = userInfo.value.id;
+  addFavorite(param.value, isFavorite.value, (response) => {
+    console.log(response);
+  },
+    (error) => {
+      console.log(error);
+    }
+  );
+  console.log(param.value);
 
   // 스타일을 동적으로 변경
   starButtonStyle.value.color = isFavorite.value ? "gold" : "#ccc";
 };
+
+onMounted(() => {
+  setStar();
+})
+
+watch(
+  () => props.attraction.value,
+  () => {
+    setStar();
+  },
+  { deep: true}
+);
+
+const setStar = () =>{
+ // 컴포넌트가 마운트되면서 즐겨찾기 여부를 조회
+  isFavorited(userInfo.value.id, props.attraction.id, 
+  (response) => {
+    isFavorite.value = response.data; // API 응답에 따라 수정
+    starButtonStyle.value.color = isFavorite.value ? "gold" : "#ccc";
+  }, (error) => {
+    console.error("Error fetching isFavorite:", error);
+  });
+}
+
 
 // 상세 페이지 모달
 const isModalOpen = ref(false);
@@ -37,6 +80,11 @@ const openModal = () => {
 
 const closeModal = () => {
     isModalOpen.value = false;
+};
+
+//글쓰기 라우터
+const moveWrite = () => {
+  router.push({ name: "article-write" });
 };
 </script>
 
@@ -55,7 +103,7 @@ const closeModal = () => {
       {{ props.attraction.content }}
     </td>
     <td>
-      <button @click="openModal">Button</button>
+      <button class="btn btn-outline-secondary" @click="openModal">Button</button>
 
         <div v-if="isModalOpen" class="modal">
             <div class="modal-content">
@@ -69,8 +117,8 @@ const closeModal = () => {
                 <p>{{ props.attraction.detail }}</p>
                 </div>
                 <div class="modal-footer">
-                <button @click="button1Click">즐겨찾기</button>
-                <button @click="button2Click">글쓰기</button>
+                <button class="btn" :class="{ 'btn-outline-secondary': !isFavorite, 'btn-outline-warning': isFavorite }" @click="toggleFavorite">즐겨찾기</button>
+                <button class="btn btn-outline-secondary" @click="moveWrite">글쓰기</button>
                 </div>
             </div>
         </div>

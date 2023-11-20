@@ -49,10 +49,24 @@
 
 	<insert id="addFavorite" parameterType="favoriteDto">
 		insert into favorites (user_id, destination_id)
-		values (#{userId}, #{destinationId})
+		select #{userId}, #{destinationId}
+	    where NOT EXISTS (
+	        select 1
+	        from favorites
+	        where user_id = #{userId} AND destination_id = #{destinationId}
+	    )
 		<selectKey resultType="int" keyProperty="id" order="AFTER">
 			select last_insert_id()
 		</selectKey>
 	</insert>
-
+	
+	<delete id="removeFavorite" parameterType="favoriteDto">
+		delete from favorites where user_id = #{userId} AND destination_id = #{destinationId}
+	</delete>
+	
+	<select id="isFavorited" parameterType="map" resultType="boolean">
+		select
+		EXISTS
+		(select 1 from favorites where user_id = #{userId} AND destination_id = #{destinationId})
+	</select>
 </mapper>
