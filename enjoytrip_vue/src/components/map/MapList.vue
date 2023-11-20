@@ -1,11 +1,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
 // import { useRouter } from "vue-router";
-import { listAttraction, searchAttraction } from "@/api/attraction";
+import { listAttraction, searchAttraction, listSido, listGugun } from "@/api/attraction";
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
 import MapListItem from "@/components/map/item/MapListItem.vue";
 
 const attractionData = ref([]);
+const sidoData = ref([]);
+const gugunData = ref([]);
+
 const selected = ref({
   contentId: '',
   mapX: '',
@@ -18,6 +21,7 @@ const selected = ref({
 
 onMounted(() => {
   getAttractionList();
+  getSidoList();
 });
 
 const getAttractionList = () => {
@@ -37,17 +41,18 @@ const getAttractionList = () => {
         });
 
       });
-      console.log(attractionData.value);
+      // console.log(attractionData.value);
     },
     (error) => {
       console.log(error);
     }
   );
-  console.log(attractionData);
+  // console.log(attractionData);
 };
 
 const param = ref({
   area: "",
+  area2: "",
   type: "",
   keyword: "",
 });
@@ -57,7 +62,7 @@ const getSearchAttractionList = () => {
   searchAttraction(
     param.value,
     ({ data }) => {
-      console.log(data);
+      // console.log(data);
 
       attractionData.value = [];
       data.forEach(element => {
@@ -76,9 +81,61 @@ const getSearchAttractionList = () => {
       console.log(error);
     }
   );
-  console.log("gdㅎㅇ");
 }
 
+const getSidoList = () => {
+  // API 호출
+  listSido(
+    ({ data }) => {
+      console.log(data);
+      data.forEach(element => {
+        sidoData.value.push({
+          sidoCode: element.sidoCode,
+          sidoName: element.sidoName,
+        });
+
+      });
+      console.log(sidoData.value);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+  console.log(sidoData);
+};
+
+const getGugunList = () => {
+  // API 호출
+  listGugun(
+    param.value,
+    ({ data }) => {
+      console.log(data);
+      data.forEach(element => {
+        gugunData.value.push({
+          gugunCode: element.gugunCode,
+          gugunName: element.gugunName,
+          sidoCode: element.sidoCode,
+        });
+
+      });
+      console.log(sidoData.value);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+  console.log(sidoData);
+};
+
+const onSidoChange = () => {
+  // 시/도 선택이 변경되었을 때 호출되는 메서드
+  gugunData.value = [];
+  if (param.value.area !== "0") {
+    // 시/도 선택이 유효한 경우에만 구/군 목록 가져오기
+    gugunData.value = [];
+    getGugunList(param.value.area);
+  }
+};
 
 const viewMarker = (data) => {
   selected.value = data;
@@ -96,26 +153,16 @@ const viewMarker = (data) => {
       <div class="col-4">
         <form class="d-flex my-3" @submit.prevent="searchAttraction" role="search" action="/map">
           <input type="hidden" name="action" value="mapSearch" />
-          <select id="search-area" class="form-select me-2" name="area" v-model="param.area">
-            <option value="0" selected>검색 할 지역 선택</option>
-            <option value="1">서울</option>
-            <option value="2">인천</option>
-            <option value="3">대전</option>
-            <option value="4">대구</option>
-            <option value="5">광주</option>
-            <option value="6">부산</option>
-            <option value="7">울산</option>
-            <option value="8">세종</option>
-            <option value="31">경기도</option>
-            <option value="32">강원도</option>
-            <option value="33">충청북도</option>
-            <option value="34">충청남도</option>
-            <option value="35">경상북도</option>
-            <option value="36">경상남도</option>
-            <option value="37">전라북도</option>
-            <option value="38">전라남도</option>
-            <option value="39">제주</option>
+          <select id="search-area" class="form-select me-2" name="area" v-model="param.area" @change="onSidoChange">
+            <option value="0" selected>검색 할 시/도 선택</option>
+            <option v-for="sido in sidoData" :key="sido.sidoCode" :value="sido.sidoCode" >{{ sido.sidoName }}</option>
           </select>
+
+          <select id="search-area2" class="form-select me-2" name="area2" v-model="param.area2">
+            <option value="0" selected>검색 할 구/군 선택</option>
+            <option v-for="gugun in gugunData" :key="gugun.gugunCode" :value="gugun.gugunCode">{{ gugun.gugunName }}</option>
+          </select>
+
           <select id="search-content-id" class="form-select me-2" name="type" v-model="param.type">
             <option value="0" selected>관광지 유형</option>
             <option value="12">관광지</option>

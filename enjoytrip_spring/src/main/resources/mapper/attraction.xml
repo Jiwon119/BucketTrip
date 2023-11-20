@@ -31,6 +31,17 @@
 		<result column="telname" property="telname" />
 	</resultMap>
 	
+	<resultMap type="sidoDto" id="sido">
+		<result column="sido_code" property="sidoCode"/>
+		<result column="sido_name" property="sidoName"/>
+	</resultMap>
+	
+	<resultMap type="gugunDto" id="gugun">
+		<result column="gugun_code" property="gugunCode"/>
+		<result column="gugun_name" property="gugunName"/>
+		<result column="sido_code" property="sidoCode"/>
+	</resultMap>
+	
 	<select id="attractionList" resultMap="attraction">
 		select a.content_id, a.content_type_id, a.title, a.addr1, a.addr2, a.zipcode, 
 			a.tel, a.first_image, a.first_image2, a.readcount, a.sido_code, a.gugun_code, a.latitude, 
@@ -48,6 +59,9 @@
 			<if test="attractionInfoDto.sidoCode != 0">
 				and a.sido_code = #{attractionInfoDto.sidoCode}
 			</if>
+			<if test="attractionInfoDto.gugunCode != 0">
+				and a.gugun_code = #{attractionInfoDto.gugunCode}
+			</if>
 			<if test="attractionInfoDto.contentTypeId != 0">
 				and a.content_type_id = #{attractionInfoDto.contentTypeId}
 			</if>
@@ -62,6 +76,17 @@
 		select *
 		from attraction_info
 		where content_id=#{id}
+	</select>
+	
+	<select id="sidoList" resultMap="sido">
+		select *
+		from sido;
+	</select>
+	
+	<select id="gugunList" resultMap="gugun">
+		select *
+		from gugun
+		where sido_code = #{sidoCode};
 	</select>
 
 </mapper>
