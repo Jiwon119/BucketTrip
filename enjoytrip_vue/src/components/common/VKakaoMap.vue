@@ -18,7 +18,7 @@ const infoWindow = ref([]);
 const data = ref([]);
 
 // const props = defineProps({ campingArea: Array, selectedOption: Object });
-const props = defineProps({ data: Array, selected: Object });
+const props = defineProps({ data: Array, selected: Object, line: Boolean });
 console.log("data", props.data);
 
 watch(
@@ -97,10 +97,14 @@ watch(
                 setData();
             }
         }
+        if (props.line) {
+            setLine();
+        }
     },
     { deep: true },
 );
 
+// 데이터 입력
 const setData = () => {
     data.value = props.data;
     positions.value = [];
@@ -121,6 +125,31 @@ const setData = () => {
 }
 
 
+var polyline;
+const setLine = () => {
+
+    if (polyline != null) {
+        polyline.setMap(null);
+    }
+    var lineList = [];
+
+    positions.value.forEach(element => {
+        lineList.push(element.latlng)
+    });
+
+    polyline = new kakao.maps.Polyline({
+        path: lineList, // 선을 구성하는 좌표배열 입니다
+        strokeWeight: 5, // 선의 두께 입니다
+        strokeColor: '#FFAE00', // 선의 색깔입니다
+        strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeStyle: 'solid' // 선의 스타일입니다
+    });
+
+    // 지도에 선을 표시합니다 
+    polyline.setMap(map);
+}
+
+// 맵 초기화
 const initMap = () => {
     const container = document.getElementById("map");
     const options = {

@@ -24,7 +24,10 @@ const getFavoriteList = () => {
     ({ data }) => {
       console.log("data.favoriteList------", data.favoriteList)
       data.favoriteList.forEach(element => {
-        favorites.value.push(element.attrInfo)
+        const tmp = element.attrInfo;
+        tmp.overview = element.attrDesc.overview;
+
+        favorites.value.push(tmp);
       });
       console.log("favorites", favorites.value)
 

@@ -2,7 +2,7 @@
 import { ref, watch } from "vue";
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
 
-const props = defineProps({ favoriteList: Array, selectedList: Object })
+const props = defineProps({ favoriteList: Array, selectedList: Object, line: Boolean })
 console.log("props.favoriteList.value", props.favoriteList)
 
 const attractionData = ref([]);
@@ -53,7 +53,7 @@ watch(
 
 <template>
   <div>
-    <VKakaoMap :data="attractionData" :selected="selected" />
+    <VKakaoMap :data="attractionData" :selected="selected" :line="line" />
   </div>
 </template>
 
