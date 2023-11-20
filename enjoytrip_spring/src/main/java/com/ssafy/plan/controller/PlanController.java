@@ -1,5 +1,6 @@
 package com.ssafy.plan.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.attraction.model.AttractionDescriptionDto;
+import com.ssafy.attraction.model.AttractionInfoDto;
 import com.ssafy.plan.model.PlanDto;
 import com.ssafy.plan.model.service.PlanService;
 import io.swagger.annotations.Api;
@@ -45,8 +48,34 @@ public class PlanController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<PlanDto> list = planService.getList(userId);
-		log.debug("Plan List : {}", list);
+		log.debug("1. Plan List : {}", list);
 		map.put("planList", list);
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "plan", notes = "여행계획 리스트")
+	@GetMapping("/placeList/{planId}")
+	protected ResponseEntity<?> listPlace(
+			@PathVariable int planId) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<PlanDto> list = planService.getPlaceList(planId);
+		
+
+		
+//		List<AttractionInfoDto> attInfoList = new ArrayList<AttractionInfoDto>();
+//		List<AttractionDescriptionDto> attDescList = new ArrayList<AttractionDescriptionDto>();
+//		
+//		
+//		
+//		
+//		if(list.size()>0)
+//			log.debug("Plan LLLL : {}", list.get(0).getAttrInfo());
+//		log.debug("Plan List : {}", list);
+//		log.debug("Plan List : {}", list);
+		map.put("planList", list);
+
+		
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	

@@ -10,7 +10,44 @@
 		<result column="content" property="content"/> 
 		<result column="creation_date" property="creationDate"/>
 	</resultMap>
-
+	
+	<resultMap type="attractionInfoDto" id="attraction">
+		<result column="content_id" property="contentId" />
+		<result column="content_type_id" property="contentTypeId" />
+		<result column="title" property="title" />
+		<result column="addr1" property="addr1" />
+		<result column="addr2" property="addr2" />
+		<result column="zipcode" property="zipcode" />
+		<result column="tel" property="tel" />
+		<result column="first_image" property="firstImage" />
+		<result column="first_image2" property="firstImage2" />
+		<result column="readcount" property="readcount" />
+		<result column="sido_code" property="sidoCode" />
+		<result column="gugun_code" property="gugunCode" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+		<result column="mlevel" property="mlevel" />
+		<collection property="attractionDescriptionDto" resultMap="attractionDesc" />
+	</resultMap>
+	
+	<resultMap type="attractionDescriptionDto" id="attractionDesc">
+		<result column="content_id" property="contentId" />
+		<result column="homepage" property="homepage" />
+		<result column="overview" property="overview" />
+		<result column="telname" property="telname" />
+	</resultMap>
+	
+	<resultMap type="PlanDto" id="planJoinAttr">
+		<result column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/> 
+		<result column="creation_date" property="creationDate"/>
+		
+		<collection resultMap="attraction" property="attrInfo" />
+		<collection resultMap="attractionDesc" property="attrDesc" />		
+	</resultMap>
+	
 	<select id="getList" resultMap="plan">
 		select *
 		from travel_plan
@@ -22,12 +59,21 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		insert into travel_plan(user_id, title, content, creation_date)
-		values(#{userId}, #{title}, #{content}, now());
+		values(#{userId}, #{title}, #{content}, now())
 	</insert>
 	
 	<insert id="createJoinPlace" parameterType="map">
 		insert into join_place(content_id, plan_id)
-		values(#{attrId}, #{planId});
+		values(#{attrId}, #{planId})
 	</insert>
+
+	<select id="getPlaceList" parameterType="Integer" resultMap="planJoinAttr">
+		select * 
+		from join_place p inner join attraction_info a
+		on (p.content_id = a.content_id) 
+		inner join attraction_description d
+		on (d.content_id = a.content_id)
+		where p.plan_id = #{planId}
+	</select>
 
 </mapper>

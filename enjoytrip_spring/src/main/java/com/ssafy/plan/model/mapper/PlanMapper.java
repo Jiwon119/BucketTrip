@@ -15,5 +15,7 @@ public interface PlanMapper {
 	
 	void createJoinPlace(int attrId, int planId);
 
+	List<PlanDto> getPlaceList(int planId);
+
 	
 }

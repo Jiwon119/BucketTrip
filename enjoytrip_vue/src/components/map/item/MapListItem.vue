@@ -35,13 +35,13 @@ const toggleFavorite = async () => {
   param.value.destinationId = props.attraction.id;
   param.value.userId = userInfo.value.id;
   addFavorite(param.value, isFavorite.value, (response) => {
-    console.log(response);
+    // console.log(response);
   },
     (error) => {
       console.log(error);
     }
   );
-  console.log(param.value);
+  // console.log(param.value);
 
   // 스타일을 동적으로 변경
   starButtonStyle.value.color = isFavorite.value ? "gold" : "#ccc";
@@ -56,18 +56,18 @@ watch(
   () => {
     setStar();
   },
-  { deep: true}
+  { deep: true }
 );
 
-const setStar = () =>{
- // 컴포넌트가 마운트되면서 즐겨찾기 여부를 조회
-  isFavorited(userInfo.value.id, props.attraction.id, 
-  (response) => {
-    isFavorite.value = response.data; // API 응답에 따라 수정
-    starButtonStyle.value.color = isFavorite.value ? "gold" : "#ccc";
-  }, (error) => {
-    console.error("Error fetching isFavorite:", error);
-  });
+const setStar = () => {
+  // 컴포넌트가 마운트되면서 즐겨찾기 여부를 조회
+  isFavorited(userInfo.value.id, props.attraction.id,
+    (response) => {
+      isFavorite.value = response.data; // API 응답에 따라 수정
+      starButtonStyle.value.color = isFavorite.value ? "gold" : "#ccc";
+    }, (error) => {
+      console.error("Error fetching isFavorite:", error);
+    });
 }
 
 
@@ -75,11 +75,11 @@ const setStar = () =>{
 const isModalOpen = ref(false);
 
 const openModal = () => {
-    isModalOpen.value = true;
+  isModalOpen.value = true;
 };
 
 const closeModal = () => {
-    isModalOpen.value = false;
+  isModalOpen.value = false;
 };
 
 //글쓰기 라우터
@@ -105,23 +105,24 @@ const moveWrite = () => {
     <td>
       <button class="btn btn-outline-secondary" @click="openModal">Button</button>
 
-        <div v-if="isModalOpen" class="modal">
-            <div class="modal-content">
-                <span @click="closeModal" class="close">&times;</span>
-                <div class="modal-header">
-                <img :src="props.attraction.img" alt="Attraction Image" class="modal-image">
-                </div>
-                <div class="modal-body">
-                <h2>{{ props.attraction.title }}</h2>
-                <p>{{ props.attraction.content }}</p>
-                <p>{{ props.attraction.detail }}</p>
-                </div>
-                <div class="modal-footer">
-                <button class="btn" :class="{ 'btn-outline-secondary': !isFavorite, 'btn-outline-warning': isFavorite }" @click="toggleFavorite">즐겨찾기</button>
-                <button class="btn btn-outline-secondary" @click="moveWrite">글쓰기</button>
-                </div>
-            </div>
+      <div v-if="isModalOpen" class="modal">
+        <div class="modal-content">
+          <span @click="closeModal" class="close">&times;</span>
+          <div class="modal-header">
+            <img :src="props.attraction.img" alt="Attraction Image" class="modal-image">
+          </div>
+          <div class="modal-body">
+            <h2>{{ props.attraction.title }}</h2>
+            <p>{{ props.attraction.content }}</p>
+            <p>{{ props.attraction.detail }}</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn" :class="{ 'btn-outline-secondary': !isFavorite, 'btn-outline-warning': isFavorite }"
+              @click="toggleFavorite">즐겨찾기</button>
+            <button class="btn btn-outline-secondary" @click="moveWrite">글쓰기</button>
+          </div>
         </div>
+      </div>
 
     </td>
   </tr>
@@ -187,7 +188,8 @@ p {
 .modal-image {
   width: 100%;
   height: auto;
-  max-height: 300px; /* 이미지의 최대 높이 설정 */
+  max-height: 300px;
+  /* 이미지의 최대 높이 설정 */
 }
 
 .modal-body {
@@ -203,5 +205,4 @@ p {
 .modal-footer button {
   margin-left: 10px;
 }
-
 </style>
