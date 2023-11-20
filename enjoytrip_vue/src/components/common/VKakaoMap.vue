@@ -126,14 +126,36 @@ const setData = () => {
 
 
 var polyline;
+var lineNumber;
 const setLine = () => {
 
     if (polyline != null) {
         polyline.setMap(null);
     }
-    var lineList = [];
+    if (lineNumber != null) {
+        lineNumber.forEach(element => {
+            element.setMap(null);
+        });
+    }
 
-    positions.value.forEach(element => {
+
+    var lineList = [];
+    lineNumber = [];
+
+    positions.value.forEach((element, index) => {
+        var content = `<div class ="label" sty>
+                            <span class="left">
+                                </span><span class="center">
+                                    ${index + 1}
+                                </span>
+                        </div>`;
+        var customOverlay = new kakao.maps.CustomOverlay({
+            position: new kakao.maps.LatLng(element.latlng.Ma + 0.25, element.latlng.La + 0.01),
+            content: content
+        });
+        lineNumber.push(customOverlay)
+        customOverlay.setMap(map);
+
         lineList.push(element.latlng)
     });
 
@@ -345,5 +367,12 @@ const deleteMarkers = () => {
 
 .info .link {
     color: #5085BB;
+}
+
+.label {
+    background-color: white;
+    padding: 0px 5px;
+    border: solid gray 1px;
+    border-radius: 5px;
 }
 </style>
