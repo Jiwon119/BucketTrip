@@ -38,5 +38,18 @@ public class FavoriteServiceImpl implements FavoriteService {
 	public List<FavoriteDto> getList(String userId) {
 		return favoriteMapper.getList(userId);
 	}
+
+	@Override
+	public void removeFavorite(FavoriteDto favoriteDto) throws Exception {
+		favoriteMapper.removeFavorite(favoriteDto);
+		
+	}
+
+	@Override
+	public boolean isFavorited(String userId, int destinationId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId); map.put("destinationId", destinationId);
+		return favoriteMapper.isFavorited(map);
+	}
 	
 }

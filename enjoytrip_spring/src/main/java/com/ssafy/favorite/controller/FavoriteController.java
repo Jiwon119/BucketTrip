@@ -75,108 +75,46 @@ public class FavoriteController {
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "즐겨찾기 추가", notes = "즐찾 추가")
+	@ApiOperation(value = "즐겨찾기 추가 및 삭제", notes = "즐찾 추가")
 	@PostMapping("/favoriteAdd")
-	public ResponseEntity<?> addFavorite(FavoriteDto favoriteDto){
-		try {
-			favoriteService.addFavorite(favoriteDto);
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
+	public ResponseEntity<?> addFavorite(
+			@RequestBody 	@ApiParam(value = "즐겨찾기 정보.", required = true) FavoriteDto favoriteDto,
+	        @RequestParam(value = "isFavorite", required = false) boolean isFavorite
+	) {
+	    try {
+	        log.debug(favoriteDto.toString());
+	        log.debug("{} {} {}", favoriteDto.getDestinationId(), favoriteDto.getUserId(), isFavorite);
+
+	        if (isFavorite) {
+	            favoriteService.addFavorite(favoriteDto);
+	            return new ResponseEntity<Void>(HttpStatus.CREATED);
+	        }
+	        else {
+	        	favoriteService.removeFavorite(favoriteDto);
+	        	return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	        }
+	    } catch (Exception e) {
+	        return exceptionHandling(e);
+	    }
 	}
+	
+	@ApiOperation(value = "즐겨찾기 여부 확인", notes = "즐겨찾기 여부 확인")
+    @GetMapping("/isFavorited")
+    public ResponseEntity<?> isFavorited(
+    		@RequestParam(value = "userId", required = false) String userId,
+    		@RequestParam(value = "destinationId", required = false) int destinationId
+            ) {
+        try {
+        	log.debug("{} {}", userId, destinationId);
+            boolean isFavorited = favoriteService.isFavorited(userId, destinationId);
+            return new ResponseEntity<>(isFavorited, HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-
-//	
-//	@ApiOperation(value = "게시판 글보기", notes = "글번호에 해당하는 게시글의 정보를 반환한다.", response = BoardDto.class)
-//	@GetMapping("/{articleno}")
-//	public ResponseEntity<?> getArticle(
-//			@PathVariable("articleno") @ApiParam(value = "얻어올 글의 글번호.", required = true) int articleno)
-//			throws Exception {
-//		log.info("getArticle - 호출 : " + articleno);
-//		
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("article", boardService.getArticle(articleno));
-//		map.put("comment", boardService.getComment(articleno));
-//		boardService.updateHit(articleno);
-//
-//		return new ResponseEntity<>(map, HttpStatus.OK);
-//	}
-//	
-//	@ApiOperation(value = "게시판 글작성", notes = "새로운 게시글 정보를 입력한다.")
-//	@PostMapping
-//	public ResponseEntity<?> writeArticle(
-//			@ApiParam(value = "게시글 정보.", required = true) BoardDto boardDto, 
-//			@RequestParam("upfile") MultipartFile[] files) {
-//		log.info("writeArticle boardDto - {}", boardDto);
-//		try {
-////			FileUpload 관련 설정.
-//			log.info("uploadPath : {}, uploadImagePath : {}, uploadFilePath : {}", uploadPath, uploadImagePath, uploadFilePath);
-//			log.info("MultipartFile.isEmpty : {}", files[0].isEmpty());
-//			if(!files[0].isEmpty()) {
-//				String today = new SimpleDateFormat("yyMMdd").format(new Date());
-//				String saveFolder = uploadPath + File.separator + today;
-//				log.info("저장 폴더 : {}", saveFolder);
-//				File folder = new File(saveFolder);
-//				if (!folder.exists())
-//					folder.mkdirs();
-//				List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
-//				for (MultipartFile mfile : files) {
-//					FileInfoDto fileInfoDto = new FileInfoDto();
-//					String originalFileName = mfile.getOriginalFilename();
-//					if (!originalFileName.isEmpty()) {
-//						String saveFileName = UUID.randomUUID().toString()
-//								+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-//						fileInfoDto.setSaveFolder(today);
-//						fileInfoDto.setOriginalFile(originalFileName);
-//						fileInfoDto.setSaveFile(saveFileName);
-//						log.info("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
-//						mfile.transferTo(new File(folder, saveFileName));
-//					}
-//					fileInfos.add(fileInfoDto);
-//				}
-//				boardDto.setFileInfos(fileInfos);
-//			}
-//			
-//			boardService.writeArticle(boardDto);
-//			return new ResponseEntity<Void>(HttpStatus.CREATED);
-//		} catch (Exception e) {
-//			return exceptionHandling(e);
-//		}
-//	}
-//
-//	@ApiOperation(value = "수정 할 글 얻기", notes = "글번호에 해당하는 게시글의 정보를 반환한다.", response = BoardDto.class)
-//	@GetMapping("/modify/{articleno}")
-//	public ResponseEntity<BoardDto> getModifyArticle(
-//			@PathVariable("articleno") @ApiParam(value = "얻어올 글의 글번호.", required = true) int articleno)
-//			throws Exception {
-//		log.info("getModifyArticle - 호출 : " + articleno);
-//		return new ResponseEntity<BoardDto>(boardService.getArticle(articleno), HttpStatus.OK);
-//	}
-//
-//	
-//	@ApiOperation(value = "게시판 글수정", notes = "수정할 게시글 정보를 입력한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-//	@PutMapping
-//	public ResponseEntity<String> modifyArticle(
-//			@RequestBody @ApiParam(value = "수정할 글정보.", required = true) BoardDto boardDto) throws Exception {
-//		log.info("modifyArticle - 호출 {}", boardDto);
-//
-//		boardService.modifyArticle(boardDto);
-//		return ResponseEntity.ok().build();
-//	}
-//	
-//	@ApiOperation(value = "게시판 글삭제", notes = "글번호에 해당하는 게시글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-//	@DeleteMapping("/{articleno}")
-//	public ResponseEntity<String> deleteArticle(@PathVariable("articleno") @ApiParam(value = "삭제할 글의 글번호.", required = true) int articleno) throws Exception {
-//		log.info("deleteArticle - 호출");
-//		boardService.deleteArticle(articleno);
-//		return ResponseEntity.ok().build();
-//	}
-//	
-
-
 }
