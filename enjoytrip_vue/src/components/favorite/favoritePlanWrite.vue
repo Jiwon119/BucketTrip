@@ -20,7 +20,6 @@ onMounted(() => {
 })
 
 const setData = () => {
-  console.log("1. 실행");
   list.value.forEach(element => {
     getArticleList(element)
   });
@@ -34,7 +33,6 @@ watch(
 
 
 const getArticleList = (id) => {
-  console.log("2. 실행");
   searchAttractionId(
     { id: id },
     ({ data }) => {
@@ -51,14 +49,12 @@ const getArticleList = (id) => {
 <template>
   <div class="row">
     <div class="col-6">
-      <favoriteMap :favoriteList="favorites" :selectedList="selected" />
+      <favoriteMap :favoriteList="favorites" :selectedList="selected" :line="true" />
     </div>
     <div class="col-6">
       <h5>즐겨찾기 목록</h5>
       <br>
-
       <dragList :list="favorites" />
-
       <template v-for="list in favorites" :key="favorites.id">
         <div class="favoriteCard">
           <VCard :title="list.title" :content="list.content" @click="onSelect(list)" />

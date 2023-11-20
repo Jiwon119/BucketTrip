@@ -23,17 +23,27 @@
 		<result column="mlevel" property="mlevel" />
 	</resultMap>
 
+	<resultMap type="attractionDescriptionDto" id="attractionDesc">
+		<result column="content_id" property="contentId" />
+		<result column="homepage" property="homepage" />
+		<result column="overview" property="overview" />
+		<result column="telname" property="telname" />
+	</resultMap>
+
 	<resultMap type="FavoriteDto" id="favorite">
 		<result column="id" property="id" />
 		<result column="user_id" property="userId" />
 		<result column="destination_id" property="destinationId" />
 		<collection resultMap="attraction" property="attrInfo" />
+		<collection resultMap="attractionDesc" property="attrDesc" />		
 	</resultMap>
 
 	<select id="getList" parameterType="String" resultMap="favorite">
 		select *
-		from favorites f inner join attraction_info a
-		on (a.content_id = f.destination_id)
+		from favorites f inner join attraction_info i
+		on (i.content_id = f.destination_id) 
+			inner join attraction_description d
+        on (i.content_id = d.content_id)
 		where user_id = #{userId};
 	</select>
 

@@ -1,5 +1,6 @@
 package com.ssafy.favorite.model;
 
+import com.ssafy.attraction.model.AttractionDescriptionDto;
 import com.ssafy.attraction.model.AttractionInfoDto;
 
 import io.swagger.annotations.ApiModel;
@@ -24,5 +25,7 @@ public class FavoriteDto {
 	// mapper에서 join 후 저장할 장소 정보
 	@ApiModelProperty(value = "장소 정보")
 	private AttractionInfoDto attrInfo;
+	
+	private AttractionDescriptionDto attrDesc;
 
 }
