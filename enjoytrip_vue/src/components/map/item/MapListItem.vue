@@ -18,7 +18,7 @@ const starButtonStyle = ref({
   color: "#ccc",
 });
 
-const toggleFavorite = () => {
+const toggleFavorite = () => {  
   isFavorite.value = !isFavorite.value;
   console.log(props.attraction.id);
   console.log(userInfo.value);
@@ -26,11 +26,6 @@ const toggleFavorite = () => {
 
   // 스타일을 동적으로 변경
   starButtonStyle.value.color = isFavorite.value ? "gold" : "#ccc";
-};
-
-const openDetail = () => {
-  console.log(props.attraction.title);
-  console.log("상세페이지");
 };
 
 // 상세 페이지 모달

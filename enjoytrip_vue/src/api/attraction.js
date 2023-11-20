@@ -18,4 +18,12 @@ function searchAttractionId(param, success, fail) {
   local.get(`${url}/mapSearchId`, { params: param }).then(success).catch(fail);
 }
 
-export { listAttraction, searchAttraction, searchAttractionId };
+function listSido(success, fail){
+  local.get(`${url}/sidoList`).then(success).catch(fail);
+}
+
+function listGugun(param, success, fail){
+  local.get(`${url}/gugunList`, {params: param}).then(success).catch(fail);
+}
+
+export { listAttraction, searchAttraction, searchAttractionId, listSido, listGugun};
