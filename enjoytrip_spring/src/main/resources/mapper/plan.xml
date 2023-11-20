@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.plan.model.mapper.PlanMapper">
+
+	<resultMap type="PlanDto" id="plan">
+		<result column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/> 
+		<result column="creation_date" property="creationDate"/>
+	</resultMap>
+
+	<select id="getList" resultMap="plan">
+		select *
+		from travel_plan
+		where user_id = #{userId}
+	</select>
+
+	<insert id="createPlan" parameterType="PlanDto">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into travel_plan(user_id, title, content, creation_date)
+		values(#{userId}, #{title}, #{content}, now());
+	</insert>
+	
+	<insert id="createJoinPlace" parameterType="map">
+		insert into join_place(content_id, plan_id)
+		values(#{attrId}, #{planId});
+	</insert>
+
+</mapper>

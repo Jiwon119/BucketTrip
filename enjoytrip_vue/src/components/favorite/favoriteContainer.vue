@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { listFavorite } from "@/api/favorite";
 import { useMemberStore } from "@/stores/member";
@@ -17,6 +17,7 @@ const favorites = ref([]);
 onMounted(() => {
   getFavoriteList();
 });
+
 
 const getFavoriteList = () => {
   listFavorite(
