@@ -84,6 +84,11 @@ const router = createRouter({
       component: () => import("@/views/TheHotPlaceView.vue"),
     },
     {
+      path: "/plan",
+      name: "plan",
+      component: () => import("@/views/ThePlanView.vue"),
+    },
+    {
       path: "/favorite",
       name: "favorite",
       beforeEnter: onlyAuthUser,
@@ -100,7 +105,7 @@ const router = createRouter({
           path: "write",
           name: "writePlan",
           component: () =>
-            import("@/components/favorite/favoritePlanWrite.vue"),
+            import("@/components/favorite/plan/favoritePlanWrite.vue"),
         },
       ],
     },

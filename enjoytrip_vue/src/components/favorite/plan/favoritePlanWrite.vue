@@ -1,12 +1,14 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { storeToRefs } from "pinia";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
 import { searchAttractionId } from "@/api/attraction";
 import { listPlan, writePlan } from "@/api/plan"
-import favoriteMap from "./favoriteMap.vue";
-import dragList from "./plan/dragList.vue";
+import favoriteMap from "../favoriteMap.vue";
+import dragList from "./dragList.vue";
+
+const router = useRouter();
 
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
@@ -66,7 +68,8 @@ const createPlan = () => {
       planList: list.value
     },
     ({ data }) => {
-      console.log(data);
+      alert("저장이 완료되었습니다.")
+      router.push({ name: "favorite" });
 
     },
     (error) => {

@@ -6,14 +6,18 @@ const local = localAxios();
 
 const url = "/plan";
 
-function listPlan(param, success, fail){
-    local.get(`${url}/list/${param}`).then(success).catch(fail);
+function listPlan(userId, success, fail) {
+  console.log("userId", userId);
+  local.get(`${url}/list/${userId}`).then(success).catch(fail);
+}
+
+function listJoinPlace(planId, success, fail) {
+  local.get(`${url}/placeList/${planId}`).then(success).catch(fail);
 }
 
 function writePlan(param, success, fail) {
-    console.log(param);
-    local.post(`${url}/write`, param).then(success).catch(fail);
+  console.log(param);
+  local.post(`${url}/write`, param).then(success).catch(fail);
 }
-  
-export { listPlan, writePlan };
-  
+
+export { listPlan, writePlan, listJoinPlace };

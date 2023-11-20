@@ -31,7 +31,7 @@ const getAttractionList = () => {
   // API 호출
   listAttraction(
     ({ data }) => {
-      console.log(data);
+      // console.log(data);
       data.forEach(element => {
         attractionData.value.push({
           id: element.contentId,
@@ -61,7 +61,7 @@ const param = ref({
 });
 
 const getSearchAttractionList = () => {
-  console.log(param.value);
+  // console.log(param.value);
   searchAttraction(
     param.value,
     ({ data }) => {
@@ -90,7 +90,7 @@ const getSidoList = () => {
   // API 호출
   listSido(
     ({ data }) => {
-      console.log(data);
+      // console.log(data);
       data.forEach(element => {
         sidoData.value.push({
           sidoCode: element.sidoCode,
@@ -98,13 +98,13 @@ const getSidoList = () => {
         });
 
       });
-      console.log(sidoData.value);
+      // console.log(sidoData.value);
     },
     (error) => {
       console.log(error);
     }
   );
-  console.log(sidoData);
+  // console.log(sidoData);
 };
 
 const getGugunList = () => {
@@ -112,7 +112,7 @@ const getGugunList = () => {
   listGugun(
     param.value,
     ({ data }) => {
-      console.log(data);
+      // console.log(data);
       data.forEach(element => {
         gugunData.value.push({
           gugunCode: element.gugunCode,
@@ -122,13 +122,13 @@ const getGugunList = () => {
 
       });
       param.value.area2 = "0";
-      console.log(sidoData.value);
+      // console.log(sidoData.value);
     },
     (error) => {
       console.log(error);
     }
   );
-  console.log(sidoData);
+  // console.log(sidoData);
 };
 
 const onSidoChange = () => {
@@ -159,12 +159,13 @@ const viewMarker = (data) => {
           <input type="hidden" name="action" value="mapSearch" />
           <select id="search-area" class="form-select me-2" name="area" v-model="param.area" @change="onSidoChange">
             <option value="0" selected>시/도 선택</option>
-            <option v-for="sido in sidoData" :key="sido.sidoCode" :value="sido.sidoCode" >{{ sido.sidoName }}</option>
+            <option v-for="sido in sidoData" :key="sido.sidoCode" :value="sido.sidoCode">{{ sido.sidoName }}</option>
           </select>
 
           <select id="search-area2" class="form-select me-2" name="area2" v-model="param.area2">
             <option value="0" selected>구/군 선택</option>
-            <option v-for="gugun in gugunData" :key="gugun.gugunCode" :value="gugun.gugunCode">{{ gugun.gugunName }}</option>
+            <option v-for="gugun in gugunData" :key="gugun.gugunCode" :value="gugun.gugunCode">{{ gugun.gugunName }}
+            </option>
           </select>
 
           <select id="search-content-id" class="form-select me-2" name="type" v-model="param.type">

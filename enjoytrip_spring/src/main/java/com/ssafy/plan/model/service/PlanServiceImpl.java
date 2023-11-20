@@ -43,9 +43,15 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
+	public List<PlanDto> getPlaceList(int planId) {
+		return planMapper.getPlaceList(planId);
+	}
+
+	@Override
 	public void createJoinPlace(int attrId, int planId) {
 		planMapper.createJoinPlace(attrId, planId);
 	}
+
 
 	
 }

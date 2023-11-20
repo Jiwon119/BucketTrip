@@ -56,6 +56,9 @@ const logout = () => {
             <li class="nav-item">
               <router-link :to="{ name: 'hotplace' }" class="nav-link">후기</router-link>
             </li>
+            <li class="nav-item">
+              <router-link :to="{ name: 'plan' }" class="nav-link">여행 계획</router-link>
+            </li>
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"

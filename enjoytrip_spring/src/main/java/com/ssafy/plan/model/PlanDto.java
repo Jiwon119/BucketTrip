@@ -2,6 +2,8 @@ package com.ssafy.plan.model;
 
 import java.util.List;
 
+import com.ssafy.attraction.model.AttractionDescriptionDto;
+import com.ssafy.attraction.model.AttractionInfoDto;
 import com.ssafy.board.model.FileInfoDto;
 
 import io.swagger.annotations.ApiModel;
@@ -29,4 +31,8 @@ public class PlanDto {
 	@ApiModelProperty(value = "작성일")
 	private String creationDate;
 
+	private AttractionInfoDto attrInfo;
+	private AttractionDescriptionDto attrDesc;
+	
+	
 }
