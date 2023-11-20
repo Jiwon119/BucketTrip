@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.attraction.model.AttractionInfoDto;
+import com.ssafy.attraction.model.GugunDto;
+import com.ssafy.attraction.model.SidoDto;
 import com.ssafy.attraction.model.mapper.AttractionMapper;
 
 @Service
@@ -31,5 +33,15 @@ public class AttractionServiceImpl implements AttractionService {
 	@Override
 	public AttractionInfoDto searchAttractionId(String id) {
 		return mapper.searchById(id);
+	}
+
+	@Override
+	public List<SidoDto> sidoList() {
+		return mapper.sidoList();
+	}
+
+	@Override
+	public List<GugunDto> gugunList(String sidoCode) {
+		return mapper.gugunList(sidoCode);
 	}	
 }
