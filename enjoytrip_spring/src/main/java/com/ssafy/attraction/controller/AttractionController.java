@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.attraction.model.AttractionInfoDto;
+import com.ssafy.attraction.model.GugunDto;
+import com.ssafy.attraction.model.SidoDto;
 import com.ssafy.attraction.model.service.AttractionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,12 +44,14 @@ public class AttractionController {
 	@ApiOperation(value = "map", notes = "지도의 <big>검색 결과</big>을 반환해 줍니다.")
 	@GetMapping("/mapSearch")
 	public ResponseEntity<List<AttractionInfoDto>> search(@RequestParam(value = "area", required = false) String area,
+			@RequestParam(value = "area2", required = false) String area2,
 			@RequestParam(value = "type", required = false) String type,
 			@RequestParam(value = "keyword", required = false) String keyword) {
 
-		log.debug("area : {}, type: {}, keyword: {}", area, type, keyword);
+		log.debug("area : {}, area2 : {}, type: {}, keyword: {}", area, area2, type, keyword);
 		AttractionInfoDto attractionInfoDto = new AttractionInfoDto();
 		if(!"".equals(area)) attractionInfoDto.setSidoCode(Integer.parseInt(area));
+		if(!"".equals(area2)) attractionInfoDto.setGugunCode(Integer.parseInt(area2));
 		if(!"".equals(type)) attractionInfoDto.setContentTypeId(Integer.parseInt(type));
 		attractionInfoDto.setTitle(keyword);
 		List<AttractionInfoDto> list = attractionService.attractionList(attractionInfoDto, keyword);
@@ -62,8 +66,24 @@ public class AttractionController {
 		log.debug("id : {}", id);
 		AttractionInfoDto attractionInfoDto = attractionService.searchAttractionId(id);
 
-		
 		return new ResponseEntity<AttractionInfoDto>(attractionInfoDto, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "map", notes = "지도의 <big>시도 리스트</big>를 반환해 줍니다.")
+	@GetMapping("/sidoList")
+	public ResponseEntity<List<SidoDto>> sidoList() {
+		List<SidoDto> sidoList = attractionService.sidoList();
+		return new ResponseEntity<List<SidoDto>>(sidoList, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "map", notes = "지도의 <big>구군 리스트</big>를 반환해 줍니다.")
+	@GetMapping("/gugunList")
+	public ResponseEntity<List<GugunDto>> guGunList(
+			@RequestParam(value = "area", required = false) String sidoCode
+			) {
+		log.debug("gdgdgdgd {}", sidoCode);
+		List<GugunDto> gugunList = attractionService.gugunList(sidoCode);
+		return new ResponseEntity<List<GugunDto>>(gugunList, HttpStatus.OK);
 	}
 	
 }
