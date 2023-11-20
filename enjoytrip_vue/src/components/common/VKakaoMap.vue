@@ -19,7 +19,6 @@ const data = ref([]);
 
 // const props = defineProps({ campingArea: Array, selectedOption: Object });
 const props = defineProps({ data: Array, selected: Object, line: Boolean });
-console.log("data", props.data);
 
 watch(
     () => props.selected,
@@ -109,18 +108,15 @@ const setData = () => {
     data.value = props.data;
     positions.value = [];
     props.data.forEach((el) => {
-        console.log(el);
         let obj = {};
         obj.id = el.id;
         obj.title = el.title;
         obj.content = el.content;
         obj.latlng = new kakao.maps.LatLng(el.mapY, el.mapX);
         obj.img = el.img;
-        console.log("obj", obj);
 
         positions.value.push(obj);
     });
-    console.log(positions.value);
     loadMarkers();
 }
 
