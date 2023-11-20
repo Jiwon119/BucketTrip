@@ -19,7 +19,6 @@ const data = ref([]);
 
 // const props = defineProps({ campingArea: Array, selectedOption: Object });
 const props = defineProps({ data: Array, selected: Object, line: Boolean });
-console.log("data", props.data);
 
 watch(
     () => props.selected,
@@ -109,31 +108,50 @@ const setData = () => {
     data.value = props.data;
     positions.value = [];
     props.data.forEach((el) => {
-        console.log(el);
         let obj = {};
         obj.id = el.id;
         obj.title = el.title;
         obj.content = el.content;
         obj.latlng = new kakao.maps.LatLng(el.mapY, el.mapX);
         obj.img = el.img;
-        console.log("obj", obj);
 
         positions.value.push(obj);
     });
-    console.log(positions.value);
     loadMarkers();
 }
 
 
 var polyline;
+var lineNumber;
 const setLine = () => {
 
     if (polyline != null) {
         polyline.setMap(null);
     }
-    var lineList = [];
+    if (lineNumber != null) {
+        lineNumber.forEach(element => {
+            element.setMap(null);
+        });
+    }
 
-    positions.value.forEach(element => {
+
+    var lineList = [];
+    lineNumber = [];
+
+    positions.value.forEach((element, index) => {
+        var content = `<div class ="label" sty>
+                            <span class="left">
+                                </span><span class="center">
+                                    ${index + 1}
+                                </span>
+                        </div>`;
+        var customOverlay = new kakao.maps.CustomOverlay({
+            position: new kakao.maps.LatLng(element.latlng.Ma + 0.25, element.latlng.La + 0.01),
+            content: content
+        });
+        lineNumber.push(customOverlay)
+        customOverlay.setMap(map);
+
         lineList.push(element.latlng)
     });
 
@@ -345,5 +363,12 @@ const deleteMarkers = () => {
 
 .info .link {
     color: #5085BB;
+}
+
+.label {
+    background-color: white;
+    padding: 0px 5px;
+    border: solid gray 1px;
+    border-radius: 5px;
 }
 </style>

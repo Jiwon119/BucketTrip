@@ -27,7 +27,9 @@ const setData = () => {
 
 watch(
   () => favorites.value,
-  () => { console.log(favorites.value); },
+  () => {
+
+  },
   { deep: true }
 )
 

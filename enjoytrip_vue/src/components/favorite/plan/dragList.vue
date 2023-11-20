@@ -51,10 +51,6 @@ export default {
                 <p>{{ element.addr1 }}</p>
                 <p>{{ element.attractionDescriptionDto.overview }}</p>
               </div>
-              <div class="modal-footer">
-                <button class="btn btn-outline-secondary" @click="button1Click">즐겨찾기</button>
-                <button class="btn btn-outline-secondary" @click="button2Click">글쓰기</button>
-              </div>
             </div>
           </div>
         </div>
