@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class FavoriteDto {
 	
 	@ApiModelProperty(value = "즐겨찾기 id")
-	private String id;
+	private int id;
 	
 	@ApiModelProperty(value = "회원 아이디")
 	private String userId;

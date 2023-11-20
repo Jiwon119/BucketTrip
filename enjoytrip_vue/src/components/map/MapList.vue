@@ -22,6 +22,9 @@ const selected = ref({
 onMounted(() => {
   getAttractionList();
   getSidoList();
+  param.value.area = "0";
+  param.value.area2 = "0";
+  param.value.type = "0";
 });
 
 const getAttractionList = () => {
@@ -118,6 +121,7 @@ const getGugunList = () => {
         });
 
       });
+      param.value.area2 = "0";
       console.log(sidoData.value);
     },
     (error) => {
@@ -147,19 +151,19 @@ const viewMarker = (data) => {
   <div>
     <h2>관광지 정보</h2>
     <div class="row">
-      <div class="col-8">
+      <div class="col-lg-7 mb-3">
         <VKakaoMap :data="attractionData" :selected="selected" />
       </div>
-      <div class="col-4">
+      <div class="col-lg-5">
         <form class="d-flex my-3" @submit.prevent="searchAttraction" role="search" action="/map">
           <input type="hidden" name="action" value="mapSearch" />
           <select id="search-area" class="form-select me-2" name="area" v-model="param.area" @change="onSidoChange">
-            <option value="0" selected>검색 할 시/도 선택</option>
+            <option value="0" selected>시/도 선택</option>
             <option v-for="sido in sidoData" :key="sido.sidoCode" :value="sido.sidoCode" >{{ sido.sidoName }}</option>
           </select>
 
           <select id="search-area2" class="form-select me-2" name="area2" v-model="param.area2">
-            <option value="0" selected>검색 할 구/군 선택</option>
+            <option value="0" selected>구/군 선택</option>
             <option v-for="gugun in gugunData" :key="gugun.gugunCode" :value="gugun.gugunCode">{{ gugun.gugunName }}</option>
           </select>
 

@@ -14,5 +14,9 @@ public interface FavoriteService {
 	List<FavoriteDto> getList(String userId);
 	
 	void addFavorite(FavoriteDto favoriteDto) throws Exception;
+
+	void removeFavorite(FavoriteDto favoriteDto) throws Exception;
+
+	boolean isFavorited(String userId, int destinationId);
 	
 }
