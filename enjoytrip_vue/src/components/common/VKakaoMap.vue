@@ -146,7 +146,7 @@ const setLine = () => {
                                 </span>
                         </div>`;
         var customOverlay = new kakao.maps.CustomOverlay({
-            position: new kakao.maps.LatLng(element.latlng.Ma + 0.25, element.latlng.La + 0.01),
+            position: element.latlng,
             content: content
         });
         lineNumber.push(customOverlay)
@@ -370,5 +370,11 @@ const deleteMarkers = () => {
     padding: 0px 5px;
     border: solid gray 1px;
     border-radius: 5px;
+    margin-bottom: 110px;
+}
+
+.label * {
+    display: inline-block;
+    vertical-align: top;
 }
 </style>

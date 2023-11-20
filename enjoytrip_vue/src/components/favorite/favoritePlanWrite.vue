@@ -1,20 +1,41 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
+import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
+import { useMemberStore } from "@/stores/member";
 import { searchAttractionId } from "@/api/attraction";
+import { listPlan, writePlan } from "@/api/plan"
 import favoriteMap from "./favoriteMap.vue";
-import VCard from "../common/VCard.vue";
 import dragList from "./plan/dragList.vue";
 
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
 
 const list = ref(useRoute().query.checkList);
 
-const favorites = ref([]);
-const selected = ref({})
 
-const selectedList = (val) => {
-  selected.value = val;
-}
+const favorites = ref([]);
+const planInfo = ref({
+  userId: userInfo.value.id,
+  title: "",
+  content: "",
+});
+
+
+watch(
+  () => favorites.value,
+  () => {
+    list.value = [];
+    favorites.value.forEach(element => {
+      list.value.push(element.contentId)
+    });
+
+    console.log("favorites", favorites.value)
+    console.log("list", list.value)
+  },
+  { deep: true }
+)
+
 onMounted(() => {
   setData();
 })
@@ -25,20 +46,12 @@ const setData = () => {
   });
 }
 
-watch(
-  () => favorites.value,
-  () => {
-
-  },
-  { deep: true }
-)
-
-
 const getArticleList = (id) => {
   searchAttractionId(
     { id: id },
     ({ data }) => {
       favorites.value.push(data);
+      console.log(favorites.value);
     },
     (error) => {
       console.log(error);
@@ -46,22 +59,62 @@ const getArticleList = (id) => {
   );
 };
 
+const createPlan = () => {
+  writePlan(
+    {
+      planInfo: planInfo.value,
+      planList: list.value
+    },
+    ({ data }) => {
+      console.log(data);
+
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+// const planList = () => {
+//   listPlan(
+//     userInfo.value.id,
+//     ({ data }) => {
+//       console.log(data);
+
+//     },
+//     (error) => {
+//       console.log(error);
+//     }
+//   );
+// }
+
 </script>
 
 <template>
   <div class="row">
     <div class="col-6">
-      <favoriteMap :favoriteList="favorites" :selectedList="selected" :line="true" />
+      <favoriteMap :favoriteList="favorites" :line="true" />
     </div>
     <div class="col-6">
-      <h5>즐겨찾기 목록</h5>
-      <br>
-      <dragList :list="favorites" />
-      <template v-for="list in favorites" :key="favorites.id">
-        <div class="favoriteCard">
-          <VCard :title="list.title" :content="list.content" @click="onSelect(list)" />
+      <h5>
+        즐겨찾기 목록
+        <button class="btn btn-outline-secondary" @click="createPlan"> 여행 계획 생성</button>
+      </h5>
+
+      <div class="mb-3 row">
+        <label for="staticEmail" class="col-sm-2 col-form-label">제목</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" v-model="planInfo.title">
         </div>
-      </template>
+      </div>
+      <div class="mb-3 row">
+        <label for="content" class="col-sm-2 col-form-label">내용</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" rows="3" v-model="planInfo.content"></textarea>
+        </div>
+      </div>
+
+      <dragList :list="favorites" />
     </div>
   </div>
 </template>
