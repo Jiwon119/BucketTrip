@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import VCard from '@/components/common/VCard.vue';
 
-const imgSrc = ref('http://tong.visitkorea.or.kr/cms/resource/70/608470_image2_1.jpg')
+const imgSrc = ref('http://tong.visitkorea.or.kr/cms/resource/01/1999501_image2_1.jpg')
 const title = ref("제목")
 const content = ref("내용")
 
@@ -29,7 +29,6 @@ const content = ref("내용")
 
 <style scoped>
 .topPlace {
-  background-color: #bdc4dc;
   border-radius: 15px 15px 0px 0px;
   padding: 15px;
 }
