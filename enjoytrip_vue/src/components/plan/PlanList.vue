@@ -10,16 +10,14 @@ watch(
   { deep: true }
 )
 
-const emit = defineEmits(["onFavoriteSelect", "onCheckboxClick"]);
+const emit = defineEmits(["onClickPlan"]);
 
-const onSelect = (list) => {
-  console.log(list);
-  emit("onFavoriteSelect", list);
-};
+const clickPlan = (val) => {
+  console.log(val.id);
+  console.log(props.planList);
+  console.log(props.planList.findIndex(i => i.id == val.id));
 
-const checkboxClick = (val) => {
-  console.log(val);
-  emit("onCheckboxClick", val)
+  emit("onClickPlan", props.planList.findIndex(i => i.id == val.id));
 }
 
 </script>
@@ -27,11 +25,11 @@ const checkboxClick = (val) => {
 <template>
   <template v-for="list in props.planList" :key="props.planList.id">
     <div class="favoriteCard">
-      <div>
+      <div @click="clickPlan(list)">
         <div>제목 : {{ list.title }}</div>
         <div>내용 : {{ list.content }}</div>
         <div class="div">
-          <template v-for="(item, index) in list.attrInfo" :key="index">
+          <template v-for="item in list.attrInfo" :key="item.id">
             <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.content" @click="onSelect(list)"
               width="100px" />
           </template>

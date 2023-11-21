@@ -17,6 +17,17 @@ const markers = ref([]);
 const infoWindow = ref([]);
 const data = ref([]);
 
+// 맵 초기화
+const initMap = () => {
+    const container = document.getElementById("map");
+    const options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 3,
+    };
+    map = new kakao.maps.Map(container, options);
+    // loadMarkers();
+};
+
 // const props = defineProps({ campingArea: Array, selectedOption: Object });
 const props = defineProps({ data: Array, selected: Object, line: Boolean });
 
@@ -86,6 +97,7 @@ watch(
         if (!window.kakao || !window.kakao.maps) {
             setTimeout(() => {
                 setData();
+                setLine();
             }, 300)
         } else {
             if (props.data.length == 0) {
@@ -94,10 +106,8 @@ watch(
                 map.panTo(moveLatLon);
             } else {
                 setData();
+                setLine();
             }
-        }
-        if (props.line) {
-            setLine();
         }
     },
     { deep: true },
@@ -124,59 +134,51 @@ const setData = () => {
 var polyline;
 var lineNumber;
 const setLine = () => {
+    if (props.line) {
+        if (polyline != null) {
+            polyline.setMap(null);
+        }
+        if (lineNumber != null) {
+            lineNumber.forEach(element => {
+                element.setMap(null);
+            });
+        }
 
-    if (polyline != null) {
-        polyline.setMap(null);
-    }
-    if (lineNumber != null) {
-        lineNumber.forEach(element => {
-            element.setMap(null);
-        });
-    }
 
+        var lineList = [];
+        lineNumber = [];
 
-    var lineList = [];
-    lineNumber = [];
-
-    positions.value.forEach((element, index) => {
-        var content = `<div class ="label" sty>
+        positions.value.forEach((element, index) => {
+            var content = `<div class ="label" sty>
                             <span class="left">
                                 </span><span class="center">
                                     ${index + 1}
                                 </span>
                         </div>`;
-        var customOverlay = new kakao.maps.CustomOverlay({
-            position: element.latlng,
-            content: content
+            var customOverlay = new kakao.maps.CustomOverlay({
+                position: element.latlng,
+                content: content
+            });
+            lineNumber.push(customOverlay)
+            customOverlay.setMap(map);
+
+            lineList.push(element.latlng)
         });
-        lineNumber.push(customOverlay)
-        customOverlay.setMap(map);
 
-        lineList.push(element.latlng)
-    });
+        polyline = new kakao.maps.Polyline({
+            path: lineList, // 선을 구성하는 좌표배열 입니다
+            strokeWeight: 5, // 선의 두께 입니다
+            strokeColor: '#FFAE00', // 선의 색깔입니다
+            strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+            strokeStyle: 'solid' // 선의 스타일입니다
+        });
 
-    polyline = new kakao.maps.Polyline({
-        path: lineList, // 선을 구성하는 좌표배열 입니다
-        strokeWeight: 5, // 선의 두께 입니다
-        strokeColor: '#FFAE00', // 선의 색깔입니다
-        strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-        strokeStyle: 'solid' // 선의 스타일입니다
-    });
-
-    // 지도에 선을 표시합니다 
-    polyline.setMap(map);
+        // 지도에 선을 표시합니다 
+        polyline.setMap(map);
+    }
 }
 
-// 맵 초기화
-const initMap = () => {
-    const container = document.getElementById("map");
-    const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
-    };
-    map = new kakao.maps.Map(container, options);
-    // loadMarkers();
-};
+
 
 const loadMarkers = () => {
     // 현재 표시되어있는 marker들이 있다면 map에 등록된 marker를 제거한다.
