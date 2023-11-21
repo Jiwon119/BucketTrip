@@ -32,10 +32,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void writeArticle(BoardDto boardDto) throws Exception {
 		boardMapper.writeArticle(boardDto);
-		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
-		if (fileInfos != null && !fileInfos.isEmpty()) {
-			boardMapper.registerFile(boardDto);
-		}
+//		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
+//		if (fileInfos != null && !fileInfos.isEmpty()) {
+//			boardMapper.registerFile(boardDto);
+//		}
 	}
 
 	@Override

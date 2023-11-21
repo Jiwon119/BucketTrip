@@ -2,6 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { detailArticle, deleteArticle } from "@/api/board";
+import { searchAttractionId } from "@/api/attraction";
 import BoardComment from "./item/BoardComment.vue";
 
 const route = useRoute();
@@ -13,17 +14,30 @@ const { articleno } = route.params;
 const articles = ref({});
 const comments = ref([]);
 
+const attraction = ref({});
+
 onMounted(() => {
   getArticle();
+  console.log(articles.value);
 });
 
 const getArticle = () => {
   console.log(articleno + "번글 얻으러 가자!!!");
   // API 호출
   detailArticle(articleno, ({ data }) => {
-    console.log(data);
     articles.value = data.article;
     comments.value = data.comment;
+    searchAttractionId(
+      { id: articles.value.destinationId },
+      ({ data }) => {
+
+        console.log(data.title + "gdggddgd" + JSON.stringify(data));
+        attraction.value = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
     (error) => {
       console.log(error);
@@ -56,7 +70,6 @@ function onDeleteArticle() {
     <div class="row justify-content-center">
       <div class="col-lg-10 text-start">
         <div class="row my-2">
-          <!-- <h2 class="text-secondary px-5">{{ article.articleNo }}. {{ article.subject }}</h2> -->
           <h2 class="text-secondary">{{ articles.subject }}</h2>
         </div>
         <div class="row">
@@ -65,36 +78,63 @@ function onDeleteArticle() {
               <p>
                 <span class="fw-bold">{{ articles.userName }}</span> <br />
                 <span class="text-secondary fw-light">
-                  {{ articles.registerTime }}1 조회 : {{ articles.hit }}
+                  {{ articles.registerTime }} | 조회 : {{ articles.hit +1}}
                 </span>
               </p>
             </div>
+            <div class="text-secondary">
+              {{ articles.content }}
+            </div>
+            <hr>
+            <div class="mt-3">
+              <BoardComment />
+            </div>
           </div>
-          <div class="col-md-4 align-self-center text-end">댓글 : {{ comments.length }}</div>
-          <div class="divider mb-3"></div>
-          <div class="text-secondary">
-            {{ articles.content }}
+          <div class="col-md-4 align-self-center text-end">
+            <div class="image-container">
+              <img :src="attraction.firstImage">
+              <p class="fst-italic">{{ attraction.title }}</p>
+            </div>
           </div>
+        </div>
+        <div class="divider mt-3 mb-3"></div>
 
-          <div class="divider mt-3 mb-3"></div>
-          <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-outline-secondary mb-3" @click="moveList">
-              글목록
-            </button>
-            <button type="button" class="btn btn-outline-secondary mb-3 ms-1" @click="moveModify">
-              글수정
-            </button>
-            <button type="button" class="btn btn-outline-secondary mb-3 ms-1" @click="onDeleteArticle">
-              글삭제
-            </button>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="d-flex justify-content-end">
+              <button type="button" class="btn btn-outline-secondary mb-3" @click="moveList">
+                글목록
+              </button>
+              <button type="button" class="btn btn-outline-secondary mb-3 ms-1" @click="moveModify">
+                글수정
+              </button>
+              <button type="button" class="btn btn-outline-secondary mb-3 ms-1" @click="onDeleteArticle">
+                글삭제
+              </button>
+            </div>
           </div>
-
-          <BoardComment />
-
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.image-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 200px;
+}
+
+.image-container img {
+  width: 200px; /* 이미지의 가로 크기를 조절합니다. */
+  height: 200px; /* 이미지의 세로 크기를 조절합니다. */
+  object-fit: cover;
+}
+
+.text-center {
+  text-align: center;
+}
+</style>

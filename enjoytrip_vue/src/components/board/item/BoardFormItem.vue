@@ -1,6 +1,6 @@
 <script setup>
 import { registArticle, modifyArticle, detailArticle } from "@/api/board";
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
@@ -12,12 +12,14 @@ const isUseId = ref(false);
 
 const article = ref({
   articleNo: 0,
+  destinationId: 0,
+  userId: "ssafy",
+  userName: "김싸피",
   subject: "1234",
   content: "123",
-  userId: "ssafy",
-  userName: "",
   hit: 0,
-  registerTime: ""
+  registerTime: "",
+  fileInfos: null,
 });
 
 const upfile = ref();
@@ -39,6 +41,11 @@ if (props.type === "modify") {
     })
   console.log(article)
 }
+
+onMounted(() => {
+  article.value.destinationId = history.state.contentId;
+  console.log(props.type);
+});
 
 const subjectErrMsg = ref("");
 const contentErrMsg = ref("");
@@ -77,7 +84,8 @@ function onSubmit() {
 
 function writeArticle() {
   console.log("글등록하자!!", article.value);
-  registArticle(article.value, upfile, (response) => {
+  // registArticle(article.value, upfile, (response) => {
+  registArticle(article.value, (response) => {
     console.log(response);
   },
     (error) => {
@@ -126,10 +134,10 @@ function upload() {
       <textarea class="form-control" v-model="article.content" rows="10"></textarea>
     </div>
 
-    <div class="mb-3">
+    <!-- <div class="mb-3">
       <label for="upfile" class="form-label">파일:</label>
       <input type="file" class="form-control border" @change="upload(this)" id="upfile" name="upfile" multiple="multiple">
-    </div>
+    </div> -->
 
     <div class="col-auto text-center">
       <button type="submit" class="btn btn-outline-primary mb-3" v-if="type === 'regist'" @click="writeArticle">

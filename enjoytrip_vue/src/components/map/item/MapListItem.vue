@@ -84,7 +84,12 @@ const closeModal = () => {
 
 //글쓰기 라우터
 const moveWrite = () => {
-  router.push({ name: "article-write" });
+  console.log(props.attraction.id);
+  router.push({ name: "article-write",
+                state: {
+                  contentId: props.attraction.id,
+                }
+             });
 };
 </script>
 
@@ -119,7 +124,7 @@ const moveWrite = () => {
           <div class="modal-footer">
             <button class="btn" :class="{ 'btn-outline-secondary': !isFavorite, 'btn-outline-warning': isFavorite }"
               @click="toggleFavorite">즐겨찾기</button>
-            <button class="btn btn-outline-secondary" @click="moveWrite">글쓰기</button>
+            <button class="btn btn-outline-secondary" @click="moveWrite" type="regist">글쓰기</button>
           </div>
         </div>
       </div>
