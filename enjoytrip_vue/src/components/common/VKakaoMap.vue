@@ -157,7 +157,8 @@ const setLine = () => {
                         </div>`;
             var customOverlay = new kakao.maps.CustomOverlay({
                 position: element.latlng,
-                content: content
+                content: content,
+                zIndex: -1
             });
             lineNumber.push(customOverlay)
             customOverlay.setMap(map);
