@@ -18,7 +18,6 @@ onMounted(() => {
   getFavoriteList();
 });
 
-
 const getFavoriteList = () => {
   listFavorite(
     userInfo.value.id,

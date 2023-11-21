@@ -34,10 +34,7 @@ const getPlanList = () => {
     "ssafy",
     ({ data }) => {
       plans.value = data.planList
-
-      plans.value.forEach(element => {
-        getAttrInfo(element.id);
-      })
+      getAttrInfo();
     },
     (error) => {
       console.log(error);
@@ -46,17 +43,20 @@ const getPlanList = () => {
 
 }
 
-const getAttrInfo = (id) => {
-  listJoinPlace(
-    id,
-    ({ data }) => {
-      console.log("data.listJoinPlace------", data)
-      plans.value.push(data)
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
+const getAttrInfo = () => {
+  plans.value.forEach(element => {
+    listJoinPlace(
+      element.id,
+      ({ data }) => {
+        element.attrInfo = data.planList;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  });
+
+  console.log(plans.value);
 }
 
 
@@ -68,10 +68,10 @@ const selected = ref({})
 
 <template>
   <div class="row">
-    <div class="col-8">
-      <!-- <planMap :planList="plans" :selectedList="selected" /> -->
+    <div class="col-6">
+      <planMap />
     </div>
-    <div class="col-4">
+    <div class="col-6">
       <planList :planList="plans" />
     </div>
   </div>

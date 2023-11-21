@@ -48,6 +48,10 @@ public class PlanController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<PlanDto> list = planService.getList(userId);
+		
+		
+		
+		
 		log.debug("1. Plan List : {}", list);
 		map.put("planList", list);
 		return new ResponseEntity<>(map, HttpStatus.OK);
@@ -61,7 +65,6 @@ public class PlanController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<PlanDto> list = planService.getPlaceList(planId);
 		
-
 		
 //		List<AttractionInfoDto> attInfoList = new ArrayList<AttractionInfoDto>();
 //		List<AttractionDescriptionDto> attDescList = new ArrayList<AttractionDescriptionDto>();

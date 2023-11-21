@@ -27,7 +27,16 @@ const checkboxClick = (val) => {
 <template>
   <template v-for="list in props.planList" :key="props.planList.id">
     <div class="favoriteCard">
-      <VCard :title="list.title" :imgSrc="list.firstImage" :content="list.content" @click="onSelect(list)" />
+      <div>
+        <div>제목 : {{ list.title }}</div>
+        <div>내용 : {{ list.content }}</div>
+        <div class="div">
+          <template v-for="(item, index) in list.attrInfo" :key="index">
+            <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.content" @click="onSelect(list)"
+              width="100px" />
+          </template>
+        </div>
+      </div>
     </div>
   </template>
 </template>
@@ -35,6 +44,12 @@ const checkboxClick = (val) => {
 <style scoped>
 .favoriteCard {
   position: relative;
+  background-color: rgb(199, 199, 199);
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
+
+
 }
 
 .checkbox {
@@ -42,5 +57,12 @@ const checkboxClick = (val) => {
   left: 20px;
   top: 10px;
   z-index: 1;
+}
+
+.div {
+  display: flex;
+  padding: 0 30px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 </style>
