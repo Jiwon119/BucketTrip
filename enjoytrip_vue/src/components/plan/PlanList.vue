@@ -1,6 +1,14 @@
 <script setup>
 import { ref, watch } from "vue";
+import { storeToRefs } from "pinia";
+import { searchUserBoard } from "@/api/board"
+import { useMemberStore } from "@/stores/member";
+import { useRouter } from "vue-router";
 import VCard from "../common/VCard.vue";
+
+const router = useRouter();
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
 
 const props = defineProps({ planList: Array })
 
@@ -10,11 +18,23 @@ const clickPlan = (val) => {
   emit("onClickPlan", props.planList.findIndex(i => i.id == val.id));
 }
 
-const stamp = ref("X")
 
 const clickStamp = (val) => {
   console.log(val);
-  stamp.value = "O"
+  searchUserBoard(
+    { userId: userInfo.value.id, destinationId: val.contentId },
+    ({ data }) => {
+      console.log("data", data);
+      if (data.length == 0) {
+        console.log(null);
+      } else {
+        router.push({ name: 'article-view', params: { articleno: data.articleNo } })
+      }
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
 }
 
 </script>
@@ -27,7 +47,7 @@ const clickStamp = (val) => {
         <div>내용 : {{ list.content }}</div>
         <template v-for="item in list.attrInfo" :key="item.id">
           <div class="div">
-            <input type="button" class="btn btn-primary" @click="clickStamp(list)" :value="stamp">
+            <input type="button" class="btn btn-primary" @click="clickStamp(item)" :value="stamp">
             <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1" @click="onSelect(list)"
               width="100px" />
           </div>

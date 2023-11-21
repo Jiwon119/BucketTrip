@@ -111,10 +111,15 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
-
 	@Override
 	public List<AttractionInfoDto> listHotPlace() {
 		return boardMapper.listHotPlace();
+	}
+
+
+	@Override
+	public BoardDto searchUserBoard(Map<String, String> map) {
+		return boardMapper.searchUserBoard(map);
 	}
 
 }

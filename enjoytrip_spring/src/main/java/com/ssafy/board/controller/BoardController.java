@@ -241,6 +241,22 @@ public class BoardController {
 		}
 	}
 	
+	@ApiOperation(value = "article", notes = "게시글 목록을 반환해줍니다.")
+//	@ApiResponses({ @ApiResponse(code = 200, message = "회원목록 OK!!"), @ApiResponse(code = 404, message = "페이지없어!!"),
+//		@ApiResponse(code = 500, message = "서버에러!!") })
+	@GetMapping("/searchUserBoard")
+	public ResponseEntity<?> searchUserBoard(
+			@RequestParam Map<String, String> map
+			) {
+		try {
+			BoardDto result = boardService.searchUserBoard(map);
+			log.debug("결과 : {}", result);
+			return new ResponseEntity<>(result, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();

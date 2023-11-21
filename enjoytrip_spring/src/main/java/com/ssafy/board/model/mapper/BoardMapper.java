@@ -44,4 +44,6 @@ public interface BoardMapper {
 	void updateLikes(int articleNo) throws SQLException;
 
 	List<AttractionInfoDto> listHotPlace();
+
+	BoardDto searchUserBoard(Map<String, String> map);
 }
