@@ -94,6 +94,9 @@ onMounted(() => {
 watch(
     () => props.data,
     () => {
+        infoWindow.value.forEach(info => {
+            info.setMap(null);
+        });
         if (!window.kakao || !window.kakao.maps) {
             setTimeout(() => {
                 setData();

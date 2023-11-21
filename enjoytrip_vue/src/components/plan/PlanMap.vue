@@ -32,8 +32,6 @@ watch(
 watch(
   () => props.planList,
   () => {
-    console.log("==========")
-    console.log(props.planList);
     planData.value = [];
     if (props.planList != null) {
       props.planList.forEach(element => {
