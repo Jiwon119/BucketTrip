@@ -44,6 +44,10 @@ function getComment(articleno, success, fail) {
   local.get(`${url}/comment/${articleno}`).then(success).catch(fail);
 }
 
+function updateLikes(articleno, success, fail) {
+  local.get(`${url}/${articleno}/likes`).then(success).catch(fail);
+}
+
 export {
   listArticle,
   detailArticle,
@@ -53,4 +57,5 @@ export {
   deleteArticle,
   writeComment,
   getComment,
+  updateLikes,
 };

@@ -101,4 +101,11 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.getComment(articleno);
 	}
 
+
+	@Override
+	public void updateLikes(int articleNo) throws Exception {
+		boardMapper.updateLikes(articleNo);
+		
+	}
+
 }

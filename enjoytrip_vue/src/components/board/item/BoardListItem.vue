@@ -16,6 +16,7 @@ defineProps({ article: Object });
     <td>{{ article.userName }}</td>
     <td>{{ article.hit }}</td>
     <td>{{ article.registerTime }}</td>
+    <td>{{ article.likes }}</td>
   </tr>
 </template>
 
