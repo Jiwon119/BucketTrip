@@ -11,6 +11,13 @@
 		<result column="creation_date" property="creationDate"/>
 	</resultMap>
 	
+	<resultMap type="attractionDescriptionDto" id="attractionDesc">
+		<result column="content_id" property="contentId" />
+		<result column="homepage" property="homepage" />
+		<result column="overview" property="overview" />
+		<result column="telname" property="telname" />
+	</resultMap>
+	
 	<resultMap type="attractionInfoDto" id="attraction">
 		<result column="content_id" property="contentId" />
 		<result column="content_type_id" property="contentTypeId" />
@@ -29,25 +36,7 @@
 		<result column="mlevel" property="mlevel" />
 		<collection property="attractionDescriptionDto" resultMap="attractionDesc" />
 	</resultMap>
-	
-	<resultMap type="attractionDescriptionDto" id="attractionDesc">
-		<result column="content_id" property="contentId" />
-		<result column="homepage" property="homepage" />
-		<result column="overview" property="overview" />
-		<result column="telname" property="telname" />
-	</resultMap>
-	
-	<resultMap type="PlanDto" id="planJoinAttr">
-		<result column="id" property="id"/>
-		<result column="user_id" property="userId"/>
-		<result column="title" property="title"/>
-		<result column="content" property="content"/> 
-		<result column="creation_date" property="creationDate"/>
-		
-		<collection resultMap="attraction" property="attrInfo" />
-		<collection resultMap="attractionDesc" property="attrDesc" />		
-	</resultMap>
-	
+
 	<select id="getList" resultMap="plan">
 		select *
 		from travel_plan
@@ -67,13 +56,13 @@
 		values(#{attrId}, #{planId})
 	</insert>
 
-	<select id="getPlaceList" parameterType="Integer" resultMap="planJoinAttr">
+	<select id="getPlaceList" parameterType="Integer" resultMap="attraction">
 		select * 
 		from join_place p inner join attraction_info a
 		on (p.content_id = a.content_id) 
 		inner join attraction_description d
 		on (d.content_id = a.content_id)
-		where p.plan_id = #{planId}
+        where plan_id = #{planId}
 	</select>
 
 </mapper>
