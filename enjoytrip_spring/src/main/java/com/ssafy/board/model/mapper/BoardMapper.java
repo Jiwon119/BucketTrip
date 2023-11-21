@@ -39,4 +39,6 @@ public interface BoardMapper {
 	void writeComment(CommentDto commentDto) throws Exception;
 	
 	List<CommentDto> getComment(int articleNo) throws Exception;
+
+	void updateLikes(int articleNo) throws SQLException;
 }
