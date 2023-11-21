@@ -11,6 +11,7 @@ const content = ref("내용")
 
 <template>
   <div>Main 화면 입니다.</div>
+  <img src="https://i.imgur.com/ZLg4ojd.png" />
   <Tiptap v-model="content" />
   <div class="content">
     <h3>Content</h3>
