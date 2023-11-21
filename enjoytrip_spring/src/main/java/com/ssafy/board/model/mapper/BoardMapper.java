@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.attraction.model.AttractionInfoDto;
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.CommentDto;
 import com.ssafy.board.model.FileInfoDto;
@@ -41,4 +42,6 @@ public interface BoardMapper {
 	List<CommentDto> getComment(int articleNo) throws Exception;
 
 	void updateLikes(int articleNo) throws SQLException;
+
+	List<AttractionInfoDto> listHotPlace();
 }

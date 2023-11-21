@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.attraction.model.AttractionInfoDto;
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.BoardListDto;
 import com.ssafy.board.model.CommentDto;
@@ -52,6 +53,8 @@ public class BoardServiceImpl implements BoardService {
 		param.put("key", key == null ? "" : key);
 		if ("user_id".equals(key))
 			param.put("key", key == null ? "" : "b.user_id");
+		
+		param.put("destinationId", map.get("destinationId"));
 		List<BoardDto> list = boardMapper.listArticle(param);
 
 		if ("user_id".equals(key))
@@ -106,6 +109,12 @@ public class BoardServiceImpl implements BoardService {
 	public void updateLikes(int articleNo) throws Exception {
 		boardMapper.updateLikes(articleNo);
 		
+	}
+
+
+	@Override
+	public List<AttractionInfoDto> listHotPlace() {
+		return boardMapper.listHotPlace();
 	}
 
 }

@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.attraction.model.AttractionInfoDto;
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.BoardListDto;
 import com.ssafy.board.model.CommentDto;
@@ -220,6 +221,21 @@ public class BoardController {
 			List<CommentDto> comment = boardService.getComment(articleno);
 			
 			return new ResponseEntity<List<CommentDto>>(comment, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@ApiOperation(value = "article", notes = "게시글 목록을 반환해줍니다.")
+//	@ApiResponses({ @ApiResponse(code = 200, message = "회원목록 OK!!"), @ApiResponse(code = 404, message = "페이지없어!!"),
+//		@ApiResponse(code = 500, message = "서버에러!!") })
+	@GetMapping("/hotPlace")
+	public ResponseEntity<?> listHotPlace() {
+		try {
+			System.out.println("dddsdsafldfkadfklasdjflsdjlk");
+			List<AttractionInfoDto> placeList = boardService.listHotPlace();
+			
+			return new ResponseEntity<>(placeList, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

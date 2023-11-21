@@ -48,6 +48,10 @@ function updateLikes(articleno, success, fail) {
   local.get(`${url}/${articleno}/likes`).then(success).catch(fail);
 }
 
+function listHotPlace(articleno, success, fail) {
+  local.get(`${url}/hotPlace`).then(success).catch(fail);
+}
+
 export {
   listArticle,
   detailArticle,
@@ -58,4 +62,5 @@ export {
   writeComment,
   getComment,
   updateLikes,
+  listHotPlace,
 };

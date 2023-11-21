@@ -1,13 +1,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { listArticle } from "@/api/board";
 
 import VSelect from "@/components/common/VSelect.vue";
 import BoardListItem from "@/components/board/item/BoardListItem.vue";
 import PageNavigation from "@/components/common/PageNavigation.vue";
 
-const router = useRouter();
+const route = useRoute();
+const destinationId = ref(route.query.destinationId);
 
 const selectOption = ref([
   { text: "검색조건", value: "" },
@@ -25,9 +26,11 @@ const param = ref({
   spp: VITE_ARTICLE_LIST_SIZE,
   key: "",
   word: "",
+  destinationId: ""
 });
 
 onMounted(() => {
+  param.value.destinationId = destinationId.value;
   getArticleList();
 });
 
@@ -75,11 +78,7 @@ const moveWrite = () => {
       <div class="col-lg-10 board-list-item">
         <div class="row align-self-center mb-2">
           <div class="col-md-2 text-start">
-            <button
-              type="button"
-              class="btn btn-outline-primary btn-sm"
-              @click="moveWrite"
-            >
+            <button type="button" class="btn btn-outline-primary btn-sm" @click="moveWrite">
               글쓰기
             </button>
           </div>
@@ -87,17 +86,8 @@ const moveWrite = () => {
             <form class="d-flex">
               <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
               <div class="input-group input-group-sm">
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="param.word"
-                  placeholder="검색어..."
-                />
-                <button
-                  class="btn btn-dark"
-                  type="button"
-                  @click="getArticleList"
-                >
+                <input type="text" class="form-control" v-model="param.word" placeholder="검색어..." />
+                <button class="btn btn-dark" type="button" @click="getArticleList">
                   검색
                 </button>
               </div>
@@ -116,22 +106,13 @@ const moveWrite = () => {
             </tr>
           </thead>
           <tbody>
-            <BoardListItem
-              v-for="article in articles"
-              :key="article.articleNo"
-              :article="article"
-            ></BoardListItem>
+            <BoardListItem v-for="article in articles" :key="article.articleNo" :article="article"></BoardListItem>
           </tbody>
         </table>
       </div>
-      <PageNavigation
-        :current-page="currentPage"
-        :total-page="totalPage"
-        @pageChange="onPageChange"
-      ></PageNavigation>
+      <PageNavigation :current-page="currentPage" :total-page="totalPage" @pageChange="onPageChange"></PageNavigation>
     </div>
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
