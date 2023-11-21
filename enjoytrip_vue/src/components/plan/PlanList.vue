@@ -10,6 +10,13 @@ const clickPlan = (val) => {
   emit("onClickPlan", props.planList.findIndex(i => i.id == val.id));
 }
 
+const stamp = ref("X")
+
+const clickStamp = (val) => {
+  console.log(val);
+  stamp.value = "O"
+}
+
 </script>
 
 <template>
@@ -18,12 +25,13 @@ const clickPlan = (val) => {
       <div @click="clickPlan(list)">
         <div>제목 : {{ list.title }}</div>
         <div>내용 : {{ list.content }}</div>
-        <div class="div">
-          <template v-for="item in list.attrInfo" :key="item.id">
+        <template v-for="item in list.attrInfo" :key="item.id">
+          <div class="div">
+            <input type="button" class="btn btn-primary" @click="clickStamp(list)" :value="stamp">
             <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1" @click="onSelect(list)"
               width="100px" />
-          </template>
-        </div>
+          </div>
+        </template>
       </div>
     </div>
   </template>
@@ -38,17 +46,16 @@ const clickPlan = (val) => {
   padding: 10px;
 }
 
-.checkbox {
-  position: absolute;
-  left: 20px;
-  top: 10px;
-  z-index: 1;
-}
-
 .div {
-  display: flex;
-  padding: 0 30px;
+  display: inline-block;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.btn {
+  position: relative;
+  left: -40px;
+  top: 60px;
+  z-index: 1;
 }
 </style>
