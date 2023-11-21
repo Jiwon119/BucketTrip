@@ -30,7 +30,7 @@ const clickPlan = (val) => {
         <div>내용 : {{ list.content }}</div>
         <div class="div">
           <template v-for="item in list.attrInfo" :key="item.id">
-            <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.content" @click="onSelect(list)"
+            <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1" @click="onSelect(list)"
               width="100px" />
           </template>
         </div>
