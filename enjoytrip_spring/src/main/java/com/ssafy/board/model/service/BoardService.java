@@ -21,5 +21,6 @@ public interface BoardService {
 	void writeComment(CommentDto commentDto) throws Exception;
 	List<CommentDto> getComment(int articleno) throws Exception;
 	List<AttractionInfoDto> listHotPlace();
+	BoardDto searchUserBoard(Map<String, String> map);
 
 }

@@ -52,6 +52,14 @@ function listHotPlace(articleno, success, fail) {
   local.get(`${url}/hotPlace`).then(success).catch(fail);
 }
 
+function searchUserBoard(param, success, fail) {
+  console.log(param);
+  local
+    .get(`${url}/searchUserBoard`, { params: param })
+    .then(success)
+    .catch(fail);
+}
+
 export {
   listArticle,
   detailArticle,
@@ -63,4 +71,5 @@ export {
   getComment,
   updateLikes,
   listHotPlace,
+  searchUserBoard,
 };

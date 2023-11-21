@@ -171,7 +171,13 @@
 		where b.destination_id = a.content_id
 		group by b.destination_id
 		order by count(*) desc;
+	</select>
 	
+	<select id="searchUserBoard" parameterType="map" resultMap="article">
+		select *
+		from board
+		where user_id = #{userId}
+		and destination_id = #{destinationId}
 	</select>
 
 </mapper>
