@@ -80,7 +80,10 @@
       :disabled="!editor.can().chain().focus().redo().run()">
       redo
     </button>
-    <button class="btn btn" @click="addImage">add image from URL</button>
+
+    <input type="file" id="upload_image">
+    <button @click="uploadImageTest">upload</button>
+    <!-- <button class="btn btn" @click="uploadImageTest">add image from URL</button> -->
   </div>
   <editor-content :editor="editor" />
 </template>
@@ -140,6 +143,32 @@ const addImage = () => {
   }
 }
 
+const uploadImageTest = () => {
+  var bodyData = new FormData();
+  var imageFile = document.querySelector("#upload_image").files[0];
+  bodyData.append("image", imageFile);
+  fetch("https://api.imgur.com/3/image", {
+    method: "POST",
+    headers: {
+      "user-agent": "curl/7.84.0",
+      Authorization: `Client-ID a96cb206061dfee`,
+      Accept: "application/json",
+    },
+    body: bodyData,
+  }).then(function (res) {
+    return res.json();
+  }).then(function (json) {
+    const url = json.data.link;
+    editor.value.chain().focus().setImage({ src: url }).run()
+    console.log(json.data.link);
+  });
+
+  // 
+
+  // if (url) {
+  //   editor.value.chain().focus().setImage({ src: url }).run()
+  // }
+}
 </script>
 
 <style lang="scss" scope>
