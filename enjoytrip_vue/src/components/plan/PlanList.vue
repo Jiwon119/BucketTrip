@@ -4,19 +4,9 @@ import VCard from "../common/VCard.vue";
 
 const props = defineProps({ planList: Array })
 
-watch(
-  () => props.planList,
-  () => console.log("--plans--", props.planList),
-  { deep: true }
-)
-
 const emit = defineEmits(["onClickPlan"]);
 
 const clickPlan = (val) => {
-  console.log(val.id);
-  console.log(props.planList);
-  console.log(props.planList.findIndex(i => i.id == val.id));
-
   emit("onClickPlan", props.planList.findIndex(i => i.id == val.id));
 }
 
@@ -46,8 +36,6 @@ const clickPlan = (val) => {
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
-
-
 }
 
 .checkbox {

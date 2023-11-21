@@ -15,7 +15,6 @@ const { userLogout } = memberStore;
 const logout = () => {
   console.log("로그아웃!!!!");
   userLogout("ssafy");
-
   changeMenuState();
 };
 </script>

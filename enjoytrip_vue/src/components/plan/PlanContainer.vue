@@ -30,8 +30,7 @@ onMounted(() => {
 
 const getPlanList = () => {
   listPlan(
-    // userInfo.value.id,
-    "ssafy",
+    userInfo.value.id,
     ({ data }) => {
       plans.value = data.planList
       getAttrInfo();
