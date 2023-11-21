@@ -33,6 +33,24 @@
 		<result column="original_file" property="originalFile"/>
 		<result column="save_file" property="saveFile"/>
 	</resultMap>
+	
+	<resultMap type="attractionInfoDto" id="attraction">
+		<result column="content_id" property="contentId" />
+		<result column="content_type_id" property="contentTypeId" />
+		<result column="title" property="title" />
+		<result column="addr1" property="addr1" />
+		<result column="addr2" property="addr2" />
+		<result column="zipcode" property="zipcode" />
+		<result column="tel" property="tel" />
+		<result column="first_image" property="firstImage" />
+		<result column="first_image2" property="firstImage2" />
+		<result column="readcount" property="readcount" />
+		<result column="sido_code" property="sidoCode" />
+		<result column="gugun_code" property="gugunCode" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+		<result column="mlevel" property="mlevel" />
+	</resultMap>
 
 	<insert id="writeArticle" parameterType="boardDto">
 		insert into board (destination_id, user_id, user_name, subject, content, likes, hit, register_time)
@@ -65,6 +83,7 @@
 		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time, m.user_name, b.likes
 		from board b, member m 
 		where b.user_id = m.user_id
+		<if test="destinationId">and b.destination_id = #{destinationId}</if>
 		<include refid="search"></include>
 		order by b.article_no desc
 		limit #{start}, #{listsize}
@@ -144,5 +163,15 @@
 		where comment_no = #{commentNo}
 	</update>
 	
+	<select id="listHotPlace" resultMap="attraction">
+		select a.content_id, a.content_type_id, a.title, a.addr1, a.addr2, a.zipcode, 
+			a.tel, a.first_image, a.first_image2, a.readcount, a.sido_code, a.gugun_code, a.latitude, 
+			a.longitude, a.mlevel
+		from board b, attraction_info a
+		where b.destination_id = a.content_id
+		group by b.destination_id
+		order by count(*) desc;
+	
+	</select>
 
 </mapper>

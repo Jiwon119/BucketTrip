@@ -3,6 +3,7 @@ package com.ssafy.board.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.attraction.model.AttractionInfoDto;
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.BoardListDto;
 import com.ssafy.board.model.CommentDto;
@@ -19,5 +20,6 @@ public interface BoardService {
 	void deleteArticle(int articleNo) throws Exception;
 	void writeComment(CommentDto commentDto) throws Exception;
 	List<CommentDto> getComment(int articleno) throws Exception;
+	List<AttractionInfoDto> listHotPlace();
 
 }
