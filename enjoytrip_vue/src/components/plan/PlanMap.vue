@@ -2,8 +2,7 @@
 import { ref, watch } from "vue";
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
 
-const props = defineProps({ planList: Array, selectedList: Object, line: Boolean })
-console.log("props.favoriteList.value", props.favoriteList)
+const props = defineProps({ planList: Array, line: Boolean })
 
 const planData = ref([]);
 
@@ -33,18 +32,22 @@ watch(
 watch(
   () => props.planList,
   () => {
+    console.log("==========")
+    console.log(props.planList);
     planData.value = [];
-    props.planList.forEach(element => {
-      planData.value.push({
-        id: element.contentId,
-        mapY: element.latitude,
-        mapX: element.longitude,
-        title: element.title,
-        content: element.addr1,
-        img: element.firstImage
+    if (props.planList != null) {
+      props.planList.forEach(element => {
+        planData.value.push({
+          id: element.contentId,
+          mapY: element.latitude,
+          mapX: element.longitude,
+          title: element.title,
+          content: element.addr1,
+          img: element.firstImage
+        });
       });
-    });
-    console.log("planData", planData.value);
+    }
+
   },
   { deep: true }
 )
@@ -53,7 +56,7 @@ watch(
 
 <template>
   <div>
-    <VKakaoMap :data="planData" :selected="selected" :line="line" />
+    <VKakaoMap :data="planData" :selected="selected" :line="true" />
   </div>
 </template>
 

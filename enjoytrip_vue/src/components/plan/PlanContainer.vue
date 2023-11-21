@@ -59,7 +59,11 @@ const getAttrInfo = () => {
   console.log(plans.value);
 }
 
+const MapListId = ref(0);
 
+const clickPlan = (id) => {
+  MapListId.value = id
+}
 
 const selected = ref({})
 
@@ -69,10 +73,10 @@ const selected = ref({})
 <template>
   <div class="row">
     <div class="col-6">
-      <planMap />
+      <planMap :planList="plans[MapListId].attrInfo" />
     </div>
     <div class="col-6">
-      <planList :planList="plans" />
+      <planList :plan-list="plans" v-on:on-click-plan="clickPlan" />
     </div>
   </div>
 </template>
