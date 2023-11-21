@@ -112,6 +112,7 @@ const moveWrite = () => {
               <th scope="col">작성자</th>
               <th scope="col">조회수</th>
               <th scope="col">작성일</th>
+              <th scope="col">추천</th>
             </tr>
           </thead>
           <tbody>

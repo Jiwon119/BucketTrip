@@ -102,6 +102,16 @@ public class BoardController {
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "게시글 추천", notes = "글번호에 해당하는 게시글의 추천수를 늘린다.", response = BoardDto.class)
+	@GetMapping("/{articleno}/likes")
+	public ResponseEntity<?> updateLikes(
+			@PathVariable("articleno") @ApiParam(value = "얻어올 글의 글번호.", required = true) int articleno)
+			throws Exception {
+		log.info("updateLikes - 호출 : " + articleno);
+		boardService.updateLikes(articleno);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "게시판 글작성", notes = "새로운 게시글 정보를 입력한다.")
 	@PostMapping
 	public ResponseEntity<?> writeArticle(

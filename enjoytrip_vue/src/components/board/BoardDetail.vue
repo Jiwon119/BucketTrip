@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { detailArticle, deleteArticle } from "@/api/board";
+import { detailArticle, deleteArticle, updateLikes } from "@/api/board";
 import { searchAttractionId } from "@/api/attraction";
 import BoardComment from "./item/BoardComment.vue";
 
@@ -25,12 +25,12 @@ const getArticle = () => {
   console.log(articleno + "번글 얻으러 가자!!!");
   // API 호출
   detailArticle(articleno, ({ data }) => {
+    console.log(JSON.stringify(data));
     articles.value = data.article;
     comments.value = data.comment;
     searchAttractionId(
       { id: articles.value.destinationId },
       ({ data }) => {
-
         console.log(data.title + "gdggddgd" + JSON.stringify(data));
         attraction.value = data;
       },
@@ -63,6 +63,16 @@ function onDeleteArticle() {
   router.push({ name: "article-list" });
 }
 
+const onRecommend = () => {
+  updateLikes(articleno, () => {
+    articles.value.likes = articles.value.likes + 1;
+    console.log("추천 성공");
+  },
+  (error) => {
+    console.log(error);
+  });
+};
+
 </script>
 
 <template>
@@ -84,6 +94,10 @@ function onDeleteArticle() {
             </div>
             <div class="text-secondary">
               {{ articles.content }}
+              <p>이 글이 도움이 되었다면?</p>
+              <button type="button" class="btn btn-outline-secondary mb-3" @click="onRecommend">
+                추천! {{ articles.likes }}
+              </button>
             </div>
             <hr>
             <div class="mt-3">
