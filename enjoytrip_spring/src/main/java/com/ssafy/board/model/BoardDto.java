@@ -18,6 +18,8 @@ public class BoardDto {
 	@ApiModelProperty(value = "글번호")
 	private int articleNo;
 	@ApiModelProperty(value = "작성자 아이디")
+	private int destinationId;
+	@ApiModelProperty(value = "작성자 아이디")
 	private String userId;
 	@ApiModelProperty(value = "작성자 이름")
 	private String userName;

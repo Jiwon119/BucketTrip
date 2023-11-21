@@ -15,6 +15,7 @@ function searchAttraction(param, success, fail) {
 }
 
 function searchAttractionId(param, success, fail) {
+  console.log("Param" + param);
   local.get(`${url}/mapSearchId`, { params: param }).then(success).catch(fail);
 }
 

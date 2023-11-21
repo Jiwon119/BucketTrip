@@ -105,37 +105,38 @@ public class BoardController {
 	@ApiOperation(value = "게시판 글작성", notes = "새로운 게시글 정보를 입력한다.")
 	@PostMapping
 	public ResponseEntity<?> writeArticle(
-			@ApiParam(value = "게시글 정보.", required = true) BoardDto boardDto, 
-			@RequestParam("upfile") MultipartFile[] files) {
+			@RequestBody @ApiParam(value = "게시글 정보.", required = true) BoardDto boardDto
+			){
+//			,@RequestParam("upfile") MultipartFile[] files) {
 		log.info("writeArticle boardDto - {}", boardDto);
 		try {
 //			FileUpload 관련 설정.
-			log.info("uploadPath : {}, uploadImagePath : {}, uploadFilePath : {}", uploadPath, uploadImagePath, uploadFilePath);
-			log.info("MultipartFile.isEmpty : {}", files[0].isEmpty());
-			if(!files[0].isEmpty()) {
-				String today = new SimpleDateFormat("yyMMdd").format(new Date());
-				String saveFolder = uploadPath + File.separator + today;
-				log.info("저장 폴더 : {}", saveFolder);
-				File folder = new File(saveFolder);
-				if (!folder.exists())
-					folder.mkdirs();
-				List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
-				for (MultipartFile mfile : files) {
-					FileInfoDto fileInfoDto = new FileInfoDto();
-					String originalFileName = mfile.getOriginalFilename();
-					if (!originalFileName.isEmpty()) {
-						String saveFileName = UUID.randomUUID().toString()
-								+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-						fileInfoDto.setSaveFolder(today);
-						fileInfoDto.setOriginalFile(originalFileName);
-						fileInfoDto.setSaveFile(saveFileName);
-						log.info("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
-						mfile.transferTo(new File(folder, saveFileName));
-					}
-					fileInfos.add(fileInfoDto);
-				}
-				boardDto.setFileInfos(fileInfos);
-			}
+//			log.info("uploadPath : {}, uploadImagePath : {}, uploadFilePath : {}", uploadPath, uploadImagePath, uploadFilePath);
+//			log.info("MultipartFile.isEmpty : {}", files[0].isEmpty());
+//			if(!files[0].isEmpty()) {
+//				String today = new SimpleDateFormat("yyMMdd").format(new Date());
+//				String saveFolder = uploadPath + File.separator + today;
+//				log.info("저장 폴더 : {}", saveFolder);
+//				File folder = new File(saveFolder);
+//				if (!folder.exists())
+//					folder.mkdirs();
+//				List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
+//				for (MultipartFile mfile : files) {
+//					FileInfoDto fileInfoDto = new FileInfoDto();
+//					String originalFileName = mfile.getOriginalFilename();
+//					if (!originalFileName.isEmpty()) {
+//						String saveFileName = UUID.randomUUID().toString()
+//								+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+//						fileInfoDto.setSaveFolder(today);
+//						fileInfoDto.setOriginalFile(originalFileName);
+//						fileInfoDto.setSaveFile(saveFileName);
+//						log.info("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
+//						mfile.transferTo(new File(folder, saveFileName));
+//					}
+//					fileInfos.add(fileInfoDto);
+//				}
+//				boardDto.setFileInfos(fileInfos);
+//			}
 			
 			boardService.writeArticle(boardDto);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
