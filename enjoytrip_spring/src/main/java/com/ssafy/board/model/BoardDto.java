@@ -29,6 +29,8 @@ public class BoardDto {
 	private String content;
 	@ApiModelProperty(value = "조회수")
 	private int hit;
+	@ApiModelProperty(value = "추천")
+	private int likes;
 	@ApiModelProperty(value = "작성일")	
 	private String registerTime;
 	@ApiModelProperty(value = "업로드 파일정보")

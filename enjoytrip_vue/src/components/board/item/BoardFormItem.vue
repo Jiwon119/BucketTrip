@@ -2,9 +2,13 @@
 import { registArticle, modifyArticle, detailArticle } from "@/api/board";
 import { ref, watch, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
 
 const router = useRouter();
 const route = useRoute();
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
 
 const props = defineProps({ type: String });
 
@@ -17,6 +21,7 @@ const article = ref({
   userName: "김싸피",
   subject: "1234",
   content: "123",
+  likes: 0,
   hit: 0,
   registerTime: "",
   fileInfos: null,
@@ -44,6 +49,8 @@ if (props.type === "modify") {
 
 onMounted(() => {
   article.value.destinationId = history.state.contentId;
+  article.value.userId = userInfo.value.id;
+  article.value.userName = userInfo.value.name;
   console.log(props.type);
 });
 
@@ -121,10 +128,6 @@ function upload() {
 
 <template>
   <form @submit.prevent="onSubmit">
-    <div class="mb-3">
-      <label for="userid" class="form-label">작성자 ID : </label>
-      <input type="text" class="form-control" v-model="article.userId" :disabled="isUseId" placeholder="작성자ID..." />
-    </div>
     <div class="mb-3">
       <label for="subject" class="form-label">제목 : </label>
       <input type="text" class="form-control" v-model="article.subject" placeholder="제목..." />

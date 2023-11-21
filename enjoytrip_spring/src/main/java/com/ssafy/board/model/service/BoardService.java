@@ -14,6 +14,7 @@ public interface BoardService {
 	BoardListDto listArticle(Map<String, String> map) throws Exception;
 	BoardDto getArticle(int articleNo) throws Exception;
 	void updateHit(int articleNo) throws Exception;
+	void updateLikes(int articleNo) throws Exception;
 	void modifyArticle(BoardDto boardDto) throws Exception;
 	void deleteArticle(int articleNo) throws Exception;
 	void writeComment(CommentDto commentDto) throws Exception;
