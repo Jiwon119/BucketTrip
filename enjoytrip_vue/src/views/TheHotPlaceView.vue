@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import VCard from '@/components/common/VCard.vue';
 
-const imgSrc = ref('"http://tong.visitkorea.or.kr/cms/resource/01/1999501_image2_1.jpg"')
+const imgSrc = ref('http://tong.visitkorea.or.kr/cms/resource/01/1999501_image2_1.jpg')
 const title = ref("제목")
 const content = ref("내용")
 
