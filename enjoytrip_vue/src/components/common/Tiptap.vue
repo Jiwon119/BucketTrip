@@ -97,6 +97,7 @@ import Dropcursor from '@tiptap/extension-dropcursor'
 import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import axios from 'axios'
 
 const props = defineProps({
   modelValue: {
@@ -147,21 +148,31 @@ const uploadImageTest = () => {
   var bodyData = new FormData();
   var imageFile = document.querySelector("#upload_image").files[0];
   bodyData.append("image", imageFile);
-  fetch("https://api.imgur.com/3/image", {
-    method: "POST",
-    headers: {
-      "user-agent": "curl/7.84.0",
-      Authorization: `Client-ID a96cb206061dfee`,
-      Accept: "application/json",
-    },
-    body: bodyData,
-  }).then(function (res) {
-    return res.json();
-  }).then(function (json) {
-    const url = json.data.link;
-    editor.value.chain().focus().setImage({ src: url }).run()
-    console.log(json.data.link);
-  });
+  axios.post("https://api.imgbb.com/1/upload?key=8239173c3bd0edf4cc0718df6b8b1874", bodyData)
+  .then(res => {
+    console.log(res.data.data.display_url);
+    const url = res.data.data.display_url;
+    editor.value.chain().focus().setImage({src: url}).run();
+    console.log("Add img on Editor");
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  // fetch("https://api.imgur.com/3/image", {
+  //   method: "POST",
+  //   headers: {
+  //     "user-agent": "curl/7.84.0",
+  //     Authorization: `Client-ID a96cb206061dfee`,
+  //     Accept: "application/json",
+  //   },
+  //   body: bodyData,
+  // }).then(function (res) {
+  //   return res.json();
+  // }).then(function (json) {
+  //   const url = json.data.link;
+  //   editor.value.chain().focus().setImage({ src: url }).run()
+  //   console.log(json.data.link);
+  // });
 
   // 
 
