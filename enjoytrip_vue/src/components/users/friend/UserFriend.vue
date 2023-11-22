@@ -36,7 +36,7 @@ const friendProfiles = Array.from({ length: friendCount }, () => props.info);
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  border: solid black 1px;
+  border: rgb(203, 203, 203) solid 1px;
 }
 
 .friend-info {

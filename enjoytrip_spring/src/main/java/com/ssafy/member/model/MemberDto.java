@@ -27,6 +27,9 @@ public class MemberDto {
 	
 	@ApiModelProperty(value = "번호")
 	private String phone;
+
+	@ApiModelProperty(value = "프로필 사진")
+	private String profilePicture;
 	
 	@ApiModelProperty(value = "가입일")
 	private String joinDate;

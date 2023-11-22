@@ -1,8 +1,25 @@
 <script setup>
 import { ref } from 'vue';
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
+import { useMemberStore } from "@/stores/member";
 import UserFriend from './friend/UserFriend.vue';
 import FriendRequestAccept from "./friend/FriendRequestAccept.vue";
 
+const router = useRouter();
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+
+const userProfile = ref({
+    id: userInfo.value.id,
+    name: userInfo.value.name,
+    profilePicture: userInfo.value.profilePicture,
+    birth: userInfo.value.birth.slice(0, 10),
+    email: userInfo.value.email,
+    phone: userInfo.value.phone,
+    joinDate: userInfo.value.joinDate.slice(0, 10),
+});
+console.log("userProfile.value", userProfile.value);
 const friendData = ref({
     name: '친구의 이름',
     profilePicture: 'https://i.ibb.co/Vm3Hv1C/ssafy-logo.png',
@@ -15,10 +32,12 @@ const friendData = ref({
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
-                    <img src="https://i.ibb.co/Vm3Hv1C/ssafy-logo.png" class="card-img-top" alt="프로필 이미지" />
+                    <div class="img-container">
+                        <img :src="userProfile.profilePicture" class="profile-img" alt="프로필 이미지" />
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title">이름: 사용자 이름</h5>
-                        <p class="card-text">생일: 생일 정보</p>
+                        <h5 class="card-title">이름: {{ userProfile.name }}</h5>
+                        <p class="card-text">생일: {{ userProfile.birth }}</p>
                     </div>
                 </div>
             </div>
@@ -27,15 +46,15 @@ const friendData = ref({
                     <div class="card-body">
                         <h5 class="card-title">내 정보</h5>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">아이디: 사용자 아이디</li>
-                            <li class="list-group-item">이메일: user@example.com</li>
-                            <li class="list-group-item">핸드폰번호: 010-1234-5678</li>
-                            <li class="list-group-item">가입날짜: 2023년 11월 22일</li>
+                            <li class="list-group-item">아이디: {{ userProfile.id }}</li>
+                            <li class="list-group-item">이메일: {{ userProfile.email }}</li>
+                            <li class="list-group-item">핸드폰번호: {{ userProfile.phone }}</li>
+                            <li class="list-group-item">가입날짜: {{ userProfile.joinDate }}</li>
                             <!-- 기타 사용자 정보 항목을 추가하세요. -->
                         </ul>
                     </div>
                 </div>
-                <router-link :to="{ name: 'edit' }" class="btn btn-primary">개인 정보 수정</router-link>
+                <router-link :to="{ name: 'edit' }" class="btn btn-outline-secondary m-3">개인 정보 수정</router-link>
             </div>
             <UserFriend :info="friendData" />
             <FriendRequestAccept />
@@ -48,5 +67,24 @@ const friendData = ref({
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+}
+
+.img-container {
+    width: 90%;
+    height: 0;
+    padding-top: 90%;
+    margin: 20px auto;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    border: rgb(203, 203, 203) solid 1px;
+}
+
+.profile-img {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 </style>

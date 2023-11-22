@@ -43,7 +43,7 @@ const handleImage = () => {
     var bodyData = new FormData();
     var imageFile = file
     bodyData.append("image", imageFile);
-    axios.post("https://api.imgbb.com/1/upload?key=8239173c3bd0edf4cc0718df6b8b1874", bodyData)
+    axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`, bodyData)
       .then(res => {
         const url = res.data.data.display_url;
         const index = editor.value.getQuill().getSelection().index;
