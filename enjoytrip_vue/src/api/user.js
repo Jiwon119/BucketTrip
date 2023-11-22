@@ -32,4 +32,45 @@ async function update(param, success, fail) {
   await local.put(`/member/updateMember`, param).then(success).catch(fail);
 }
 
-export { userConfirm, findById, tokenRegeneration, logout, regist, update };
+async function findUser(param, success, fail) {
+  await local.post(`/member/info`, param).then(success).catch(fail);
+}
+
+async function getFriends(userId, status, success, fail) {
+  await local
+    .get(`/member/friend/${userId}/${status}`)
+    .then(success)
+    .catch(fail);
+}
+
+async function getFriendRequest(userId, success, fail) {
+  await local.get(`/member/requestFriend/${userId}`).then(success).catch(fail);
+}
+
+async function addFriend(userId, friend, success, fail) {
+  await local
+    .get(`/member/addFriend/${userId}/${friend}`)
+    .then(success)
+    .catch(fail);
+}
+
+async function acceptFriendRequest(userId, friend, success, fail) {
+  await local
+    .get(`/member/acceptFriendRequest/${userId}/${friend}`)
+    .then(success)
+    .catch(fail);
+}
+
+export {
+  userConfirm,
+  findById,
+  tokenRegeneration,
+  logout,
+  regist,
+  update,
+  findUser,
+  getFriends,
+  addFriend,
+  getFriendRequest,
+  acceptFriendRequest,
+};

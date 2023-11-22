@@ -99,6 +99,13 @@ public class MemberController {
 		MemberDto member = memberService.selectMember(id);
 		return new ResponseEntity<MemberDto>(member, HttpStatus.OK);
 	}
+	
+	@ApiOperation(value = "findUser", notes = "유저 검색")
+	@PostMapping("/info")
+	public ResponseEntity<List<MemberDto>> findUser(@RequestBody MemberDto member) throws Exception {
+		List<MemberDto> user = memberService.selectMembers(member);
+		return new ResponseEntity<List<MemberDto>>(user, HttpStatus.OK);
+	}
 
 	@ApiOperation(value = "deleteMember", notes = "유저 탈퇴")
 	@DeleteMapping("/delete/{userId}")
@@ -169,6 +176,41 @@ public class MemberController {
 		map.put("members", members);
 
 		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "getFriends", notes = "친구 조회")
+	@GetMapping("/friend/{userId}/{status}")
+	private ResponseEntity<?> getFriends(@PathVariable("userId") String id,
+			@PathVariable("status") String status) throws Exception {
+		List<MemberDto> friends = memberService.getFriends(id, status);
+
+		return new ResponseEntity<>(friends, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "requestFriend", notes = "친구 요청 조회")
+	@GetMapping("/requestFriend/{userId}")
+	private ResponseEntity<?> getFriendsRequest(@PathVariable("userId") String id) throws Exception {
+		List<MemberDto> request = memberService.getFriendsRequest(id);
+		return new ResponseEntity<>(request, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "addFriend", notes = "친구 추가")
+	@GetMapping("/addFriend/{userId}/{status}")
+	private ResponseEntity<?> addFriend(@PathVariable("userId") String id,
+			@PathVariable("friend") String friend) throws Exception {
+		memberService.addFriends(id, friend, 0);
+
+		return new ResponseEntity<>("", HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "addFriend", notes = "친구 수락")
+	@GetMapping("/acceptFriendRequest/{userId}/{friend}")
+	private ResponseEntity<?> acceptFriendRequest(@PathVariable("userId") String id,
+			@PathVariable("friend") String friend) throws Exception {
+		memberService.addFriends(id, friend, 1);
+		memberService.updateFriendState(friend, id);
+		
+		return new ResponseEntity<>("", HttpStatus.OK);
 	}
 
 }

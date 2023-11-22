@@ -3,7 +3,13 @@ import { useRouter } from "vue-router";
 import { defineStore } from "pinia";
 import { jwtDecode } from "jwt-decode";
 
-import { userConfirm, findById, tokenRegeneration, logout, regist } from "@/api/user";
+import {
+  userConfirm,
+  findById,
+  tokenRegeneration,
+  logout,
+  regist,
+} from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
 
 export const useMemberStore = defineStore("memberStore", () => {
@@ -33,7 +39,6 @@ export const useMemberStore = defineStore("memberStore", () => {
           sessionStorage.setItem("accessToken", accessToken);
           sessionStorage.setItem("refreshToken", refreshToken);
           console.log("sessiontStorage에 담았다", isLogin.value);
-
         } else {
           console.log("로그인 실패했다");
           isLogin.value = false;
@@ -62,7 +67,9 @@ export const useMemberStore = defineStore("memberStore", () => {
         }
       },
       async (error) => {
-        console.error("getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ");
+        console.error(
+          "getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: "
+        );
         isValidToken.value = false;
 
         await tokenRegenerate();
@@ -71,7 +78,10 @@ export const useMemberStore = defineStore("memberStore", () => {
   };
 
   const tokenRegenerate = async () => {
-    console.log("토큰 재발급 >> 기존 토큰 정보 : {}", sessionStorage.getItem("accessToken"));
+    console.log(
+      "토큰 재발급 >> 기존 토큰 정보 : {}",
+      sessionStorage.getItem("accessToken")
+    );
     await tokenRegeneration(
       JSON.stringify(userInfo.value),
       (response) => {

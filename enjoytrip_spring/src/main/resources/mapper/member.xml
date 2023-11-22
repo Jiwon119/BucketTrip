@@ -31,11 +31,32 @@
 	
 	<select id="selectMember" parameterType="map" resultMap="member">
 		select * from member
-		where user_id=#{id}
-			<trim prefix="and" suffixOverrides="and">
-				<if test="eamil != null">user_email = #{eamil}</if>
-				<if test="name != null">and user_name = #{name}</if>
-			</trim>
+		<where>
+			<if test="id != null">
+				and user_id=#{id}
+			</if>
+			<if test="eamil != null">
+				and user_email = #{eamil}
+			</if>
+			<if test="name != null">
+				and user_name like '%#{name}%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectMembers" parameterType="map" resultMap="member">
+		select * from member
+		<where>
+			<if test="id != null">
+				and user_id=#{id}
+			</if>
+			<if test="eamil != null">
+				and user_email = #{eamil}
+			</if>
+			<if test="name != null">
+				and user_name like '%${name}%'
+			</if>
+		</where>
 	</select>
 	
 	<update id="updateMember" parameterType="map">
@@ -73,6 +94,35 @@
 		update member
 		set token = #{token, jdbcType=VARCHAR}
 		where user_id = #{id}
+	</update>
+	
+	<select id="getFriends" parameterType="map" resultMap="member">
+		select *
+		from member
+		where user_id in (select f.friend_id
+						 from member m inner join friend f
+						 on (m.user_id = f.user_id)
+						 where m.user_id = #{id}
+						 and status = 1)
+	</select>
+	
+	<select id="getFriendsRequest" parameterType="map" resultMap="member">
+		select *
+		from member m inner join friend f
+		on (m.user_id = f.user_id)
+		where f.friend_id = #{id}
+		and status = 0
+	</select>
+	
+	<insert id="addFriends" parameterType="map">
+		insert into friend(user_id, friend_id, status) 
+		value(#{id}, #{friend}, #{status})
+	</insert>
+
+	<update id="updateFriendState" parameterType="map">
+		update friend set status = 1
+		where user_id = #{userId} 
+		and friend_id = #{friendId}
 	</update>
 	
 
