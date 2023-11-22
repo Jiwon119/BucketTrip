@@ -46,4 +46,6 @@ public interface BoardMapper {
 	List<AttractionInfoDto> listHotPlace();
 
 	BoardDto searchUserBoard(Map<String, String> map);
+
+	List<BoardDto> getUserPosts(String userId);
 }

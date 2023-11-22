@@ -58,7 +58,9 @@ const userProfile = ref({
                 </div>
                 <router-link :to="{ name: 'edit' }" class="btn btn-outline-secondary m-3">개인 정보 수정</router-link>
             </div>
+            <h5 class="title">친구 목록</h5>
             <UserFriend :info="friendData" :refreshAlert="refreshAlert" />
+            <h5 class="title">친구 요청</h5>
             <FriendRequestAccept @on-accept-request="refreshFriendList" />
         </div>
     </div>
@@ -69,6 +71,13 @@ const userProfile = ref({
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+}
+
+.title {
+    font-weight: bold;
+    margin-top: 30px;
+    margin-left: 10px;
+    text-align: left;
 }
 
 .img-container {

@@ -180,4 +180,9 @@
 		and destination_id = #{destinationId}
 	</select>
 
+	<select id="getUserPosts" parameterType="String" resultMap="article">
+		select *
+		from board
+		where user_id = #{userId}
+	</select>
 </mapper>

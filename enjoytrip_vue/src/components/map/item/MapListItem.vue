@@ -86,10 +86,8 @@ const closeModal = () => {
 const moveWrite = () => {
   console.log(props.attraction.id);
   router.push({
-    name: "article-write",
-    state: {
-      contentId: props.attraction.id,
-    }
+    name: 'article-write',
+    params: { contentId: props.attraction.id }
   });
 };
 </script>

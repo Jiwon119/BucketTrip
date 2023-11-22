@@ -122,4 +122,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.searchUserBoard(map);
 	}
 
+
+	@Override
+	public List<BoardDto> getUserPosts(String userId) {
+		return boardMapper.getUserPosts(userId);
+	}
+
 }

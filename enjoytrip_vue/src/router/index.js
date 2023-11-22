@@ -52,9 +52,10 @@ const router = createRouter({
           component: () => import("@/components/board/BoardDetail.vue"),
         },
         {
-          path: "write",
+          path: "write/:contentId",
           name: "article-write",
           component: () => import("@/components/board/BoardWrite.vue"),
+          props: true,
         },
         {
           path: "modify/:articleno",
