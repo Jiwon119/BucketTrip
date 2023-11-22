@@ -78,7 +78,7 @@ const acceptRequest = (friend) => {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    border: solid black 1px;
+    border: rgb(203, 203, 203) solid 1px;
     margin-right: 10px;
 }
 

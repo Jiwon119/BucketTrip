@@ -148,8 +148,9 @@ public class MemberController {
 
 	@ApiOperation(value = "updateMember", notes = "회원 정보 수정")
 	@PutMapping("/updateMember")
-	private ResponseEntity<?> updateMember(MemberDto member) throws Exception {
+	private ResponseEntity<?> updateMember(@RequestBody MemberDto member) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(member);
 		int state = memberService.updateMember(member);
 		if (state == 1) {
 			map.put("msg", "회원정보 수정 성공");

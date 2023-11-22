@@ -10,6 +10,7 @@
 		<result column="user_name" property="name"/> 
 		<result column="user_birth" property="birth"/>
 		<result column="user_phone" property="phone"/>
+		<result column="user_profile_picture" property="profilePicture"/>
 		<result column="join_date" property="joinDate"/>
 	</resultMap>
 
@@ -45,6 +46,7 @@
 			<if test="name != null">user_name = #{name},</if>
 			<if test="birth != null">user_birth = #{birth},</if>
 			<if test="phone != null">user_phone = #{phone},</if>
+			<if test="profilePicture != null">user_profile_picture = #{profilePicture},</if>
 		</trim>
 		where user_id = #{id}
 	</update>
