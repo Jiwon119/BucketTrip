@@ -1,20 +1,122 @@
 <script setup>
-import BoardFormItem from "./item/BoardFormItem.vue";
+import { ref } from 'vue';
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import axios from 'axios'
+import { registArticle } from "@/api/board";
+
+const param = ref({
+  destinationId: "125266",
+  userId: "ssafy",
+  userName: "김싸피",
+  subject: "",
+  content: "",
+
+})
+
+const editor = ref(null);
+const title = ref("");
+
+const handleImage = () => {
+  const input = document.createElement("input");
+  input.setAttribute("type", "file");
+  input.setAttribute("accept", "image/*");
+  input.click();
+  input.onchange = async () => {
+    const file = input.files[0];
+
+    var bodyData = new FormData();
+    var imageFile = file
+    bodyData.append("image", imageFile);
+    axios.post("https://api.imgbb.com/1/upload?key=8239173c3bd0edf4cc0718df6b8b1874", bodyData)
+      .then(res => {
+        const url = res.data.data.display_url;
+        const index = editor.value.getQuill().getSelection().index;
+        editor.value.getQuill().setSelection(index, 1);
+        editor.value.getQuill().insertEmbed(index, 'image', url);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+}
+
+var toolbarOptions = {
+  container: [
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["blockquote", "code-block"],
+
+    // [{ header: 1 }, { header: 2 }], // custom button values
+    [{ list: "ordered" }, { list: "bullet" }],
+    // [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    [{ direction: "rtl" }], // text direction
+
+    [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
+
+    ["link", "image"],
+
+    ["clean"], // remove formatting button
+    ,
+  ],  // Selector for toolbar container
+  handlers: {
+    'image': handleImage
+  }
+
+
+};
+
+const getArticleList = () => {
+  console.log("글쓰기");
+  // API 호출
+  registArticle(
+    param.value,
+    ({ data }) => {
+      console.log(data);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+};
+
+const Change = () => {
+  param.value.content = editor.value.getHTML();
+  console.log("param.value", param.value);
+}
+
+
 </script>
 
 <template>
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10">
-        <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-          <mark class="sky">글쓰기</mark>
+        <h2 class="my-3 py-3">
+          글쓰기
         </h2>
       </div>
-      <div class="col-lg-10 text-start">
-        <BoardFormItem type="regist" />
+      <div>
+        제목: <input type="text" v-model="param.subject">
+        <input type="button" class="btn btn-outline-secondary" value="버튼" @click="getArticleList" />
+        <QuillEditor theme="snow" :toolbar="toolbarOptions" id="editor" ref="editor" @editor-change="Change" />
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+  margin-bottom: 150px;
+}
+
+input {
+  /* margin-top: 150px; */
+  margin-right: 50px;
+}
+</style>

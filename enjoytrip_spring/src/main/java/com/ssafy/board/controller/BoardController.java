@@ -116,10 +116,10 @@ public class BoardController {
 	@ApiOperation(value = "게시판 글작성", notes = "새로운 게시글 정보를 입력한다.")
 	@PostMapping
 	public ResponseEntity<?> writeArticle(
-			@RequestBody @ApiParam(value = "게시글 정보.", required = true) BoardDto boardDto
+			@RequestBody BoardDto board
 			){
 //			,@RequestParam("upfile") MultipartFile[] files) {
-		log.info("writeArticle boardDto - {}", boardDto);
+		log.info("writeArticle boardDto - {}", board);
 		try {
 //			FileUpload 관련 설정.
 //			log.info("uploadPath : {}, uploadImagePath : {}, uploadFilePath : {}", uploadPath, uploadImagePath, uploadFilePath);
@@ -149,7 +149,7 @@ public class BoardController {
 //				boardDto.setFileInfos(fileInfos);
 //			}
 			
-			boardService.writeArticle(boardDto);
+			boardService.writeArticle(board);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			return exceptionHandling(e);
