@@ -1,18 +1,33 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import axios from 'axios'
 import { registArticle } from "@/api/board";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+
+const props = defineProps({ type: String });
+
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
 
 const param = ref({
-  destinationId: "125266",
+  destinationId: "",
   userId: "ssafy",
   userName: "김싸피",
   subject: "",
   content: "",
 
 })
+
+onMounted(() => {
+  param.value.destinationId = history.state.contentId;
+  param.value.userId = userInfo.value.id;
+  param.value.userName = userInfo.value.name;
+  console.log(props.type);
+});
+
 
 const editor = ref(null);
 const title = ref("");

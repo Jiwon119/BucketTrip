@@ -4,11 +4,15 @@ import { useRoute, useRouter } from "vue-router";
 import { detailArticle, deleteArticle, updateLikes } from "@/api/board";
 import { searchAttractionId } from "@/api/attraction";
 import BoardComment from "./item/BoardComment.vue";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
 
 const route = useRoute();
 const router = useRouter();
 
-// const articleno = ref(route.params.articleno);
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+
 const { articleno } = route.params;
 
 const articles = ref({});
@@ -119,10 +123,10 @@ const onRecommend = () => {
               <button type="button" class="btn btn-outline-secondary mb-3" @click="moveList">
                 글목록
               </button>
-              <button type="button" class="btn btn-outline-secondary mb-3 ms-1" @click="moveModify">
+              <button type="button" class="btn btn-outline-secondary mb-3 ms-1" v-if="articles.userId === userInfo.id" @click="moveModify">
                 글수정
               </button>
-              <button type="button" class="btn btn-outline-secondary mb-3 ms-1" @click="onDeleteArticle">
+              <button type="button" class="btn btn-outline-secondary mb-3 ms-1" v-if="articles.userId === userInfo.id" @click="onDeleteArticle">
                 글삭제
               </button>
             </div>
