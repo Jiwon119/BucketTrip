@@ -5,8 +5,6 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import axios from 'axios'
 
-const imgSrc = ref('http://tong.visitkorea.or.kr/cms/resource/70/608470_image2_1.jpg')
-const title = ref("제목")
 const content = ref("내용")
 
 const editor = ref(null);
@@ -36,7 +34,6 @@ const handleImage = () => {
 }
 
 var toolbarOptions = {
-
   container: [
     ["bold", "italic", "underline", "strike"], // toggled buttons
     ["blockquote", "code-block"],
@@ -71,9 +68,7 @@ var toolbarOptions = {
 
 <template>
   <div>Main 화면 입니다.</div>
-  <div>
-    <QuillEditor theme="snow" :toolbar="toolbarOptions" id="editor" ref="editor" @editor-change="Change" />
-  </div>
+
   <img src="https://i.imgur.com/ZLg4ojd.png" />
   <Tiptap v-model="content" />
   <div class="content">

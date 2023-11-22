@@ -68,9 +68,9 @@ const onRecommend = () => {
     articles.value.likes = articles.value.likes + 1;
     console.log("추천 성공");
   },
-  (error) => {
-    console.log(error);
-  });
+    (error) => {
+      console.log(error);
+    });
 };
 
 </script>
@@ -88,12 +88,12 @@ const onRecommend = () => {
               <p>
                 <span class="fw-bold">{{ articles.userName }}</span> <br />
                 <span class="text-secondary fw-light">
-                  {{ articles.registerTime }} | 조회 : {{ articles.hit +1}}
+                  {{ articles.registerTime }} | 조회 : {{ articles.hit + 1 }}
                 </span>
               </p>
             </div>
             <div class="text-secondary">
-              {{ articles.content }}
+              <div v-html="articles.content"></div>
               <p>이 글이 도움이 되었다면?</p>
               <button type="button" class="btn btn-outline-secondary mb-3" @click="onRecommend">
                 추천! {{ articles.likes }}
@@ -143,8 +143,10 @@ const onRecommend = () => {
 }
 
 .image-container img {
-  width: 200px; /* 이미지의 가로 크기를 조절합니다. */
-  height: 200px; /* 이미지의 세로 크기를 조절합니다. */
+  width: 200px;
+  /* 이미지의 가로 크기를 조절합니다. */
+  height: 200px;
+  /* 이미지의 세로 크기를 조절합니다. */
   object-fit: cover;
 }
 
