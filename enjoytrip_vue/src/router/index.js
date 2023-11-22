@@ -128,13 +128,17 @@ const router = createRouter({
         {
           path: "mypage",
           name: "mypage",
-          beforeEnter: onlyAuthUser,
           component: () => import("@/components/users/UserMyPage.vue"),
         },
         {
           path: "friend",
           name: "friend",
           component: () => import("@/components/users/UserMyPage.vue"),
+        },
+        {
+          path: "edit",
+          name: "edit",
+          component: () => import("@/components/users/UserEdit.vue"),
         },
         // {
         //   path: "modify/:userid",
