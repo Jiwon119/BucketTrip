@@ -133,13 +133,15 @@ const addFriend = (friend) => {
   padding: 0 30px;
   margin: 10px;
   position: relative;
+  overflow-x: auto;
 }
 
 .friend-profile {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 10px;
+  margin: 0px 20px;
+
 }
 
 .add-friend-button {

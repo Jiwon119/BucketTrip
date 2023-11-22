@@ -60,6 +60,10 @@ function searchUserBoard(param, success, fail) {
     .catch(fail);
 }
 
+function getUserPosts(userId, success, fail) {
+  local.get(`${url}/getUserPosts/${userId}`).then(success).catch(fail);
+}
+
 export {
   listArticle,
   detailArticle,
@@ -72,4 +76,5 @@ export {
   updateLikes,
   listHotPlace,
   searchUserBoard,
+  getUserPosts,
 };

@@ -7,7 +7,7 @@ import { registArticle } from "@/api/board";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 
-const props = defineProps({ type: String });
+const props = defineProps({ type: String, contentId: String });
 
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
@@ -22,10 +22,10 @@ const param = ref({
 })
 
 onMounted(() => {
-  param.value.destinationId = history.state.contentId;
+  param.value.destinationId = props.contentId;
   param.value.userId = userInfo.value.id;
   param.value.userName = userInfo.value.name;
-  console.log(props.type);
+  console.log("props.contentId", props.contentId);
 });
 
 
@@ -117,7 +117,8 @@ const Change = () => {
         </h2>
       </div>
       <div>
-        제목: <input type="text" v-model="param.subject">
+        제목: <input type="text" class="form-control" v-model="param.subject">
+        장소: <input type="text" class="form-control" v-model="param.destinationId">
         <input type="button" class="btn btn-outline-secondary" value="버튼" @click="getArticleList" />
         <QuillEditor theme="snow" :toolbar="toolbarOptions" id="editor" ref="editor" @editor-change="Change" />
       </div>

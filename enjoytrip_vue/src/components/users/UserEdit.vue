@@ -55,11 +55,10 @@ const submitForm = () => {
             console.log(error);
         }
     );
+    alert("수정이 완료되었습니다.")
+    router.push({ name: 'mypage' })
 };
 
-const showFileInput = () => {
-    isFileInputVisible.value = true;
-};
 </script>
 
 <template>
@@ -81,7 +80,6 @@ const showFileInput = () => {
                         </div>
                         <input class="form-control" type="file" id="profilePicture" @change="handleProfilePictureChange"
                             accept="image/*" style="display: none;">
-
                     </div>
                 </div>
                 <div class="col-md-8">
