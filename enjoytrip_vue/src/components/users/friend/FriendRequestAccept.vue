@@ -1,41 +1,46 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+import { getFriendRequest, acceptFriendRequest } from "@/api/user";
 
-const friendRequests = ref([
-    {
-        name: '친구1의 이름',
-        profilePicture: 'https://i.ibb.co/Vm3Hv1C/ssafy-logo.png',
-        id: '친구1의 아이디',
-    },
-    {
-        name: '친구2의 이름',
-        profilePicture: 'https://i.ibb.co/Vm3Hv1C/ssafy-logo.png',
-        id: '친구2의 아이디',
-    },
-    {
-        name: '친구3의 이름',
-        profilePicture: 'https://i.ibb.co/Vm3Hv1C/ssafy-logo.png',
-        id: '친구3의 아이디',
-    },
-    {
-        name: '친구4의 이름',
-        profilePicture: 'https://i.ibb.co/Vm3Hv1C/ssafy-logo.png',
-        id: '친구4의 아이디',
-    },
-    {
-        name: '친구5의 이름',
-        profilePicture: 'https://i.ibb.co/Vm3Hv1C/ssafy-logo.png',
-        id: '친구5의 아이디',
-    },
-    {
-        name: '친구6의 이름',
-        profilePicture: 'https://i.ibb.co/Vm3Hv1C/ssafy-logo.png',
-        id: '친구6의 아이디',
-    },
-]);
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+const friendRequests = ref([]);
+
+const emit = defineEmits(["onAcceptRequest"]);
+
+const onAcceptRequest = () => {
+    emit("onAcceptRequest");
+};
+
+onMounted(() => {
+    setFriendRequest();
+})
+
+const setFriendRequest = () => {
+    getFriendRequest(
+        userInfo.value.id,
+        ({ data }) => {
+            console.log("data", data);
+            friendRequests.value = data;
+        }, (error) => {
+            console.error("Error fetching isFavorite:", error);
+        });
+};
 
 const acceptRequest = (friend) => {
-    alert(`친구 요청을 수락했습니다. 요청을 보낸 사람: ${friend.name}`);
+    console.log(friend);
+    acceptFriendRequest(
+        userInfo.value.id, friend.id,
+        ({ data }) => {
+            console.log("data", data);
+            friendRequests.value = data;
+            onAcceptRequest();
+            setFriendRequest();
+        }, (error) => {
+            console.error("Error fetching isFavorite:", error);
+        });
 };
 </script>
 
@@ -43,7 +48,9 @@ const acceptRequest = (friend) => {
     <div class="friend-request-accept">
         <div v-for="friend in friendRequests" :key="friend.id" class="friend-request-item">
             <div class="friend-request-info">
-                <img :src="friend.profilePicture" :alt="'프로필 이미지 - ' + friend.name" class="friend-request-picture" />
+                <div class="img-container">
+                    <img :src="friend.profilePicture" :alt="'프로필 이미지 - ' + friend.name" class="profile-img" />
+                </div>
                 <h5>{{ friend.name }}</h5>
                 <p>아이디: {{ friend.id }}</p>
             </div>
@@ -51,6 +58,7 @@ const acceptRequest = (friend) => {
         </div>
     </div>
 </template>
+
 
 <style scoped>
 .friend-request-accept {
@@ -89,5 +97,23 @@ const acceptRequest = (friend) => {
 
 .btn-success {
     margin-top: 10px;
+}
+
+.img-container {
+    width: 70px;
+    height: 70px;
+    margin: 20px auto;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    border: rgb(203, 203, 203) solid 1px;
+}
+
+.profile-img {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 </style>

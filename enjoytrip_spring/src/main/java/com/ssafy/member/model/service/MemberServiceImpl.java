@@ -41,6 +41,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public List<MemberDto> selectMembers(MemberDto member) {
+		System.out.println(member);
+		return memberMapper.selectMembers(member.getId(), member.getEmail(), member.getName());
+	}
+	
+	@Override
 	public int updateMember(MemberDto member) {
 		return memberMapper.updateMember(member);
 	}
@@ -82,7 +88,24 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.deleteRefreshToken(map);
 	}
 
+	@Override
+	public List<MemberDto> getFriends(String id, String status) throws Exception {
+		return memberMapper.getFriends(id, status);
+	}
 	
+	@Override
+	public List<MemberDto> getFriendsRequest(String id) throws Exception {
+		return memberMapper.getFriendsRequest(id);
+	}
 
+	@Override
+	public void addFriends(String id, String friend, int state) throws Exception {
+		memberMapper.addFriends(id, friend, state);
+	}
+
+	@Override
+	public void updateFriendState(String userId, String friendId) throws Exception {
+		memberMapper.updateFriendState(userId, friendId);
+	}
 
 }

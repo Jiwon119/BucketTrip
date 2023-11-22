@@ -6,9 +6,15 @@ import { useMemberStore } from "@/stores/member";
 import UserFriend from './friend/UserFriend.vue';
 import FriendRequestAccept from "./friend/FriendRequestAccept.vue";
 
-const router = useRouter();
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
+const refreshAlert = ref(true);
+const refreshFriendList = () => {
+    console.log(refreshAlert.value);
+    refreshAlert.value = !refreshAlert.value
+    console.log(refreshAlert.value);
+
+}
 
 const userProfile = ref({
     id: userInfo.value.id,
@@ -19,12 +25,8 @@ const userProfile = ref({
     phone: userInfo.value.phone,
     joinDate: userInfo.value.joinDate.slice(0, 10),
 });
-console.log("userProfile.value", userProfile.value);
-const friendData = ref({
-    name: '친구의 이름',
-    profilePicture: 'https://i.ibb.co/Vm3Hv1C/ssafy-logo.png',
-    id: '친구의 아이디',
-});
+
+
 </script>
 
 <template>
@@ -56,8 +58,8 @@ const friendData = ref({
                 </div>
                 <router-link :to="{ name: 'edit' }" class="btn btn-outline-secondary m-3">개인 정보 수정</router-link>
             </div>
-            <UserFriend :info="friendData" />
-            <FriendRequestAccept />
+            <UserFriend :info="friendData" :refreshAlert="refreshAlert" />
+            <FriendRequestAccept @on-accept-request="refreshFriendList" />
         </div>
     </div>
 </template>

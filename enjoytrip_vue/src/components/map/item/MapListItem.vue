@@ -85,11 +85,12 @@ const closeModal = () => {
 //글쓰기 라우터
 const moveWrite = () => {
   console.log(props.attraction.id);
-  router.push({ name: "article-write",
-                state: {
-                  contentId: props.attraction.id,
-                }
-             });
+  router.push({
+    name: "article-write",
+    state: {
+      contentId: props.attraction.id,
+    }
+  });
 };
 </script>
 
