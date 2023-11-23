@@ -1,5 +1,4 @@
 <script setup>
-slice
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from "pinia";

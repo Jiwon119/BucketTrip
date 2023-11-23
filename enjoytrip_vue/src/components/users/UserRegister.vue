@@ -21,7 +21,7 @@ const registInfo = ref({
 const regist = async () => {
     // console.log("회원가입 시작 ----");
     await userRegist(registInfo.value);
-    router.push('/login')
+    router.push('/user/login')
 };
 
 </script>
