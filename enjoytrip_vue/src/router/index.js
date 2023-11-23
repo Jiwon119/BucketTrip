@@ -33,6 +33,7 @@ const router = createRouter({
     {
       path: "/log",
       name: "log",
+      beforeEnter: onlyAuthUser,
       component: () => import("../views/TheMyLog.vue"),
     },
     {
@@ -54,25 +55,17 @@ const router = createRouter({
         {
           path: "write/:contentId",
           name: "article-write",
+          beforeEnter: onlyAuthUser,
           component: () => import("@/components/board/BoardWrite.vue"),
           props: true,
         },
         {
           path: "modify/:articleno",
           name: "article-modify",
+          beforeEnter: onlyAuthUser,
           component: () => import("@/components/board/BoardModify.vue"),
         },
       ],
-    },
-    {
-      path: "/estations",
-      name: "estations",
-      component: () => import("@/views/TheElectricChargingStation.vue"),
-    },
-    {
-      path: "/camp",
-      name: "camp",
-      component: () => import("@/views/TheCapmingView.vue"),
     },
     {
       path: "/map",
