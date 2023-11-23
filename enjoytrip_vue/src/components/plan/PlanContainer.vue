@@ -70,6 +70,7 @@ const selected = ref({})
 </script>
 
 <template>
+  <h2 class="my-3 py-3 text-center">버킷리스트</h2>
   <div class="row">
     <div class="col-6">
       <planMap :planList="plans[MapListId].attrInfo" />

@@ -29,12 +29,15 @@ const checkboxClick = (val) => {
 <style scoped>
 .favoriteCard {
   position: relative;
+  display: inline-block;
 }
 
 .checkbox {
   position: absolute;
+  width: 30px;
+  height: 30px;
   left: 20px;
-  top: 10px;
+  top: 18px;
   z-index: 1;
 }
 </style>

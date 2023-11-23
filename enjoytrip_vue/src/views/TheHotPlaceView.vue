@@ -36,7 +36,7 @@ const cardClick = (value) => {
 <template>
   <div>
     <div class="topPlace">
-      <h1><strong>TOP Place</strong></h1>
+      <h2 class="my-3 py-3 text-center">Hot Place</h2>
       <div class="topPlacelist">
         <template v-for="item in list" :key="item.contentId">
           <VCard :imgSrc="item.firstImage" :title="item.title" :content="item.addr1" @click="cardClick(item.contentId)" />
@@ -46,8 +46,8 @@ const cardClick = (value) => {
     <div class="place">
       <!-- <template v-for="(item, index) in 10" :key="index">
 
-                                <VCard :imgSrc="imgSrc" :title="title" :content="content" width="200px" />
-                              </template> -->
+                                      <VCard :imgSrc="imgSrc" :title="title" :content="content" width="200px" />
+                                    </template> -->
     </div>
   </div>
 </template>

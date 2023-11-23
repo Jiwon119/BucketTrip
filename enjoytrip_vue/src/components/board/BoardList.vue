@@ -81,7 +81,7 @@ const onPageChange = (val) => {
       </div>
       <div class="col-lg-10 board-list-item">
         <div class="row align-self-center mb-2">
-          <div class="col-md-5 offset-5">
+          <div class="col-md-5 offset-7">
             <form class="d-flex">
               <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
               <div class="input-group input-group-sm">

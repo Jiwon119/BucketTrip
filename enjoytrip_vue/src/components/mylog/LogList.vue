@@ -82,7 +82,7 @@ const onPageChange = (val) => {
                             <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control" v-model="param.word" placeholder="검색어..." />
-                                <button class="btn btn-secondary" type="button" @click="getArticleList">
+                                <button class="btn btn-dark" type="button" @click="getArticleList">
                                     검색
                                 </button>
                             </div>

@@ -1,9 +1,5 @@
 <script setup>
 
-
-import post from "@/components/main/post.vue";
-import intro from "@/components/main/intro.vue";
-
 </script>
 
 
