@@ -232,7 +232,6 @@ public class BoardController {
 	@GetMapping("/hotPlace")
 	public ResponseEntity<?> listHotPlace() {
 		try {
-			System.out.println("dddsdsafldfkadfklasdjflsdjlk");
 			List<AttractionInfoDto> placeList = boardService.listHotPlace();
 			
 			return new ResponseEntity<>(placeList, HttpStatus.CREATED);
@@ -263,7 +262,7 @@ public class BoardController {
 	@GetMapping("/getUserPosts/{userId}")
 	public ResponseEntity<?> getUserPosts(@PathVariable String userId) {
 		try {
-			List<BoardDto> result = boardService.getUserPosts(userId);
+			BoardListDto result = boardService.getUserPosts(userId);
 			log.debug("결과 : {}", result);
 			return new ResponseEntity<>(result, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -271,6 +270,7 @@ public class BoardController {
 		}
 	}
 	
+
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();

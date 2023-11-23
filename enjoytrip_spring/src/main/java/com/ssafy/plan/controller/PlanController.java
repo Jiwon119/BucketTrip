@@ -65,20 +65,7 @@ public class PlanController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<PlanDto> list = planService.getPlaceList(planId);
-		
-		
-//		List<AttractionInfoDto> attInfoList = new ArrayList<AttractionInfoDto>();
-//		List<AttractionDescriptionDto> attDescList = new ArrayList<AttractionDescriptionDto>();
-//		
-//		
-//		
-//		
-//		if(list.size()>0)
-//			log.debug("Plan LLLL : {}", list.get(0).getAttrInfo());
-//		log.debug("Plan List : {}", list);
-//		log.debug("Plan List : {}", list);
 		map.put("planList", list);
-
 		
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
@@ -103,12 +90,13 @@ public class PlanController {
 			planService.createJoinPlace(li, planInfo.getId());
 		}
 		
-		log.debug("map.list : {}", list);
-		log.debug("listlistlistlist : {}", list.get(1));
+		
+		log.debug("map.get(\"friends\") : {}", map.get("friends"));
 		
 		List<String> friends = (List<String>) map.get("friends");
 		friends.add(planInfo.getUserId());
 
+		log.debug("dddddd : {}", friends);
 		for (String li : friends) {
 			planService.createJoinFriend(li, planInfo.getId());
 		}

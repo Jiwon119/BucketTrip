@@ -58,7 +58,7 @@ if (!menuState.value) {
               <router-link :to="{ name: 'board' }" class="nav-link">게시판</router-link>
             </li>
             <li class="nav-item m-2">
-              <router-link :to="{ name: 'board' }" class="nav-link">여행로그</router-link>
+              <router-link :to="{ name: 'log' }" class="nav-link">여행로그</router-link>
             </li>
           </ul>
 
