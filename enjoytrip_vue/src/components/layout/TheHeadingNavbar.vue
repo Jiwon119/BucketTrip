@@ -42,41 +42,23 @@ if (!menuState.value) {
 
         <div class="collapse navbar-collapse" id="navbarColor04">
           <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <router-link :to="{ name: 'board' }" class="nav-link">게시판</router-link>
+            <li class="nav-item m-2">
+              <router-link :to="{ name: 'map' }" class="nav-link">관광지검색</router-link>
             </li>
-            <li class="nav-item">
-              <router-link :to="{ name: 'estations' }" class="nav-link">전기차충전소</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link :to="{ name: 'camp' }" class="nav-link">camp</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/" class="nav-link">-----</router-link>
-            </li>
-            <li class="nav-item">
+            <li class="nav-item m-2">
               <router-link :to="{ name: 'favorite' }" class="nav-link">즐겨찾기</router-link>
             </li>
-            <li class="nav-item">
-              <router-link :to="{ name: 'map' }" class="nav-link">지도</router-link>
+            <li class="nav-item m-2">
+              <router-link :to="{ name: 'plan' }" class="nav-link">버킷리스트</router-link>
             </li>
-            <li class="nav-item">
-              <router-link :to="{ name: 'hotplace' }" class="nav-link">후기</router-link>
+            <li class="nav-item m-2">
+              <router-link :to="{ name: 'hotplace' }" class="nav-link">핫플</router-link>
             </li>
-            <li class="nav-item">
-              <router-link :to="{ name: 'plan' }" class="nav-link">여행 계획</router-link>
+            <li class="nav-item m-2">
+              <router-link :to="{ name: 'board' }" class="nav-link">게시판</router-link>
             </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-                aria-expanded="false">Dropdown</a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-              </div>
+            <li class="nav-item m-2">
+              <router-link :to="{ name: 'board' }" class="nav-link">여행로그</router-link>
             </li>
           </ul>
 
@@ -111,5 +93,9 @@ if (!menuState.value) {
 .nav-item * {
   color: #7685b5;
   margin-top: 15px;
+}
+
+li {
+  font-size: 18px;
 }
 </style>
