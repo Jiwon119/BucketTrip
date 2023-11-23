@@ -59,23 +59,24 @@ const setUserPostAttr = () => {
 
 <template>
   <template v-for="list in props.planList" :key="props.planList.id">
-    <div class="favoriteCard">
+    <div class="favoriteCard card mb-3 shadow">
       <div @click="clickPlan(list)">
-        <div>제목 : {{ list.title }}</div>
-        <div>내용 : {{ list.content }}</div>
+        <h2 class="card-title">{{ list.title }}</h2>
+        <p class="card-text">{{ list.content }}</p>
         <template v-for="item in list.attrInfo" :key="item.id">
-          <div class="div">
+          <div class="button">
             <div v-if="userAttrId.includes(item.contentId)">
-              <input type="button" class="btn btn-secondary" @click="clickStamp(item.contentId)">
+              <img class="btn" src="@/assets/medal_true.png" @click="clickStamp(item.contentId)">
+              <!-- <input type=" button" class="btn btn-secondary""> -->
             </div>
             <div v-else>
-              <input type="button" class="btn btn-primary" @click="router.push({
+              <img class="btn" src="@/assets/medal_false.png" @click="router.push({
                 name: 'article-write',
                 params: { contentId: item.contentId }
               })">
             </div>
             <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1" @click="onSelect(list)"
-              width="100px" />
+              width="180px" />
           </div>
         </template>
       </div>
@@ -85,23 +86,40 @@ const setUserPostAttr = () => {
 
 <style scoped>
 .favoriteCard {
+  border: none;
   position: relative;
-  background-color: rgb(199, 199, 199);
+  background-color: rgb(255, 255, 255);
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
 }
 
-.div {
+.button {
   display: inline-block;
-  justify-content: center;
-  flex-wrap: wrap;
+
 }
 
 .btn {
+  width: 80px;
   position: relative;
-  left: -40px;
-  top: 60px;
+  left: -50px;
+  top: 80px;
   z-index: 1;
+}
+
+.shadow {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  text-align: left;
+  font-weight: bold;
+  padding: 30px 0px 0px 30px;
+}
+
+.card-text {
+  text-align: left;
+  font-weight: bold;
+  padding: 0px 0px 0px 30px;
 }
 </style>
