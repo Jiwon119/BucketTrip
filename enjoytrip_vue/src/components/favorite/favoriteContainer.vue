@@ -53,7 +53,6 @@ const onCheckboxClick = (value) => {
     checkbox.value.splice(idx, 1);
   }
 }
-// { name: 'Query', query: { name: 'Query 선언적 방식', age: 1 } }
 const moveWrite = () => {
   router.push({ name: "writePlan", query: { checkList: checkbox.value } });
 };
@@ -64,11 +63,20 @@ const moveWrite = () => {
     <div class="col-8">
       <favoriteMap :favoriteList="favorites" :selectedList="selected" />
     </div>
-    <div class="col-4">
+    <div class="col-4 favorite-list-item">
       <button class="btn" @click="moveWrite">여행 생성</button>
       <favoriteList :favoriteList="favorites" @onFavoriteSelect="selectedList" @onCheckboxClick="onCheckboxClick" />
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.favorite-list-item {
+  max-height: 700px;
+  overflow-y: auto;
+}
+
+.favorite-list-item::-webkit-scrollbar{
+  display: none;
+}
+</style>
