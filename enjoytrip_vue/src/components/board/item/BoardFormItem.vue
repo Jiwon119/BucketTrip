@@ -1,12 +1,15 @@
 <script setup>
-import { registArticle, modifyArticle, detailArticle } from "@/api/board";
 import { ref, watch, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { registArticle, modifyArticle, detailArticle } from "@/api/board";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
+import { QuillEditor } from '@vueup/vue-quill'
+import axios from 'axios'
 
 const router = useRouter();
 const route = useRoute();
+
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 
@@ -27,19 +30,17 @@ const article = ref({
   fileInfos: null,
 });
 
-const upfile = ref();
-const image = ref();
 
 if (props.type === "modify") {
   let { articleno } = route.params;
-  console.log(articleno + "번글 얻어와서 수정할거야");
   // API 호출
   isUseId.value = true;
 
   detailArticle(articleno, ({ data }) => {
-    console.log(data);
+    console.log("data", data);
     article.value = data.article;
     console.log(data)
+    editor.value.getQuill().pasteHTML(article.value.content);
   },
     (error) => {
       console.log(error);
@@ -51,7 +52,6 @@ onMounted(() => {
   article.value.destinationId = history.state.contentId;
   article.value.userId = userInfo.value.id;
   article.value.userName = userInfo.value.name;
-  console.log(props.type);
 });
 
 const subjectErrMsg = ref("");
@@ -117,10 +117,66 @@ function moveList() {
   router.push({ name: "article-list" });
 }
 
-function upload() {
+const editor = ref(null);
+const title = ref("");
 
-  console.log(this)
-  // this.imageUploaded = URL.createObjectURL(this.image)
+const handleImage = () => {
+  const input = document.createElement("input");
+  input.setAttribute("type", "file");
+  input.setAttribute("accept", "image/*");
+  input.click();
+  input.onchange = async () => {
+    const file = input.files[0];
+
+    var bodyData = new FormData();
+    var imageFile = file
+    bodyData.append("image", imageFile);
+    axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`, bodyData)
+      .then(res => {
+        const url = res.data.data.display_url;
+        const index = editor.value.getQuill().getSelection().index;
+        editor.value.getQuill().setSelection(index, 1);
+        editor.value.getQuill().insertEmbed(index, 'image', url);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+}
+
+var toolbarOptions = {
+  container: [
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["blockquote", "code-block"],
+
+    // [{ header: 1 }, { header: 2 }], // custom button values
+    [{ list: "ordered" }, { list: "bullet" }],
+    // [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    [{ direction: "rtl" }], // text direction
+
+    [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
+
+    ["link", "image"],
+
+    ["clean"], // remove formatting button
+    ,
+  ],  // Selector for toolbar container
+  handlers: {
+    'image': handleImage
+  }
+
+
+};
+
+const Change = () => {
+  article.value.content = editor.value.getHTML();
+  console.log("article.value", article.value);
 }
 
 
@@ -128,19 +184,25 @@ function upload() {
 
 <template>
   <form @submit.prevent="onSubmit">
-    <div class="mb-3">
-      <label for="subject" class="form-label">제목 : </label>
-      <input type="text" class="form-control" v-model="article.subject" placeholder="제목..." />
-    </div>
-    <div class="mb-3">
-      <label for="content" class="form-label">내용 : </label>
-      <textarea class="form-control" v-model="article.content" rows="10"></textarea>
+    <!-- <div class="mb-3">
+                                                <label for="subject" class="form-label">제목 : </label>
+                                                <input type="text" class="form-control" v-model="article.subject" placeholder="제목..." />
+                                              </div>
+                                              <div class="mb-3">
+                                                <label for="content" class="form-label">내용 : </label>
+                                                <textarea class="form-control" v-model="article.content" rows="10"></textarea>
+                                              </div> -->
+    <div>
+      제목: <input type="text" class="form-control" v-model="article.subject">
+      장소: <input type="text" class="form-control" v-model="article.destinationId">
+      <input type="button" class="btn btn-outline-secondary" value="버튼" @click="onRegistArticle" />
+      <QuillEditor theme="snow" :toolbar="toolbarOptions" id="editor" ref="editor" @editor-change="Change" />
     </div>
 
     <!-- <div class="mb-3">
-      <label for="upfile" class="form-label">파일:</label>
-      <input type="file" class="form-control border" @change="upload(this)" id="upfile" name="upfile" multiple="multiple">
-    </div> -->
+                                                          <label for="upfile" class="form-label">파일:</label>
+                                                          <input type="file" class="form-control border" @change="upload(this)" id="upfile" name="upfile" multiple="multiple">
+                                                        </div> -->
 
     <div class="col-auto text-center">
       <button type="submit" class="btn btn-outline-primary mb-3" v-if="type === 'regist'" @click="writeArticle">
