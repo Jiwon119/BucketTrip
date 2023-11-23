@@ -5,6 +5,8 @@ import { useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
 import { useMenuStore } from "@/stores/menu";
 
+import { searchPass, update } from "@/api/user";
+
 const router = useRouter();
 
 const memberStore = useMemberStore();
@@ -32,6 +34,53 @@ const login = async () => {
     router.push("/");
 };
 
+const resetPasswordModal = ref(false);
+const resetPasswordUser = ref({
+    id: "",
+    email: "",
+    name: "",
+    password: "",
+});
+
+const openResetPasswordModal = () => {
+    resetPasswordModal.value = true;
+};
+
+const closeResetPasswordModal = () => {
+    resetPasswordModal.value = false;
+};
+
+const resetPasswordSubmit = () => {
+    searchPass(
+        resetPasswordUser.value,
+        ({ data }) => {
+            console.log(data);
+            if (data.msg === "회원정보 일치") {
+                resetPasswordUser.value.name = data.member.name;
+                update(
+                    resetPasswordUser.value,
+                    ({ data }) => {
+                        console.log(data);
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
+                alert("비밀번호가 변경되었습니다.");
+            }
+            else{
+                alert("잘못된 회원정보 입니다.");
+            }
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+
+    // await resetPassword(resetPasswordUser.value);
+    closeResetPasswordModal();
+};
+
 </script>
 
 <template>
@@ -56,8 +105,34 @@ const login = async () => {
                 </label>
             </div>
             <button class="btn w-100 py-2" @click="login">로그인</button>
+
+            <!-- Forget Password 기능 -->
+            <div class="mt-3 text-center">
+                <a href="#" @click.prevent="openResetPasswordModal">Forget Password?</a>
+            </div>
+
             <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
         </form>
+
+        <!-- Forget Password 모달 -->
+        <div v-if="resetPasswordModal" class="modal">
+            <div class="modal-content">
+                <span class="close" @click="closeResetPasswordModal">&times;</span>
+                <h2>Reset Password</h2>
+                <form v-on:submit.prevent="resetPasswordSubmit">
+                    <label for="resetId">ID:</label>
+                    <input type="text" id="resetId" v-model="resetPasswordUser.id" required>
+                    <label for="resetEmail">Email:</label>
+                    <input type="email" id="resetEmail" v-model="resetPasswordUser.email" required>
+
+                    <!-- 항상 새로운 비밀번호 입력 폼을 보이도록 설정 -->
+                    <label for="newPassword">New Password:</label>
+                    <input type="password" id="newPassword" v-model="resetPasswordUser.password" required>
+
+                    <button type="submit">Reset Password</button>
+                </form>
+            </div>
+        </div>
 
     </div>
 </template>
@@ -95,4 +170,39 @@ form {
     background-color: #7685b5;
     color: white;
 }
+
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 </style>

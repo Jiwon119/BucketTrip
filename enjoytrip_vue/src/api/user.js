@@ -42,6 +42,11 @@ async function findUser(param, success, fail) {
   await local.post(`/member/info`, param).then(success).catch(fail);
 }
 
+async function searchPass(param, success, fail) {
+  console.log(param);
+  await local.post(`/member/searchPass`, param).then(success).catch(fail);
+}
+
 async function getFriends(userId, status, success, fail) {
   await local
     .get(`/member/friend/${userId}/${status}`)
@@ -80,4 +85,5 @@ export {
   getFriendRequest,
   acceptFriendRequest,
   deleteById,
+  searchPass,
 };

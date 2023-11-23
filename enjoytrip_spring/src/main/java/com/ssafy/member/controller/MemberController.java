@@ -139,12 +139,12 @@ public class MemberController {
 
 	@ApiOperation(value = "searchPass", notes = "비밀번호 찾기_회원 정보 일치 검사")
 	@PostMapping("/searchPass")
-	private ResponseEntity<?> searchPass(@RequestParam("id") String id, @RequestParam("email") String email,
-			@RequestParam("name") String name) throws Exception {
+	private ResponseEntity<?> searchPass(@RequestBody MemberDto member) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		MemberDto member = memberService.searchPass(id, email, name);
-		if (member != null) {
-			map.put("member", member);
+		log.debug("{}{}{}", member.getId(), member.getEmail(), member.getName());
+		MemberDto member2 = memberService.searchPass(member.getId(), member.getEmail(), member.getName());
+		if (member2 != null) {
+			map.put("member", member2);
 			map.put("msg", "회원정보 일치");
 		} else {
 			map.put("msg", "회원정보 없음");
