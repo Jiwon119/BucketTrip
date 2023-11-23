@@ -195,9 +195,10 @@ public class MemberController {
 	}
 	
 	@ApiOperation(value = "addFriend", notes = "친구 추가")
-	@GetMapping("/addFriend/{userId}/{status}")
+	@GetMapping("/addFriend/{userId}/{friend}")
 	private ResponseEntity<?> addFriend(@PathVariable("userId") String id,
 			@PathVariable("friend") String friend) throws Exception {
+		System.out.println(id + friend);
 		memberService.addFriends(id, friend, 0);
 
 		return new ResponseEntity<>("", HttpStatus.OK);

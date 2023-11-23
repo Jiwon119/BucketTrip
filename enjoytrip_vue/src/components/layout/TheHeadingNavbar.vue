@@ -8,7 +8,8 @@ const memberStore = useMemberStore();
 
 // 반응형을 유지하면서 스토어에서 속성을 추출하려면, storeToRefs()를 사용
 // https://pinia.vuejs.kr/core-concepts/
-const { menuList } = storeToRefs(menuStore);
+const { menuList, menuState } = storeToRefs(menuStore);
+const { isLogin } = storeToRefs(memberStore);
 const { changeMenuState } = menuStore;
 const { userLogout } = memberStore;
 
@@ -16,7 +17,14 @@ const logout = () => {
   console.log("로그아웃!!!!");
   userLogout("ssafy");
   changeMenuState();
+  menuState.value = false;
 };
+
+if (!menuState.value) {
+  if (isLogin.value) {
+    changeMenuState();
+  }
+}
 </script>
 
 <template>

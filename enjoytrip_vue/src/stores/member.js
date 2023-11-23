@@ -171,4 +171,4 @@ export const useMemberStore = defineStore("memberStore", () => {
     userLogout,
     userRegist,
   };
-});
+}, {persist:{storage:sessionStorage}});

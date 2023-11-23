@@ -22,7 +22,7 @@ const setFriendRequest = () => {
     getFriendRequest(
         userInfo.value.id,
         ({ data }) => {
-            console.log("data", data);
+            console.log("getFriendRequest", data);
             friendRequests.value = data;
         }, (error) => {
             console.error("Error fetching isFavorite:", error);
@@ -83,6 +83,7 @@ const acceptRequest = (friend) => {
 
 <style scoped>
 .friend-request-accept {
+    min-height: 100px;
     display: flex;
     overflow-x: auto;
     border: 1px solid #ddd;
