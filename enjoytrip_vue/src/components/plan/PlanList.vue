@@ -6,6 +6,8 @@ import { useMemberStore } from "@/stores/member";
 import { useRouter } from "vue-router";
 import VCard from "../common/VCard.vue";
 
+const currentIndex = ref(0);
+
 const router = useRouter();
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
@@ -17,8 +19,20 @@ const userPostId = ref([]);
 const emit = defineEmits(["onClickPlan"]);
 
 const clickPlan = (val) => {
-  console.log(props.planList)
-  emit("onClickPlan", props.planList.findIndex(i => i.id == val.id));
+
+
+  if(val == 1){
+    currentIndex.value = currentIndex.value +1;
+    if(currentIndex.value >= props.planList.length){
+      currentIndex.value = 0;
+    }
+  }else{
+    currentIndex.value = currentIndex.value -1;
+    if(currentIndex.value < 0){
+      currentIndex.value = props.planList.length-1;
+    }
+  }
+  emit("onClickPlan", props.planList.findIndex(i => i.id == props.planList[currentIndex.value].id));
 }
 
 onMounted(() => {
@@ -66,10 +80,11 @@ const setUserPostAttr = () => {
     </div>
     <div class="carousel-inner">
       <template v-for="(list, index) in props.planList" :key="props.planList.id">
-        <div class="carousel-item pb-5" :class="{ 'active': index == 0 }" data-bs-interval="10000">
+        <div class="carousel-item pb-5" :class="{ 'active': index == 0 }">
           <div class="d-block w-100 ">
             <h2 class="mt-5"> {{ list.title }}</h2>
             <h3>{{ list.content }}</h3>
+            <p>{{ index }} gdgd</p>
             <template v-for="item in list.attrInfo" :key="item.id">
               <div class="button">
                 <template v-if="userAttrId.includes(item.contentId)">
@@ -81,7 +96,7 @@ const setUserPostAttr = () => {
                     params: { contentId: item.contentId }
                   })">
                 </template>
-                <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1" @click="onSelect(list)"
+                <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1"
                   width="180px" />
               </div>
             </template>
@@ -90,11 +105,12 @@ const setUserPostAttr = () => {
       </template>
     </div>
     <button class="carousel-control-prev carousel-dark" type="button" data-bs-target="#carouselExampleInterval"
-      data-bs-slide="prev">
+      data-bs-slide="prev" @click="clickPlan(-1)">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+      data-bs-slide="next" @click="clickPlan(1)">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>

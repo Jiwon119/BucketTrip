@@ -170,21 +170,19 @@ const viewMarker = (data) => {
           </select>
           <input id="search-keyword" class="form-control me-2" type="search" placeholder="검색어" aria-label="검색어"
             name="keyword" v-model="param.keyword" />
-          <!-- <input id="btn-search" class="btn btn-outline-success" type="submit" /> -->
           <button type="button" class="btn btn-outline-danger mb-3 ms-1" @click="getSearchAttractionList">검색</button>
         </form>
         <div class="map-list-item">
           <table class="table table-hover table-fixed">
             <thead>
               <tr class="text-center">
-                <th scope="col">이름</th>
                 <th scope="col"></th>
-                <th scope="col">위치</th>
-                <th scope="col"></th>
+                <th scope="col">즐겨찾기</th>
+                <th scope="col">정보</th>
+                <th scope="col">상세페이지</th>
               </tr>
             </thead>
             <tbody>
-              <!-- <tr class="text-center" v-for="list in attractionData" :key="list.contentId" @click="viewMarker(list)"> -->
               <MapListItem class="text-center" v-for="list in attractionData" :key="list.contentId" :attraction="list"
                 @click="viewMarker(list)"></MapListItem>
             </tbody>
@@ -201,21 +199,22 @@ const viewMarker = (data) => {
   overflow-y: auto;
 }
 
+.map-list-item::-webkit-scrollbar{
+  display: none;
+}
+
 .table-fixed thead {
   width: 100%;
   position: sticky;
   top: 0;
   background-color: white;
-  /* 배경색을 지정해주면 좀 더 보기 좋아집니다. */
 }
 
 .table-fixed tbody td {
   width: 25%;
-  /* 각 열의 너비를 조절하세요. */
   box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* 필요에 따라 생략 부호를 사용하세요. */
   white-space: nowrap;
 }
 </style>
