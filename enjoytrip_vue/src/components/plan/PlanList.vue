@@ -32,6 +32,9 @@ const clickPlan = (val) => {
       currentIndex.value = props.planList.length-1;
     }
   }
+
+  // console.log(props.planList)
+  // console.log(val + "인덱스를 뿌릴거야")
   emit("onClickPlan", props.planList.findIndex(i => i.id == props.planList[currentIndex.value].id));
 }
 
@@ -72,7 +75,7 @@ const setUserPostAttr = () => {
 </script>
 
 <template>
-  <div id="carouselExampleInterval" class="carousel carousel-dark" data-bs-ride="carousel">
+  <div id="carouselExampleInterval" class="carousel carousel-dark" data-bs-ride="false">
     <div class="carousel-indicators">
       <template v-for="(list, index) in props.planList" :key="props.planList.id">
         <button type="button" data-bs-target="#carouselExampleDark" :data-bs-slide-to="index" class="active"></button>
@@ -80,7 +83,7 @@ const setUserPostAttr = () => {
     </div>
     <div class="carousel-inner">
       <template v-for="(list, index) in props.planList" :key="props.planList.id">
-        <div class="carousel-item pb-5" :class="{ 'active': index == 0 }">
+        <div class="carousel-item pb-5" :class="{ 'active': index == 0 }" data-bs-interval="false">
           <div class="d-block w-100 ">
             <h2 class="mt-5"> {{ list.title }}</h2>
             <h3>{{ list.content }}</h3>
