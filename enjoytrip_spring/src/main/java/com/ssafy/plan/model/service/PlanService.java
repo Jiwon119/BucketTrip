@@ -24,5 +24,7 @@ public interface PlanService {
 	void createJoinFriend(String friendName, int planId);
 
 	List<MemberDto> getFriends(int planId);
+
+	List<BoardDto> getFriendsPost(String userId);
 	
 }

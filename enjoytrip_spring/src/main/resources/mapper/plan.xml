@@ -48,6 +48,17 @@
 		<result column="join_date" property="joinDate"/>
 	</resultMap>
 	
+	<resultMap type="boardDto" id="article">
+		<result column="article_no" property="articleNo"/>
+		<result column="destination_id" property="destinationId"/>
+		<result column="user_id" property="userId"/>
+		<result column="user_name" property="userName"/>
+		<result column="subject" property="subject"/>
+		<result column="content" property="content"/>
+		<result column="hit" property="hit"/>
+		<result column="register_time" property="registerTime"/>
+	</resultMap>
+	
 	<select id="getList" resultMap="plan">
 		select *
 		from travel_plan
@@ -94,5 +105,11 @@
 		where user_id in (  select user_id
 							from join_friend
 							where plan_id = #{planId} )
+	</select>
+	
+	<select id="getFriendsPost" parameterType="String" resultMap="article">
+		select *
+		from board
+		where user_id = #{userId}
 	</select>
 </mapper>

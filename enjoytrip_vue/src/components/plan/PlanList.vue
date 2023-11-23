@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { searchUserBoard, getUserPosts } from "@/api/board"
-import { getFriends } from "@/api/plan"
+import { getFriends, getFriendsPost } from "@/api/plan"
 import { useMemberStore } from "@/stores/member";
 import { useRouter } from "vue-router";
 import VCard from "../common/VCard.vue";
@@ -17,6 +17,7 @@ const props = defineProps({ planList: Array })
 const userAttrId = ref([]);
 const userPostId = ref([]);
 const friendsList = ref([]);
+const friendsPost = ref({});
 
 const emit = defineEmits(["onClickPlan"]);
 
@@ -45,17 +46,23 @@ onMounted(() => {
 watch(
   () => props.planList.value,
   () => {
-    props.planList.forEach(element => {
-      console.log(element);
+    props.planList.forEach(async element => {
       getFriendsList(element.id);
       setUserPostAttr();
     })
-    console.log("userAttrId.value", userAttrId.value);
-    console.log("userPostId.value", userPostId.value);
-    console.log("friendsList.value", friendsList.value);
   },
   { deep: true }
 )
+
+watch(
+  () => friendsList.value,
+  () => {
+    console.log("시작?");
+    setFriendsPost();
+  },
+  { deep: true }
+)
+
 
 
 const clickStamp = (contentId) => {
@@ -72,16 +79,12 @@ const setUserPostAttr = () => {
   getUserPosts(
     userInfo.value.id,
     ({ data }) => {
-      console.log("data", data);
       userAttrId.value = []
       userPostId.value = []
       data.forEach(element => {
         userAttrId.value.push(element.destinationId)
         userPostId.value.push(element.articleNo)
       });
-      data
-      console.log("userAttrId.value", userAttrId.value);
-      console.log("friendsList.value", friendsList.value);
     },
     (error) => {
       console.log(error);
@@ -93,13 +96,54 @@ const getFriendsList = (planId) => {
   getFriends(
     planId,
     ({ data }) => {
-      console.log("data", data);
       friendsList.value.push(data);
     },
     (error) => {
       console.log(error);
     }
   );
+}
+
+const setFriendsPost = () => {
+  friendsList.value.forEach((friend, index) => {
+
+    friend.forEach(frId => {
+      getFriendsPost(
+        frId.id,
+        ({ data }) => {
+          console.log(frId.id);
+          console.log("데이터", data);
+          console.log(friendsPost.value.hasOwnProperty(frId.id));
+          if (!friendsPost.value.hasOwnProperty(frId.id)) {
+            friendsPost.value[frId.id] = data;
+          }
+          console.log(friendsPost.value);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    });
+  });
+  // props.planList.forEach(planLi => {
+  //   console.log("planLi", planLi.attrInfo);
+  //   planLi.attrInfo.forEach(att => {
+  //     console.log("att", att);
+  //     friendsList.value.forEach(friend => {
+  //     getFriendsPost(
+  //       att, friend,
+  //       ({ data }) => {
+  //         console.log("-----------------------------", data);
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       }
+  //     );
+  //   });
+  // });
+
+
+
 }
 
 </script>
@@ -127,7 +171,8 @@ const getFriendsList = (planId) => {
               </div>
             </div>
             <template v-for="item in list.attrInfo" :key="item.id">
-              <div class="button">
+              <div class="p-0 button">
+
                 <template v-if="userAttrId.includes(item.contentId)">
                   <img class="btn" src="@/assets/medal_true.png" @click="clickStamp(item.contentId)">
                 </template>
@@ -137,7 +182,25 @@ const getFriendsList = (planId) => {
                     params: { contentId: item.contentId }
                   })">
                 </template>
-                <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1" width="180px" />
+                <div class="row">
+                  <div class="col">
+                    <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1" width="180px" />
+                  </div>
+                </div>
+                <div class="row text-center">
+                  <div class="position-relative">
+                    <template v-for="fr in friendsList[index]" :key="fr.id">
+                      <template v-if="friendsPost[fr.id].findIndex(e => e.destinationId === item.contentId) != -1">
+                        <a class="friendBoard m-1" :href="'/board/view/' + friendsPost[fr.id][friendsPost[fr.id].findIndex(e => e.destinationId ===
+                          item.contentId)].articleNo" style="width: min-content; text-align:center;">{{ fr.id }}</a>
+                      </template>
+                      <template v-else>
+                        <a class="friendBoard m-1" style="color:black;pointer-events: none; cursor: default; ">{{ fr.id
+                        }}</a>
+                      </template>
+                    </template>
+                  </div>
+                </div>
               </div>
             </template>
           </div>
@@ -172,6 +235,10 @@ const getFriendsList = (planId) => {
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
+}
+
+.friendBoard {
+  text-decoration: none;
 }
 
 .button {

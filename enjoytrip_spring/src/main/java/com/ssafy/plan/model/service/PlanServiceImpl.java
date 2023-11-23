@@ -63,6 +63,11 @@ public class PlanServiceImpl implements PlanService {
 		return planMapper.getFriends(planId);
 	}
 
+	@Override
+	public List<BoardDto> getFriendsPost(String userId) {
+		return planMapper.getFriendsPost(userId);
+	}
+
 
 	
 }

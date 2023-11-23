@@ -24,6 +24,8 @@ function getFriends(planId, success, fail) {
   local.get(`${url}/friend/${planId}`).then(success).catch(fail);
 }
 
+function getFriendsPost(userId, success, fail) {
+  local.get(`${url}/getFriendsPost/${userId}`).then(success).catch(fail);
+}
 
-
-export { listPlan, writePlan, listJoinPlace, getFriends };
+export { listPlan, writePlan, listJoinPlace, getFriends, getFriendsPost };
