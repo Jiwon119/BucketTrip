@@ -20,4 +20,10 @@ function writePlan(param, success, fail) {
   local.post(`${url}/write`, param).then(success).catch(fail);
 }
 
-export { listPlan, writePlan, listJoinPlace };
+function getFriends(planId, success, fail) {
+  local.get(`${url}/friend/${planId}`).then(success).catch(fail);
+}
+
+
+
+export { listPlan, writePlan, listJoinPlace, getFriends };

@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.attraction.model.AttractionDescriptionDto;
 import com.ssafy.attraction.model.AttractionInfoDto;
+import com.ssafy.member.model.MemberDto;
 import com.ssafy.plan.model.PlanDto;
 import com.ssafy.plan.model.service.PlanService;
 import io.swagger.annotations.Api;
@@ -88,8 +89,10 @@ public class PlanController {
 	protected ResponseEntity<?> createPlan(
 			@RequestBody Map<String,Object> map) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
-
+		log.debug("---------------------------------------------------map.planInfo : {}", map);
+		
 		PlanDto planInfo = mapper.convertValue(map.get("planInfo"), PlanDto.class);
+		
 		planService.createPlan(planInfo);
 		log.debug("map.planInfo : {}", planInfo);
 		log.debug("dtodtodtodtodtodto : {}", planInfo.getId());
@@ -103,20 +106,25 @@ public class PlanController {
 		log.debug("map.list : {}", list);
 		log.debug("listlistlistlist : {}", list.get(1));
 		
+		List<String> friends = (List<String>) map.get("friends");
+		friends.add(planInfo.getUserId());
+
+		for (String li : friends) {
+			planService.createJoinFriend(li, planInfo.getId());
+		}
 		
-		
-		
-//		log.debug("attrList : {}", planList);
-//		System.out.println(planInfo);
-//		System.out.println(planList);
-		Map<String, Object> map2 = new HashMap<String, Object>();
-//		List<FavoriteDto> list = favoriteService.getList(userId);
-//		
-//		log.debug("Favorite List : {}", list);
-//		map.put("favoriteList", list);
-		
-		return new ResponseEntity<>(map2, HttpStatus.OK);
+		return new ResponseEntity<>("", HttpStatus.OK);
 	}
+	
+	@ApiOperation(value = "plan", notes = "여행계획 친구 목록 검색")
+	@GetMapping("/friend/{planId}")
+	protected ResponseEntity<?> getFriends(@PathVariable int planId) throws Exception {
+		List<MemberDto> list = planService.getFriends(planId);
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	
 //	
 //	@ApiOperation(value = "plan", notes = "여행계획 리스트")
 //	@PutMapping("/write")
