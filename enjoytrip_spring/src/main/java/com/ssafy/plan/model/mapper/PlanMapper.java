@@ -3,6 +3,7 @@ package com.ssafy.plan.model.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.board.model.BoardDto;
 import com.ssafy.favorite.model.FavoriteDto;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.plan.model.PlanDto;
@@ -23,4 +24,6 @@ public interface PlanMapper {
 	void createJoinFriend(String friendName, int planId);
 
 	List<MemberDto> getFriends(int planId);
+
+	List<BoardDto> getFriendsPost(String userId);
 }

@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.attraction.model.AttractionDescriptionDto;
 import com.ssafy.attraction.model.AttractionInfoDto;
+import com.ssafy.board.model.BoardDto;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.plan.model.PlanDto;
 import com.ssafy.plan.model.service.PlanService;
@@ -108,6 +109,15 @@ public class PlanController {
 	@GetMapping("/friend/{planId}")
 	protected ResponseEntity<?> getFriends(@PathVariable int planId) throws Exception {
 		List<MemberDto> list = planService.getFriends(planId);
+
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "plan", notes = "여행계획 친구 목록 검색")
+	@GetMapping("/getFriendsPost/{userId}")
+	protected ResponseEntity<?> getFriendsPost(
+			@PathVariable String userId) throws Exception {
+		List<BoardDto> list = planService.getFriendsPost(userId);
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
