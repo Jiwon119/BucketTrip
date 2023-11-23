@@ -21,6 +21,7 @@ const articles = ref([]);
 const currentPage = ref(1);
 const totalPage = ref(0);
 const { VITE_ARTICLE_LIST_SIZE } = import.meta.env;
+
 const param = ref({
   pgno: currentPage.value,
   spp: VITE_ARTICLE_LIST_SIZE,
@@ -29,6 +30,11 @@ const param = ref({
   destinationId: ""
 });
 
+watch(
+  () => articles.value,
+  () => getArticleList(),
+  { deep: true }
+)
 
 onMounted(() => {
   param.value.destinationId = destinationId.value;
@@ -65,9 +71,6 @@ const onPageChange = (val) => {
   getArticleList();
 };
 
-const moveWrite = () => {
-  router.push({ name: "article-write" });
-};
 </script>
 
 <template>

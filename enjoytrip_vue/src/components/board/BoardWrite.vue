@@ -32,15 +32,15 @@ onMounted(() => {
   console.log("props.contentId", props.contentId);
 
   searchAttractionId(
-      { id: props.contentId },
-      ({ data }) => {
-        console.log(data.title + "gdggddgd" + JSON.stringify(data));
-        attraction.value = data;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    { id: props.contentId },
+    ({ data }) => {
+      console.log(data.title + "gdggddgd" + JSON.stringify(data));
+      attraction.value = data;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
 });
 
 
@@ -164,7 +164,7 @@ const Change = () => {
             <input type="text" class="form-control" v-model="param.subject">
           </div>
           <div class="col-md-1">
-            <input type="button" class="btn btn-outline-secondary" value="글쓰기" @click="getArticleList" />
+            <input type="button" class="btn btn-outline-secondary" value="글쓰기" @click="onRegistArticle" />
           </div>
         </div>
       </div>
