@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import { findUser, getFriends } from "@/api/user";
+import { findUser, getFriends, addFriend } from "@/api/user";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 
@@ -64,14 +64,14 @@ const searchFriend = () => {
     });
 };
 
-const addFriend = (friend) => {
+const OnAddFriend = (friend) => {
   addFriend(
     userInfo.value.id, friend.id,
     ({ data }) => {
       console.log("data", data);
       searchResults.value = data;
     }, (error) => {
-      console.error("Error fetching isFavorite:", error);
+      console.log(error);
     });
 };
 
@@ -115,7 +115,7 @@ const addFriend = (friend) => {
               <li v-for="result in searchResults" :key="result.id"
                 class="list-group-item d-flex justify-content-between align-items-center">
                 <span>{{ result.name }} ({{ result.id }})</span>
-                <button class="btn btn-outline-secondary" @click="addFriend(result)">
+                <button class="btn btn-outline-secondary" @click="OnAddFriend(result)">
                   추가
                 </button>
               </li>
@@ -128,6 +128,7 @@ const addFriend = (friend) => {
 </template>
 <style scoped>
 .friend-card {
+  min-height: 100px;
   display: flex;
   border: 1px solid #ddd;
   padding: 0 30px;

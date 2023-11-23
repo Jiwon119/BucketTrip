@@ -8,10 +8,12 @@ import { useMenuStore } from "@/stores/menu";
 const router = useRouter();
 
 const memberStore = useMemberStore();
+const menuStore = useMenuStore();
 
 const { isLogin } = storeToRefs(memberStore);
+const { menuState } = storeToRefs(menuStore);
 const { userLogin, getUserInfo } = memberStore;
-const { changeMenuState } = useMenuStore();
+const { changeMenuState } = menuStore;
 
 const loginUser = ref({
     id: "ssafy",
@@ -29,6 +31,8 @@ const login = async () => {
         getUserInfo(token);
         changeMenuState();
     }
+
+    menuState.value = true;
     router.push("/");
 };
 
