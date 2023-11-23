@@ -140,7 +140,8 @@ const Change = () => {
           <div class="row g-0">
             <!-- 이미지 -->
             <div class="col-md-4">
-              <img :src="attraction.firstImage" class="img-fluid rounded-start" alt="Attraction Image">
+              <img v-if="attraction.firstImage" :src="attraction.firstImage" class="img-fluid rounded-start" alt="Attraction Image">
+              <img v-else class="card-img" src="https://i.ibb.co/CWZysc0/mountains.png">
             </div>
             <!-- 제목 -->
             <div class="col-md-8">
@@ -186,5 +187,14 @@ const Change = () => {
 input {
   /* margin-top: 150px; */
   margin-right: 50px;
+}
+.card-img {
+  width: 178px;
+  height: 118px;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+  display: block;
+  position: relative;
 }
 </style>
