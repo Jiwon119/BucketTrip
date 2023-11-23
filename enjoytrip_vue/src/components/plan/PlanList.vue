@@ -106,7 +106,7 @@ const getFriendsList = (planId) => {
     </div>
     <div class="carousel-inner">
       <template v-for="(list, index) in props.planList" :key="props.planList.id">
-        <div class="carousel-item pb-5" :class="{ 'active': index == 0 }" data-bs-interval="false">
+        <div class="carousel-item p-5" :class="{ 'active': index == 0 }" data-bs-interval="false">
           <div class="d-block w-100 ">
             <h2 class="mt-5"> {{ list.title }}</h2>
             <h3>{{ list.content }}</h3>

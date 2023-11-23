@@ -172,7 +172,7 @@ const setLine = () => {
         polyline = new kakao.maps.Polyline({
             path: lineList, // 선을 구성하는 좌표배열 입니다
             strokeWeight: 5, // 선의 두께 입니다
-            strokeColor: '#FFAE00', // 선의 색깔입니다
+            strokeColor: '#40596B', // 선의 색깔입니다
             strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
             strokeStyle: 'solid' // 선의 스타일입니다
         });
@@ -197,6 +197,13 @@ const loadMarkers = () => {
     // 마커를 생성합니다
     markers.value = [];
     positions.value.forEach((position) => {
+
+
+        // var imageSrc = 'https://i.ibb.co/6b2j0rT/marker-2.png', // 마커이미지의 주소입니다    
+        //     imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
+        //     imageOption = { offset: new kakao.maps.Point(20, 45) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+        // var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+
         const marker = new kakao.maps.Marker({
             map: map, // 마커를 표시할 지도
             position: position.latlng, // 마커를 표시할 위치

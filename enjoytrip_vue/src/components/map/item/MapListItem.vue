@@ -114,7 +114,9 @@ const moveWrite = () => {
       {{ props.attraction.content }}
     </td>
     <td>
-      <button class="btn btn-outline-secondary" @click="openModal">Button</button>
+      <button class="btn btn-outline-secondary" @click="openModal">
+        <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+      </button>
 
       <div v-if="isModalOpen" class="modal">
         <div class="modal-content">
@@ -158,9 +160,11 @@ p {
   height: 300px;
   max-width: 100%;
   max-height: 100%;
-  margin: 0 auto; /* 이미지를 가로 중앙에 위치시킵니다 */
+  margin: 0 auto;
+  /* 이미지를 가로 중앙에 위치시킵니다 */
   display: block;
-  position: relative; /* 상대적인 위치 설정을 추가합니다 */
+  position: relative;
+  /* 상대적인 위치 설정을 추가합니다 */
 }
 
 /* 모달 스타일 */

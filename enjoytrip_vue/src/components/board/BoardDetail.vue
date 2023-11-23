@@ -115,7 +115,7 @@ const onRecommend = () => {
               <div v-html="articles.content"></div>
               <p>이 글이 도움이 되었다면?</p>
               <button type="button" class="btn btn-outline-secondary mb-3" @click="onRecommend">
-                추천! {{ articles.likes }}
+                <font-awesome-icon icon="fa-solid fa-thumbs-up" /> {{ articles.likes }}
               </button>
             </div>
             <hr>

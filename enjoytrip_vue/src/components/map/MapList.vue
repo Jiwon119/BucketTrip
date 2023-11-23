@@ -138,12 +138,13 @@ const viewMarker = (data) => {
 
 <template>
   <div>
-    <h2>관광지 정보</h2>
+    <h2>관광지 검색</h2>
+    <br>
     <div class="row">
-      <div class="col-lg-7 mb-3">
+      <div class="col-lg-6 mb-3">
         <VKakaoMap :data="attractionData" :selected="selected" />
       </div>
-      <div class="col-lg-5">
+      <div class="col-lg-6">
         <form class="d-flex my-3" @submit.prevent="searchAttraction" role="search" action="/map">
           <input type="hidden" name="action" value="mapSearch" />
           <select id="search-area" class="form-select me-2" name="area" v-model="param.area" @change="onSidoChange">
@@ -170,7 +171,7 @@ const viewMarker = (data) => {
           </select>
           <input id="search-keyword" class="form-control me-2" type="search" placeholder="검색어" aria-label="검색어"
             name="keyword" v-model="param.keyword" />
-          <button type="button" class="btn btn-outline-danger mb-3 ms-1" @click="getSearchAttractionList">검색</button>
+          <button type="button" class="btn btn-outline-secondary ms-1" @click="getSearchAttractionList">검색</button>
         </form>
         <div class="map-list-item">
           <table class="table table-hover table-fixed">
@@ -199,7 +200,7 @@ const viewMarker = (data) => {
   overflow-y: auto;
 }
 
-.map-list-item::-webkit-scrollbar{
+.map-list-item::-webkit-scrollbar {
   display: none;
 }
 

@@ -27,6 +27,7 @@ const props = defineProps({
   width: 18rem;
   margin: 10px;
   min-width: 150px;
+  height: 350px;
 }
 
 .card-title {
@@ -41,8 +42,6 @@ const props = defineProps({
 .card-img {
   width: 178px;
   height: 118px;
-  max-width: 100%;
-  max-height: 100%;
   margin: 0 auto;
   display: block;
   position: relative;

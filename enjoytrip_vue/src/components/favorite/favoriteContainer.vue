@@ -60,11 +60,14 @@ const moveWrite = () => {
 
 <template>
   <div class="row">
-    <div class="col-8">
+    <h2 class="my-3 py-3 text-center">즐겨찾기</h2>
+    <div class="col-7">
       <favoriteMap :favoriteList="favorites" :selectedList="selected" />
     </div>
-    <div class="col-4 favorite-list-item">
-      <button class="btn" @click="moveWrite">여행 생성</button>
+    <div class="col-5 favorite-list-item">
+      <button class="btn btn-outline-secondary ps-4 pe-4 p-2 fs-5" @click="moveWrite">
+        <font-awesome-icon icon="fa-solid fa-paper-plane" /> 버킷리스트 생성
+      </button><br><br>
       <favoriteList :favoriteList="favorites" @onFavoriteSelect="selectedList" @onCheckboxClick="onCheckboxClick" />
     </div>
   </div>
@@ -76,7 +79,7 @@ const moveWrite = () => {
   overflow-y: auto;
 }
 
-.favorite-list-item::-webkit-scrollbar{
+.favorite-list-item::-webkit-scrollbar {
   display: none;
 }
 </style>

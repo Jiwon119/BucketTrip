@@ -185,10 +185,12 @@ const searchFriend = () => {
       </div>
     </div>
     <div class="col-6">
-      <h5>
+      <h3>
         즐겨찾기 목록
-        <button class="btn btn-outline-secondary" @click="createPlan"> 여행 계획 생성</button>
-      </h5>
+
+        <button class="btn btn-outline-secondary ms-3 fs-5" @click="createPlan"> <font-awesome-icon
+            icon="fa-solid fa-paper-plane" /> 버킷리스트 생성</button>
+      </h3>
 
       <dragList :list="favorites" />
     </div>
