@@ -13,7 +13,8 @@ const props = defineProps({
 
 <template>
   <div class="card" :style="{ width: width, height: height }">
-    <img :src="imgSrc" class="card-img-top">
+    <img v-if="imgSrc" :src="imgSrc" class="card-img-top">
+    <img v-else src="https://i.ibb.co/CWZysc0/mountains.png">
     <div class=" card-body">
       <div class="card-title">{{ title }}</div>
       <div class="card-content">{{ content }}</div>
