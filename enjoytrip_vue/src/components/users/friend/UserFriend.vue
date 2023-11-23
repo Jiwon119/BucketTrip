@@ -12,7 +12,6 @@ const props = defineProps({ refreshAlert: Boolean })
 watch(
   () => props.refreshAlert,
   () => {
-    console.log("로그로그");
     setFriends();
   },
   { deep: true }
