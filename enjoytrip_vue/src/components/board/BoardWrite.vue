@@ -86,7 +86,7 @@ var toolbarOptions = {
 
 };
 
-const getArticleList = () => {
+const onRegistArticle = () => {
   console.log("글쓰기");
   // API 호출
   registArticle(
@@ -119,7 +119,7 @@ const Change = () => {
       <div>
         제목: <input type="text" class="form-control" v-model="param.subject">
         장소: <input type="text" class="form-control" v-model="param.destinationId">
-        <input type="button" class="btn btn-outline-secondary" value="버튼" @click="getArticleList" />
+        <input type="button" class="btn btn-outline-secondary" value="버튼" @click="onRegistArticle" />
         <QuillEditor theme="snow" :toolbar="toolbarOptions" id="editor" ref="editor" @editor-change="Change" />
       </div>
     </div>
