@@ -5,16 +5,22 @@ import { useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
 import UserFriend from './friend/UserFriend.vue';
 import FriendRequestAccept from "./friend/FriendRequestAccept.vue";
-import { deleteById } from "@/api/user";
+import { deleteById, logout } from "@/api/user";
+import { useMenuStore } from "@/stores/menu";
 
 const router = useRouter();
 
 const memberStore = useMemberStore();
+const menuStore = useMenuStore();
+
 const { userInfo } = storeToRefs(memberStore);
 const refreshAlert = ref(true);
 const refreshFriendList = () => {
     refreshAlert.value = !refreshAlert.value
 }
+
+const { menuState } = storeToRefs(menuStore);
+const { changeMenuState } = menuStore;
 
 const userProfile = ref({
     id: userInfo.value.id,
@@ -52,6 +58,15 @@ const confirmWithdrawal = () => {
     if (isSecondConfirmed) {
       // 여기에 실제로 회원 탈퇴하는 로직을 추가합니다.
       // 예시로 경고 메시지만 표시합니다.
+      logout(userInfo.value.id,
+            () => {
+            console.log("탈퇴 전 로그아웃");
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
+        changeMenuState();
       deleteById(userInfo.value.id,
       () => {
         console.log("회원 탈퇴");
@@ -61,6 +76,7 @@ const confirmWithdrawal = () => {
         }
       );
       alert('회원 탈퇴가 완료되었습니다.');
+      menuState.value = false;
       router.push("/");
     }
   }
