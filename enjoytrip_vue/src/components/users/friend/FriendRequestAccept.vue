@@ -163,4 +163,21 @@ const acceptRequest = (friend) => {
     opacity: 1;
     /* 호버 상태에서 나타나도록 함 */
 }
+
+/* WebKit (Chrome, Safari) 스크롤바 스타일링 */
+.friend-request-accept::-webkit-scrollbar {
+    height: 12px;
+}
+
+.friend-request-accept::-webkit-scrollbar-thumb {
+    background-color: #d4d4d4;
+    /* 스크롤바 색상 */
+    border-radius: 5px;
+    /* 스크롤바 모서리 둥글게 */
+}
+
+.friend-request-accept::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    /* 스크롤바 트랙 색상 */
+}
 </style>

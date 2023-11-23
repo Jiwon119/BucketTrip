@@ -58,33 +58,57 @@ const setUserPostAttr = () => {
 </script>
 
 <template>
-  <template v-for="list in props.planList" :key="props.planList.id">
-    <div class="favoriteCard card mb-3 shadow">
-      <div @click="clickPlan(list)">
-        <h2 class="card-title">{{ list.title }}</h2>
-        <p class="card-text">{{ list.content }}</p>
-        <template v-for="item in list.attrInfo" :key="item.id">
-          <div class="button">
-            <template v-if="userAttrId.includes(item.contentId)">
-              <img class="btn" src="@/assets/medal_true.png" @click="clickStamp(item.contentId)">
-              <!-- <input type=" button" class="btn btn-secondary""> -->
-            </template>
-            <template v-else>
-              <img class="btn" src="@/assets/medal_false.png" @click="router.push({
-                name: 'article-write',
-                params: { contentId: item.contentId }
-              })">
-            </template>
-            <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1" @click="onSelect(list)"
-              width="180px" />
-          </div>
-        </template>
-      </div>
+  <div id="carouselExampleInterval" class="carousel carousel-dark" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <template v-for="(list, index) in props.planList" :key="props.planList.id">
+        <button type="button" data-bs-target="#carouselExampleDark" :data-bs-slide-to="index" class="active"></button>
+      </template>
     </div>
-  </template>
+    <div class="carousel-inner">
+      <template v-for="(list, index) in props.planList" :key="props.planList.id">
+        <div class="carousel-item pb-5" :class="{ 'active': index == 0 }" data-bs-interval="10000">
+          <div class="d-block w-100 ">
+            <h2 class="mt-5"> {{ list.title }}</h2>
+            <h3>{{ list.content }}</h3>
+            <template v-for="item in list.attrInfo" :key="item.id">
+              <div class="button">
+                <template v-if="userAttrId.includes(item.contentId)">
+                  <img class="btn" src="@/assets/medal_true.png" @click="clickStamp(item.contentId)">
+                </template>
+                <template v-else>
+                  <img class="btn" src="@/assets/medal_false.png" @click="router.push({
+                    name: 'article-write',
+                    params: { contentId: item.contentId }
+                  })">
+                </template>
+                <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1" @click="onSelect(list)"
+                  width="180px" />
+              </div>
+            </template>
+          </div>
+        </div>
+      </template>
+    </div>
+    <button class="carousel-control-prev carousel-dark" type="button" data-bs-target="#carouselExampleInterval"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 </template>
 
 <style scoped>
+.carousel-item {
+  border: none;
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+}
+
 .favoriteCard {
   border: none;
   position: relative;
@@ -96,8 +120,6 @@ const setUserPostAttr = () => {
 
 .button {
   display: inline-block;
-  justify-items: start;
-  align-self: stretch;
 }
 
 .btn {
@@ -109,6 +131,7 @@ const setUserPostAttr = () => {
 }
 
 .shadow {
+  padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 

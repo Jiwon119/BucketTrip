@@ -35,9 +35,9 @@ export default {
       @end="dragging = false">
       <template #item="{ element }">
         <div class="list-group-item" :class="{ 'not-draggable': !enabled }">
-          <img :src="element.img">
-          <h5>{{ element.title }}</h5>
-          <p>{{ element.content }}</p>
+          <!-- <img :src="element.img"> -->
+          <h5>{{ list.indexOf(element) + 1 }}. {{ element.title }}</h5>
+          <p>{{ element.addr1 }}</p>
           <button class="btn btn-outline-secondary" @click="openModal(element)"> 상세 페이지</button>
 
           <div v-if="isModalOpen" class="modal">
@@ -63,6 +63,10 @@ export default {
 
 
 <style scoped>
+.list-group-item {
+  padding: 30px;
+}
+
 .buttons {
   margin-top: 35px;
 }
