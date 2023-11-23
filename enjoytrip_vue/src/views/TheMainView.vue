@@ -1,140 +1,85 @@
 <script setup>
-import { ref } from 'vue'
 
-const travelPlan = ref([
-  {
-    destination: 'Paris, France',
-    date: '2023-12-01',
-    description: 'Explore the beautiful city of lights!',
-    image: 'https://source.unsplash.com/800x600/?paris,city',
-  },
-  {
-    destination: 'Tokyo, Japan',
-    date: '2023-12-10',
-    description: 'Discover the unique blend of tradition and modernity.',
-    image: 'https://source.unsplash.com/800x600/?tokyo,city',
-  },
-  {
-    destination: 'New York City, USA',
-    date: '2023-12-20',
-    description: 'Experience the energy of the city that never sleeps.',
-    image: 'https://source.unsplash.com/800x600/?new-york,city',
-  },
-])
-const backgroundImage = ref('https://img.freepik.com/free-vector/flat-design-of-travel-landing-page_23-2149131717.jpg?w=1380&t=st=1700727058~exp=1700727658~hmac=3aa9038d39ec7d17142cceda97f30139e2878b9b3788116addd7b0b298da0ccc')
 
-const logo = 'Your Logo';
-const description = '나만의 여행지를 찾고 나만의 버킷리스트를 만들어<br> 여행다니자! <br> 나의 버킷리스트를 친구와 공유하고 일기를 공유해요'
-const travelCards = [
-  {
-    destination: 'Paris, France',
-    image: 'https://source.unsplash.com/800x600/?paris,city',
-  },
-  {
-    destination: 'Tokyo, Japan',
-    image: 'https://source.unsplash.com/800x600/?tokyo,city',
-  },
-  {
-    destination: 'New York City, USA',
-    image: 'https://source.unsplash.com/800x600/?new-york,city',
-  },
-  {
-    destination: 'Barcelona, Spain',
-    image: 'https://source.unsplash.com/800x600/?barcelona,city',
-  },
-];
+import post from "@/components/main/post.vue";
+import intro from "@/components/main/intro.vue";
 
 </script>
 
 
 <template>
-  <div class="main-container">
-    <div class="left-section">
-      <img src="@/assets/main.png" alt="Background" class="background-image">
-      <div class="left-content">
-        <img src="@/assets/logo_white.png" alt="Logo" class="logo">
-        <p class="description" v-html="description"></p>
+  <div>
+    <div class="row">
+      <div class="col-5 left">
+        <div class="main-title">
+          Travel to make <br>
+          memories all around <br>
+          the world <br>
+        </div>
+        <div class="main-text">
+          당신의 여행 버킷 리스트를<br>
+          버킷트립과 함께하세요
+        </div>
+        <button class="btn btn-outline-secondary fs-4 ps-5 pe-5 p-2 main-btn">
+          <font-awesome-icon icon="campground" />
+          Start
+
+          Bucket Trip</button>
       </div>
-    </div>
-    <div class="right-section">
-      <div v-for="card in travelCards" :key="card.destination" class="card">
-        <img :src="card.image" alt="Travel Destination" class="card-img-top">
-        <div class="card-body">
-          <h5 class="card-title">{{ card.destination }}</h5>
+      <div class="col-7 right">
+        <div class="row p-3">
+          <div class="col-4">
+            <label class="main-label">라벨</label>
+          </div>
+          <div class="col-8">
+            <img class="main-img-1" src="@/assets/main_1.jpg" />
+          </div>
+        </div>
+        <div class="row p-3">
+          <!-- <img class="main-img-1" src="@/assets/main_2.jpg" /> -->
+          <div class="col">
+            <img class="main-img-3" src="@/assets/main_4.jpg" />
+          </div>
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
 <style>
-/* styles.css */
-
-body,
-html {
-  height: 100%;
-  margin: 0;
+.left {
+  text-align: left;
 }
 
-.main-container {
-  display: flex;
-  height: 100%;
-}
-
-.left-section {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-}
-
-.background-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.7;
-  /* Adjust the opacity as needed */
-}
-
-.left-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: #fff;
-}
-
-.logo {
-  width: 450px;
-  height: auto;
-  margin-bottom: 20px;
-}
-
-.description {
-  font-size: 20px;
-  line-height: 1.5;
+.main-title {
+  margin: 30% 10% 10px 10%;
+  font-size: 45px;
   font-weight: bold;
 }
 
-.right-section {
-  flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  padding: 20px;
-}
-
-.card {
-  width: calc(50% - 20px);
-  margin-bottom: 20px;
-}
-
-.card-img-top {
+.main-label {
+  background-color: white;
   width: 100%;
-  height: auto;
+  height: 100%
+}
+
+.main-text {
+  margin: 0 10%;
+  font-size: 20px;
+}
+
+.main-btn {
+  margin: 30px 30% 10px 10%;
+}
+
+.main-img-1 {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.main-img-3 {
+  width: 100%;
+  border-radius: 10px;
 }
 </style>
