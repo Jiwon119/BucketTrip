@@ -33,8 +33,6 @@ const clickPlan = (val) => {
     }
   }
 
-  // console.log(props.planList)
-  // console.log(val + "인덱스를 뿌릴거야")
   emit("onClickPlan", props.planList.findIndex(i => i.id == props.planList[currentIndex.value].id));
 }
 
@@ -87,7 +85,6 @@ const setUserPostAttr = () => {
           <div class="d-block w-100 ">
             <h2 class="mt-5"> {{ list.title }}</h2>
             <h3>{{ list.content }}</h3>
-            <p>{{ index }} gdgd</p>
             <template v-for="item in list.attrInfo" :key="item.id">
               <div class="button">
                 <template v-if="userAttrId.includes(item.contentId)">
