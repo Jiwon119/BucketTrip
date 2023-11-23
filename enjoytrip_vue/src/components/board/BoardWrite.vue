@@ -7,7 +7,11 @@ import { registArticle } from "@/api/board";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 
+import { useRouter } from "vue-router";
+
 import { searchAttractionId } from "@/api/attraction";
+
+const router = useRouter();
 
 const props = defineProps({ type: String, contentId: String });
 
@@ -113,6 +117,7 @@ const onRegistArticle = () => {
       console.log(error);
     }
   );
+  router.push("/board/list");
 };
 
 const Change = () => {
