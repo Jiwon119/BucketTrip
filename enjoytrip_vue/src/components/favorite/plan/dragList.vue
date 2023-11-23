@@ -38,7 +38,7 @@ export default {
           <!-- <img :src="element.img"> -->
           <h5>{{ list.indexOf(element) + 1 }}. {{ element.title }}</h5>
           <p>{{ element.addr1 }}</p>
-          <button class="btn btn-outline-secondary" @click="openModal(element)"> 상세 페이지</button>
+          <!-- <button class="btn btn-outline-secondary" @click="openModal(element)"> 상세 페이지</button> -->
 
           <div v-if="isModalOpen" class="modal">
             <div class="modal-content">
