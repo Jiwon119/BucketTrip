@@ -5,15 +5,15 @@ import { useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
 import UserFriend from './friend/UserFriend.vue';
 import FriendRequestAccept from "./friend/FriendRequestAccept.vue";
+import { deleteById } from "@/api/user";
+
+const router = useRouter();
 
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 const refreshAlert = ref(true);
 const refreshFriendList = () => {
-    // console.log(refreshAlert.value);
     refreshAlert.value = !refreshAlert.value
-    // console.log(refreshAlert.value);
-
 }
 
 const userProfile = ref({
@@ -40,6 +40,34 @@ watch(
         }
     }
 )
+
+const confirmWithdrawal = () => {
+  // 첫 번째 확인 메시지
+  const isFirstConfirmed = window.confirm('정말로 탈퇴하시겠습니까?');
+    console.log(userInfo.value.id);
+  if (isFirstConfirmed) {
+    // 두 번째 확인 메시지
+    const isSecondConfirmed = window.confirm('진짜로 탈퇴하시겠습니까?');
+
+    if (isSecondConfirmed) {
+      // 여기에 실제로 회원 탈퇴하는 로직을 추가합니다.
+      // 예시로 경고 메시지만 표시합니다.
+      deleteById(userInfo.value.id,
+      () => {
+        console.log("회원 탈퇴");
+        },
+        (error) => {
+        console.log(error);
+        }
+      );
+      alert('회원 탈퇴가 완료되었습니다.');
+      router.push("/");
+    }
+  }
+  else{
+    alert('휴~');
+  }
+};
 
 </script>
 
@@ -71,6 +99,7 @@ watch(
                     </div>
                 </div>
                 <router-link :to="{ name: 'edit' }" class="btn btn-outline-secondary m-3">개인 정보 수정</router-link>
+                <button @click="confirmWithdrawal" class="btn btn-outline-danger m-3">회원 탈퇴</button>
             </div>
             <h5 class="title">친구 목록</h5>
             <UserFriend :info="friendData" :refreshAlert="refreshAlert" />
