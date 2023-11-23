@@ -7,10 +7,14 @@ import { registArticle } from "@/api/board";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 
+import { searchAttractionId } from "@/api/attraction";
+
 const props = defineProps({ type: String, contentId: String });
 
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
+
+const attraction = ref({});
 
 const param = ref({
   destinationId: "",
@@ -26,6 +30,17 @@ onMounted(() => {
   param.value.userId = userInfo.value.id;
   param.value.userName = userInfo.value.name;
   console.log("props.contentId", props.contentId);
+
+  searchAttractionId(
+      { id: props.contentId },
+      ({ data }) => {
+        console.log(data.title + "gdggddgd" + JSON.stringify(data));
+        attraction.value = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
 });
 
 
@@ -116,10 +131,47 @@ const Change = () => {
           글쓰기
         </h2>
       </div>
-      <div>
-        제목: <input type="text" class="form-control" v-model="param.subject">
-        장소: <input type="text" class="form-control" v-model="param.destinationId">
-        <input type="button" class="btn btn-outline-secondary" value="버튼" @click="getArticleList" />
+    </div>
+    <hr>
+    <div class="row justify-content-center mt-3">
+      <div class="col-lg-7">
+        <!-- 장소 카드 -->
+        <div class="card">
+          <div class="row g-0">
+            <!-- 이미지 -->
+            <div class="col-md-4">
+              <img :src="attraction.firstImage" class="img-fluid rounded-start" alt="Attraction Image">
+            </div>
+            <!-- 제목 -->
+            <div class="col-md-8">
+              <div class="card-body">
+                <p class="card-text">{{ attraction.title }}</p>
+                <p class="card-text">{{ attraction.addr1 }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <!-- 제목 입력 -->
+        <div class="row mb-3" style="margin-top: 20px;">
+          <div class="col-md-1">
+            <label for="subject">제목</label>
+          </div>
+          <div class="col-md-10">
+            <input type="text" class="form-control" v-model="param.subject">
+          </div>
+          <div class="col-md-1">
+            <input type="button" class="btn btn-outline-secondary" value="글쓰기" @click="getArticleList" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+      <div class="col-lg-10">
+        <!-- 버튼 및 편집기 -->
         <QuillEditor theme="snow" :toolbar="toolbarOptions" id="editor" ref="editor" @editor-change="Change" />
       </div>
     </div>
