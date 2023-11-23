@@ -29,7 +29,7 @@ const regist = async () => {
 <template>
     <div class="main">
         <form v-on:submit.prevent>
-            <img class="mb-4" src="@/assets/logo1.png" width="200">
+            <img class="mb-4" src="@/assets/logo.png" width="200">
             <h1 class="h3 mb-3 fw-normal">회원가입</h1>
 
             <div class="form-floating mb-3">

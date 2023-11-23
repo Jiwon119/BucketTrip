@@ -65,16 +65,16 @@ const setUserPostAttr = () => {
         <p class="card-text">{{ list.content }}</p>
         <template v-for="item in list.attrInfo" :key="item.id">
           <div class="button">
-            <div v-if="userAttrId.includes(item.contentId)">
+            <template v-if="userAttrId.includes(item.contentId)">
               <img class="btn" src="@/assets/medal_true.png" @click="clickStamp(item.contentId)">
               <!-- <input type=" button" class="btn btn-secondary""> -->
-            </div>
-            <div v-else>
+            </template>
+            <template v-else>
               <img class="btn" src="@/assets/medal_false.png" @click="router.push({
                 name: 'article-write',
                 params: { contentId: item.contentId }
               })">
-            </div>
+            </template>
             <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1" @click="onSelect(list)"
               width="180px" />
           </div>
@@ -96,7 +96,8 @@ const setUserPostAttr = () => {
 
 .button {
   display: inline-block;
-
+  justify-items: start;
+  align-self: stretch;
 }
 
 .btn {
