@@ -48,5 +48,5 @@ public interface BoardMapper {
 
 	BoardDto searchUserBoard(Map<String, String> map);
 
-	BoardListDto getUserPosts(String userId);
+	List<BoardDto> getUserPosts(String userId);
 }

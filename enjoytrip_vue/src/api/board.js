@@ -60,8 +60,8 @@ function searchUserBoard(param, success, fail) {
     .catch(fail);
 }
 
-function getUserPosts(param, success, fail) {
-  local.get(`${url}/list`,{ params: param }).then(success).catch(fail);
+function getUserPosts(userId, success, fail) {
+  local.get(`${url}/getUserPosts/${userId}`).then(success).catch(fail);
 }
 
 export {

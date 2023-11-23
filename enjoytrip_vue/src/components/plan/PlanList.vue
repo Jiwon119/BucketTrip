@@ -39,16 +39,22 @@ const clickPlan = (val) => {
 
 onMounted(() => {
   setUserPostAttr();
+
 })
 
 watch(
-  () => props.planList,
+  () => props.planList.value,
   () => {
     props.planList.forEach(element => {
       console.log(element);
       getFriendsList(element.id);
+      setUserPostAttr();
     })
+    console.log("userAttrId.value", userAttrId.value);
+    console.log("userPostId.value", userPostId.value);
+    console.log("friendsList.value", friendsList.value);
   },
+  { deep: true }
 )
 
 
@@ -62,19 +68,20 @@ const clickStamp = (contentId) => {
   router.push({ name: 'article-view', params: { articleno: postId, planId: props.planList.id } })
 }
 
-const setUserPostAttr = async () => {
+const setUserPostAttr = () => {
   getUserPosts(
     userInfo.value.id,
     ({ data }) => {
       console.log("data", data);
       userAttrId.value = []
       userPostId.value = []
-      friendsList.value = []
       data.forEach(element => {
         userAttrId.value.push(element.destinationId)
         userPostId.value.push(element.articleNo)
       });
+      data
       console.log("userAttrId.value", userAttrId.value);
+      console.log("friendsList.value", friendsList.value);
     },
     (error) => {
       console.log(error);

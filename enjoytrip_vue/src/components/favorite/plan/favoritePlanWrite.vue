@@ -100,7 +100,7 @@ const createPlan = () => {
       friends: selectFriends.value
     },
     () => {
-      // router.push({ name: "favorite" });
+      router.push({ name: "plan" });
     },
     (error) => {
       console.log(error);

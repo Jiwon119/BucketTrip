@@ -262,7 +262,7 @@ public class BoardController {
 	@GetMapping("/getUserPosts/{userId}")
 	public ResponseEntity<?> getUserPosts(@PathVariable String userId) {
 		try {
-			BoardListDto result = boardService.getUserPosts(userId);
+			List<BoardDto> result = boardService.getUserPosts(userId);
 			log.debug("결과 : {}", result);
 			return new ResponseEntity<>(result, HttpStatus.CREATED);
 		} catch (Exception e) {

@@ -128,7 +128,7 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-	public BoardListDto getUserPosts(String userId) {
+	public List<BoardDto> getUserPosts(String userId) {
 		return boardMapper.getUserPosts(userId);
 	}
 
