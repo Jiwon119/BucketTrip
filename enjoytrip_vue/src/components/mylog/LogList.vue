@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
-import { getUserPosts } from "@/api/board";
+import { listArticle } from "@/api/board";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
@@ -48,7 +48,7 @@ const changeKey = (val) => {
 
 const getArticleList = () => {
     // API 호출
-    getUserPosts(
+    listArticle(
         param.value,
         ({ data }) => {
             console.log(data);
