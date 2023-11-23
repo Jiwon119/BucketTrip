@@ -5,7 +5,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
 import { searchAttractionId } from "@/api/attraction";
 import { listPlan, writePlan } from "@/api/plan"
-import { findUser, getFriends, addFriend } from "@/api/user";
+import { findUser, getFriends } from "@/api/user";
 import favoriteMap from "../favoriteMap.vue";
 import dragList from "./dragList.vue";
 
@@ -22,8 +22,20 @@ const planInfo = ref({
   title: "",
   content: "",
 });
-const friends = ref([])
+const selectFriends = ref([])
 
+const friendProfiles = ref([]);
+
+const setFriends = () => {
+  getFriends(
+    userInfo.value.id, 1,
+    ({ data }) => {
+      console.log("data", data);
+      friendProfiles.value = data;
+    }, (error) => {
+      console.error("Error fetching isFavorite:", error);
+    });
+};
 
 // watch(
 //   () => friendSearch.value,
@@ -35,10 +47,10 @@ const friends = ref([])
 
 const OnAddFriend = (friend) => {
   // 선택한 친구를 계획에 추가하는 로직을 추가합니다.
-  // 예를 들어, planInfo.friends 배열에 선택한 친구 정보를 추가하고, friendSearch를 초기화합니다.
-  console.log(friends.value);
-  if (friends.value.indexOf(friend.id) == -1) {
-    friends.value = [...friends.value, friend.id];
+  // 예를 들어, planInfo.selectFriends 배열에 선택한 친구 정보를 추가하고, friendSearch를 초기화합니다.
+  console.log(selectFriends.value);
+  if (selectFriends.value.indexOf(friend.id) == -1) {
+    selectFriends.value = [...selectFriends.value, friend.id];
   }
 };
 
@@ -58,6 +70,7 @@ watch(
 
 onMounted(() => {
   setData();
+  setFriends();
 })
 
 const setData = () => {
@@ -84,7 +97,7 @@ const createPlan = () => {
     {
       planInfo: planInfo.value,
       planList: list.value,
-      friends: friends.value
+      selectFriends: selectFriends.value
     },
     () => {
       // router.push({ name: "favorite" });
@@ -107,7 +120,12 @@ const searchFriend = () => {
     ,
     ({ data }) => {
       console.log("data", data);
-      friendSearchResults.value = data;
+      friendSearchResults.value = []
+      data.forEach(element => {
+        if (friendProfiles.value.findIndex(el => el.id == element.id) != -1) {
+          friendSearchResults.value.push(element);
+        }
+      });
     }, (error) => {
       console.error("Error fetching isFavorite:", error);
     });
@@ -135,7 +153,7 @@ const searchFriend = () => {
       <div class="mb-3 row">
         <label for="content" class="col-sm-2 col-form-label">친구</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" v-model="friends" readonly>
+          <input type="text" class="form-control" v-model="selectFriends" readonly>
         </div>
       </div>
       <div>

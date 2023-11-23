@@ -108,4 +108,9 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.updateFriendState(userId, friendId);
 	}
 
+	@Override
+	public List<MemberDto> getUserFriends(String id) throws Exception {
+		return memberMapper.getUserFriends(id);
+	}
+
 }

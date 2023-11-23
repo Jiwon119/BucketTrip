@@ -23,4 +23,5 @@ public interface MemberService {
 	public List<MemberDto> getFriendsRequest(String id) throws Exception;
 	public void addFriends(String id, String friend, int status) throws Exception;
 	public void updateFriendState(String userId, String friendId) throws Exception;
+	public List<MemberDto> getUserFriends(String id) throws Exception;
 }

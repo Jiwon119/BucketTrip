@@ -141,7 +141,6 @@ const OnAddFriend = (friend) => {
   flex-direction: column;
   align-items: center;
   margin: 0px 20px;
-
 }
 
 .add-friend-button {

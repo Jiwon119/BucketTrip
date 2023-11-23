@@ -27,6 +27,7 @@ public interface MemberMapper {
 	public List<MemberDto> getFriendsRequest(String id) throws SQLException;
 	public void addFriends(String id, String friend, int status) throws SQLException;
 	public void updateFriendState(String userId, String friendId) throws SQLException;
+	public List<MemberDto> getUserFriends(String id) throws SQLException;;
 	
 
 //	public MemberDto searchPass(String id, String eamil, String name);

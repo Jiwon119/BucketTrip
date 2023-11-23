@@ -187,6 +187,14 @@ public class MemberController {
 		return new ResponseEntity<>(friends, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "getFriends", notes = "친구 조회")
+	@GetMapping("/userfriend/{userId}/")
+	private ResponseEntity<?> getUserFriends(@PathVariable("userId") String id) throws Exception {
+		List<MemberDto> friends = memberService.getUserFriends(id);
+
+		return new ResponseEntity<>(friends, HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "requestFriend", notes = "친구 요청 조회")
 	@GetMapping("/requestFriend/{userId}")
 	private ResponseEntity<?> getFriendsRequest(@PathVariable("userId") String id) throws Exception {
