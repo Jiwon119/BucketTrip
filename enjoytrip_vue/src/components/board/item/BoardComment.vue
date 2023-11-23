@@ -2,9 +2,18 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { getComment, writeComment } from "@/api/board";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
 
 onMounted(() => {
   console.log(articleno);
+  if (userInfo.value != null) {
+    console.log("userInfo.id", userInfo.value.id);
+    newComment.value.writer = userInfo.value.id
+  }
   getComments();
 });
 
@@ -43,14 +52,14 @@ function writeNewComment() {
 
 <template>
   <div>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="아이디" v-model="newComment.writer"> <br />
+    <div class="input-group mb-3" v-if="userInfo != null">
+      <input type="text" class="form-control" placeholder="아이디" v-model="newComment.writer" readonly> <br />
       <input type="text" class="form-control" placeholder="댓글 입력" v-model="newComment.content">
       <button class="btn btn-outline-secondary" type="button" @click="writeNewComment">등록</button>
     </div>
 
     <template v-for="comment in comments" :key="comment.articleno">
-      <table>
+      <table class="table">
         <tr>
           <td>{{ comment.writer }}</td>
           <td style="text-align: right;">{{ comment.createDate }}</td>
@@ -69,7 +78,8 @@ td {
 }
 
 table {
-  width: 100%;
+  min-width: 100%;
+  width: auto;
   border-top: 1px solid rgb(192, 192, 192);
   margin-bottom: 10px;
   padding: 10px;
