@@ -13,8 +13,8 @@ const props = defineProps({
 
 <template>
   <div class="card" :style="{ width: width, height: height }">
-    <img v-if="imgSrc" :src="imgSrc" class="card-img-top">
-    <img v-else src="https://i.ibb.co/CWZysc0/mountains.png">
+    <img v-if="imgSrc" :src="imgSrc" class="card-img">
+    <img v-else src="https://i.ibb.co/CWZysc0/mountains.png" class="card-img">
     <div class=" card-body">
       <div class="card-title">{{ title }}</div>
       <div class="card-content">{{ content }}</div>
@@ -36,5 +36,15 @@ const props = defineProps({
 
 .card-content {
   font-size: 15px;
+}
+
+.card-img {
+  width: 178px;
+  height: 118px;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto; /* 이미지를 가로 중앙에 위치시킵니다 */
+  display: block;
+  position: relative; /* 상대적인 위치 설정을 추가합니다 */
 }
 </style>
