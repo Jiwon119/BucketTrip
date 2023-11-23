@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { listArticle } from "@/api/board";
 
@@ -28,6 +28,7 @@ const param = ref({
   word: "",
   destinationId: ""
 });
+
 
 onMounted(() => {
   param.value.destinationId = destinationId.value;
@@ -77,11 +78,6 @@ const moveWrite = () => {
       </div>
       <div class="col-lg-10 board-list-item">
         <div class="row align-self-center mb-2">
-          <div class="col-md-2 text-start">
-            <button type="button" class="btn btn-outline-primary btn-sm" @click="moveWrite">
-              글쓰기
-            </button>
-          </div>
           <div class="col-md-5 offset-5">
             <form class="d-flex">
               <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
