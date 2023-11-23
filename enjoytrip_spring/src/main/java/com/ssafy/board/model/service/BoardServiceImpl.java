@@ -55,6 +55,9 @@ public class BoardServiceImpl implements BoardService {
 			param.put("key", key == null ? "" : "b.user_id");
 		
 		param.put("destinationId", map.get("destinationId"));
+		
+		param.put("userIdSearch", map.get("userIdSearch"));
+		
 		List<BoardDto> list = boardMapper.listArticle(param);
 
 		if ("user_id".equals(key))
@@ -62,6 +65,7 @@ public class BoardServiceImpl implements BoardService {
 		int totalArticleCount = boardMapper.getTotalArticleCount(param);
 		int totalPageCount = (totalArticleCount - 1) / sizePerPage + 1;
 
+		
 		BoardListDto boardListDto = new BoardListDto();
 		boardListDto.setArticles(list);
 		boardListDto.setCurrentPage(currentPage);
@@ -124,7 +128,7 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-	public List<BoardDto> getUserPosts(String userId) {
+	public BoardListDto getUserPosts(String userId) {
 		return boardMapper.getUserPosts(userId);
 	}
 

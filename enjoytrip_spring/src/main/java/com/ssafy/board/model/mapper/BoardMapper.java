@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.attraction.model.AttractionInfoDto;
 import com.ssafy.board.model.BoardDto;
+import com.ssafy.board.model.BoardListDto;
 import com.ssafy.board.model.CommentDto;
 import com.ssafy.board.model.FileInfoDto;
 
@@ -47,5 +48,5 @@ public interface BoardMapper {
 
 	BoardDto searchUserBoard(Map<String, String> map);
 
-	List<BoardDto> getUserPosts(String userId);
+	BoardListDto getUserPosts(String userId);
 }
