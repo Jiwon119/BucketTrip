@@ -37,6 +37,17 @@
 		<collection property="attractionDescriptionDto" resultMap="attractionDesc" />
 	</resultMap>
 
+	<resultMap type="MemberDto" id="member">
+		<result column="user_id" property="id"/>
+		<result column="user_password" property="password"/>
+		<result column="user_email" property="email"/>
+		<result column="user_name" property="name"/> 
+		<result column="user_birth" property="birth"/>
+		<result column="user_phone" property="phone"/>
+		<result column="user_profile_picture" property="profilePicture"/>
+		<result column="join_date" property="joinDate"/>
+	</resultMap>
+	
 	<select id="getList" resultMap="plan">
 		select *
 		from travel_plan
@@ -64,5 +75,17 @@
 		on (d.content_id = a.content_id)
         where plan_id = #{planId}
 	</select>
+	
+	<insert id="createJoinFriend" parameterType="map">
+		insert into join_friend(user_id, plan_id)
+		values (#{friendName}, #{planId})
+	</insert>
 
+	<select id="getFriends" parameterType="Integer" resultMap="member">
+		select *
+		from member
+		where user_id in (  select user_id
+							from join_friend
+							where plan_id = #{planId} )
+	</select>
 </mapper>

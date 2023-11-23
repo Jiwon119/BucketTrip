@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <draggable :list="list" :disabled="!enabled" item-key="name" class="list-group" @start="dragging = true"
       @end="dragging = false">
       <template #item="{ element }">
@@ -63,8 +63,34 @@ export default {
 
 
 <style scoped>
+.container {
+  height: 900px;
+  overflow: auto;
+}
+
+.container::-webkit-scrollbar {
+  /* display: none; */
+}
+
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: #d4d4d4;
+  /* 스크롤바 색상 */
+  border-radius: 5px;
+  /* 스크롤바 모서리 둥글게 */
+}
+
+.container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  /* 스크롤바 트랙 색상 */
+}
+
 .list-group-item {
   padding: 30px;
+
 }
 
 .buttons {

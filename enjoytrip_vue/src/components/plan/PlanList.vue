@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { searchUserBoard, getUserPosts } from "@/api/board"
+import { getFriends } from "@/api/plan"
 import { useMemberStore } from "@/stores/member";
 import { useRouter } from "vue-router";
 import VCard from "../common/VCard.vue";
@@ -15,21 +16,21 @@ const { userInfo } = storeToRefs(memberStore);
 const props = defineProps({ planList: Array })
 const userAttrId = ref([]);
 const userPostId = ref([]);
+const friendsList = ref([]);
 
 const emit = defineEmits(["onClickPlan"]);
 
 const clickPlan = (val) => {
 
-
-  if(val == 1){
-    currentIndex.value = currentIndex.value +1;
-    if(currentIndex.value >= props.planList.length){
+  if (val == 1) {
+    currentIndex.value = currentIndex.value + 1;
+    if (currentIndex.value >= props.planList.length) {
       currentIndex.value = 0;
     }
-  }else{
-    currentIndex.value = currentIndex.value -1;
-    if(currentIndex.value < 0){
-      currentIndex.value = props.planList.length-1;
+  } else {
+    currentIndex.value = currentIndex.value - 1;
+    if (currentIndex.value < 0) {
+      currentIndex.value = props.planList.length - 1;
     }
   }
 
@@ -39,6 +40,16 @@ const clickPlan = (val) => {
 onMounted(() => {
   setUserPostAttr();
 })
+
+watch(
+  () => props.planList,
+  () => {
+    props.planList.forEach(element => {
+      console.log(element);
+      getFriendsList(element.id);
+    })
+  },
+)
 
 
 const clickStamp = (contentId) => {
@@ -51,18 +62,32 @@ const clickStamp = (contentId) => {
   router.push({ name: 'article-view', params: { articleno: postId } })
 }
 
-const setUserPostAttr = () => {
+const setUserPostAttr = async () => {
   getUserPosts(
     userInfo.value.id,
     ({ data }) => {
       console.log("data", data);
       userAttrId.value = []
       userPostId.value = []
+      friendsList.value = []
       data.forEach(element => {
         userAttrId.value.push(element.destinationId)
         userPostId.value.push(element.articleNo)
       });
       console.log("userAttrId.value", userAttrId.value);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+const getFriendsList = (planId) => {
+  getFriends(
+    planId,
+    ({ data }) => {
+      console.log("data", data);
+      friendsList.value.push(data);
     },
     (error) => {
       console.log(error);
@@ -85,6 +110,15 @@ const setUserPostAttr = () => {
           <div class="d-block w-100 ">
             <h2 class="mt-5"> {{ list.title }}</h2>
             <h3>{{ list.content }}</h3>
+            <div>
+              <div v-for="friend in friendsList[index]" :key="friend.id" class="friend-profile">
+                <div class="img-container">
+                  <img :src="friend.profilePicture" class="profile-img" alt="프로필 이미지" />
+                </div>
+                <h5>{{ friend.id }}<br> ({{ friend.name }})</h5>
+                <p></p>
+              </div>
+            </div>
             <template v-for="item in list.attrInfo" :key="item.id">
               <div class="button">
                 <template v-if="userAttrId.includes(item.contentId)">
@@ -96,8 +130,7 @@ const setUserPostAttr = () => {
                     params: { contentId: item.contentId }
                   })">
                 </template>
-                <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1"
-                  width="180px" />
+                <VCard :title="item.title" :imgSrc="item.firstImage" :content="item.addr1" width="180px" />
               </div>
             </template>
           </div>
@@ -109,8 +142,8 @@ const setUserPostAttr = () => {
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
-      data-bs-slide="next" @click="clickPlan(1)">
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next"
+      @click="clickPlan(1)">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
@@ -161,5 +194,30 @@ const setUserPostAttr = () => {
   text-align: left;
   font-weight: bold;
   padding: 0px 0px 0px 30px;
+}
+
+.img-container {
+  width: 70px;
+  height: 70px;
+  margin: 20px auto;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  border: rgb(203, 203, 203) solid 1px;
+}
+
+.profile-img {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.friend-profile {
+  display: inline-block;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
 }
 </style>

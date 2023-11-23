@@ -13,6 +13,7 @@ import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.board.model.mapper.BoardMapper;
 import com.ssafy.favorite.model.FavoriteDto;
 import com.ssafy.favorite.model.mapper.FavoriteMapper;
+import com.ssafy.member.model.MemberDto;
 import com.ssafy.plan.model.PlanDto;
 import com.ssafy.plan.model.mapper.PlanMapper;
 import com.ssafy.util.PageNavigation;
@@ -50,6 +51,16 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public void createJoinPlace(int attrId, int planId) {
 		planMapper.createJoinPlace(attrId, planId);
+	}
+
+	@Override
+	public void createJoinFriend(String friendName, int planId) {
+		planMapper.createJoinFriend(friendName, planId);
+	}
+
+	@Override
+	public List<MemberDto> getFriends(int planId) {
+		return planMapper.getFriends(planId);
 	}
 
 

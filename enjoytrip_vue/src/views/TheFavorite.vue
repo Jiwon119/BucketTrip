@@ -3,7 +3,9 @@
 
 <template>
   <div>
-    <h2>북마크 정보</h2>
+    <h1 class="mb-3" style="text-align: left;">
+      북마크 정보
+    </h1>
     <router-view></router-view>
   </div>
 </template>
