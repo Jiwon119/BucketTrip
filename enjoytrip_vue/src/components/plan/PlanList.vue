@@ -59,7 +59,7 @@ const clickStamp = (contentId) => {
   const postId = userPostId.value[index];
   console.log(postId);
 
-  router.push({ name: 'article-view', params: { articleno: postId } })
+  router.push({ name: 'article-view', params: { articleno: postId, planId: props.planList.id } })
 }
 
 const setUserPostAttr = async () => {
