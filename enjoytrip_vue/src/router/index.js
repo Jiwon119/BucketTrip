@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import TheMainView from "../views/TheMainView.vue";
-// import TheBoardView from "../views/TheBoardView.vue";
 
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
@@ -34,10 +33,6 @@ const router = createRouter({
     {
       path: "/board",
       name: "board",
-      // component: TheBoardView,
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import("../views/TheBoardView.vue"),
       redirect: { name: "article-list" },
       children: [

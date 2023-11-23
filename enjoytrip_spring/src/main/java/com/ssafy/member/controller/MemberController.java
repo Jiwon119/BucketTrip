@@ -111,7 +111,7 @@ public class MemberController {
 	@DeleteMapping("/delete/{userId}")
 	protected ResponseEntity<?> deleteMember(HttpSession session, @PathVariable("userId") String id) throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
-
+		log.debug("gdgdgd");
 		memberService.deleteMember(id);
 		map.put("msg", "회원 탈퇴 성공");
 		session.invalidate();

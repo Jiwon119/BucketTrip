@@ -14,6 +14,12 @@ async function findById(userid, success, fail) {
   await local.get(`/member/info/${userid}`).then(success).catch(fail);
 }
 
+async function deleteById(userid, success, fail) {
+  local.defaults.headers["Authorization"] =
+    sessionStorage.getItem("accessToken");
+  await local.delete(`/member/delete/${userid}`).then(success).catch(fail);
+}
+
 async function tokenRegeneration(user, success, fail) {
   local.defaults.headers["refreshToken"] =
     sessionStorage.getItem("refreshToken"); //axios header에 refresh-token 셋팅
@@ -73,4 +79,5 @@ export {
   addFriend,
   getFriendRequest,
   acceptFriendRequest,
+  deleteById,
 };
