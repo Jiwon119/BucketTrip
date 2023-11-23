@@ -101,7 +101,8 @@ const moveWrite = () => {
 <template>
   <tr class="text-center">
     <td>
-      <img :src="props.attraction.img">
+      <img v-if="props.attraction.img" :src="props.attraction.img">
+      <img v-else src="https://i.ibb.co/CWZysc0/mountains.png">
     </td>
     <td>
       <button id="starButton" @click="toggleFavorite" :style="starButtonStyle">
@@ -119,7 +120,8 @@ const moveWrite = () => {
         <div class="modal-content">
           <span @click="closeModal" class="close">&times;</span>
           <div class="modal-header">
-            <img :src="props.attraction.img" alt="Attraction Image" class="modal-image">
+            <img v-if="props.attraction.img" :src="props.attraction.img" alt="Attraction Image" class="modal-image">
+            <img v-else src="https://i.ibb.co/CWZysc0/mountains.png" class="modal-image">
           </div>
           <div class="modal-body">
             <h2>{{ props.attraction.title }}</h2>
@@ -150,8 +152,18 @@ p {
 }
 
 
-/* 모달 스타일 */
+/* 모달 이미지 스타일 */
+.modal-image {
+  width: auto;
+  height: 300px;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto; /* 이미지를 가로 중앙에 위치시킵니다 */
+  display: block;
+  position: relative; /* 상대적인 위치 설정을 추가합니다 */
+}
 
+/* 모달 스타일 */
 .modal {
   display: block;
   position: fixed;
@@ -165,6 +177,7 @@ p {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+/* 모달 내용 스타일 */
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto;
@@ -173,6 +186,7 @@ p {
   width: 80%;
 }
 
+/* 모달 닫기 버튼 스타일 */
 .close {
   color: #aaa;
   float: right;
@@ -187,31 +201,25 @@ p {
   cursor: pointer;
 }
 
-
-
-/* 상세 페이지 */
-
+/* 모달 헤더 스타일 */
 .modal-header {
   text-align: center;
+  position: relative;
 }
 
-.modal-image {
-  width: 100%;
-  height: auto;
-  max-height: 300px;
-  /* 이미지의 최대 높이 설정 */
-}
-
+/* 모달 바디 스타일 */
 .modal-body {
   padding: 20px;
 }
 
+/* 모달 푸터 스타일 */
 .modal-footer {
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
 }
 
+/* 모달 푸터 버튼 스타일 */
 .modal-footer button {
   margin-left: 10px;
 }
