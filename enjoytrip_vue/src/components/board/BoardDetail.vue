@@ -81,13 +81,22 @@ const onRecommend = () => {
 
 <template>
   <div class="container">
+    <div class="position-relative"> <!-- 부모 컴포넌트에 상대적인 위치 설정 -->
+      <!-- 상단 고정 이미지 및 텍스트 -->
+      <div class="fixed-top-container position-absolute top-0 end-0"> <!-- 상대적인 위치 설정 -->
+        <div class="col-md align-self-center text-end">
+          <div class="image-container">
+            <img :src="attraction.firstImage" class="img-fluid rounded" alt="Attraction Image">
+            <p class="fst-italic mt-2">{{ attraction.title }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row justify-content-center">
       <div class="col-lg-10 text-start">
         <div class="row my-2">
-          <h2 class="text-secondary">{{ articles.subject }}</h2>
-        </div>
-        <div class="row">
-          <div class="col-md-8">
+          <div class="col-8">
+            <h2 class="text-secondary">{{ articles.subject }}</h2>
             <div class="clearfix align-content-center">
               <p>
                 <span class="fw-bold">{{ articles.userName }}</span> <br />
@@ -96,6 +105,12 @@ const onRecommend = () => {
                 </span>
               </p>
             </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md">
+
             <div class="text-secondary">
               <div v-html="articles.content"></div>
               <p>이 글이 도움이 되었다면?</p>
@@ -111,12 +126,6 @@ const onRecommend = () => {
               <template v-else>
                 <BoardComment />
               </template>
-            </div>
-          </div>
-          <div class="col-md-4 align-self-center text-end">
-            <div class="image-container">
-              <img :src="attraction.firstImage">
-              <p class="fst-italic">{{ attraction.title }}</p>
             </div>
           </div>
         </div>
@@ -145,6 +154,22 @@ const onRecommend = () => {
 </template>
 
 <style scoped>
+.container {
+  width: 100%;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.fixed-top-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  z-index: 1000;
+}
+
 .image-container {
   display: flex;
   flex-direction: column;
@@ -153,13 +178,6 @@ const onRecommend = () => {
   height: 200px;
 }
 
-.image-container img {
-  width: 200px;
-  /* 이미지의 가로 크기를 조절합니다. */
-  height: 200px;
-  /* 이미지의 세로 크기를 조절합니다. */
-  object-fit: cover;
-}
 
 .text-center {
   text-align: center;
