@@ -92,7 +92,7 @@ var toolbarOptions = {
     ["link", "image"],
 
     ["clean"], // remove formatting button
-    ,
+
   ],  // Selector for toolbar container
   handlers: {
     'image': handleImage
@@ -101,7 +101,7 @@ var toolbarOptions = {
 
 };
 
-const getArticleList = () => {
+const onRegistArticle = () => {
   console.log("글쓰기");
   // API 호출
   registArticle(

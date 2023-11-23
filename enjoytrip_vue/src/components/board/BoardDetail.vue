@@ -105,7 +105,12 @@ const onRecommend = () => {
             </div>
             <hr>
             <div class="mt-3">
-              <BoardComment />
+              <template v-if="userInfo != null">
+                <BoardComment />
+              </template>
+              <template v-else>
+                <BoardComment />
+              </template>
             </div>
           </div>
           <div class="col-md-4 align-self-center text-end">
@@ -123,10 +128,12 @@ const onRecommend = () => {
               <button type="button" class="btn btn-outline-secondary mb-3" @click="moveList">
                 글목록
               </button>
-              <button type="button" class="btn btn-outline-secondary mb-3 ms-1" v-if="articles.userId === userInfo.id" @click="moveModify">
+              <button type="button" class="btn btn-outline-secondary mb-3 ms-1"
+                v-if="userInfo != null && articles.userId === userInfo.id" @click="moveModify">
                 글수정
               </button>
-              <button type="button" class="btn btn-outline-secondary mb-3 ms-1" v-if="articles.userId === userInfo.id" @click="onDeleteArticle">
+              <button type="button" class="btn btn-outline-secondary mb-3 ms-1"
+                v-if="userInfo != null && articles.userId === userInfo.id" @click="onDeleteArticle">
                 글삭제
               </button>
             </div>
