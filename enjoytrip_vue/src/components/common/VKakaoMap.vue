@@ -44,6 +44,13 @@ watch(
         markers.value.forEach(m => {
             if (m.id == props.selected.id) {
                 // 인포윈도우를 생성합니다
+                console.log(props.selected);
+                if(props.selected.img === ""){
+                    imgSrc = "https://i.ibb.co/CWZysc0/mountains.png";
+                }
+                else{
+                    var imgSrc = props.selected.img;
+                }
                 var content = '<div class="wrap">' +
                     '    <div class="info">' +
                     '        <div class="title">' +
@@ -51,7 +58,7 @@ watch(
                     '        </div>' +
                     '        <div class="body">' +
                     '            <div class="img">' +
-                    `                <img src="${props.selected.img}" width="73" height="70">` +
+                    `                <img src="${imgSrc}" width="73" height="70">` +
                     '           </div>' +
                     '            <div class="desc">' +
                     `                <div class="ellipsis">${props.selected.content}</div>` +
