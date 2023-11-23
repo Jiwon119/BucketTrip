@@ -23,6 +23,8 @@ const planInfo = ref({
   content: "",
 });
 
+const friendSearch = ref("");
+const friendSearchResults = ref([]);
 
 watch(
   () => favorites.value,
@@ -67,29 +69,14 @@ const createPlan = () => {
       planInfo: planInfo.value,
       planList: list.value
     },
-    ({ data }) => {
-      alert("저장이 완료되었습니다.")
+    () => {
       router.push({ name: "favorite" });
-
     },
     (error) => {
       console.log(error);
     }
   );
 }
-
-// const planList = () => {
-//   listPlan(
-//     userInfo.value.id,
-//     ({ data }) => {
-//       console.log(data);
-
-//     },
-//     (error) => {
-//       console.log(error);
-//     }
-//   );
-// }
 
 </script>
 
@@ -112,6 +99,12 @@ const createPlan = () => {
       </div>
       <div class="mb-3 row">
         <label for="content" class="col-sm-2 col-form-label">내용</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" rows="3" v-model="planInfo.content"></textarea>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="content" class="col-sm-2 col-form-label">친구 추가</label>
         <div class="col-sm-10">
           <textarea class="form-control" rows="3" v-model="planInfo.content"></textarea>
         </div>
