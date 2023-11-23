@@ -46,8 +46,8 @@ const cardClick = (value) => {
     <div class="place">
       <!-- <template v-for="(item, index) in 10" :key="index">
 
-                                      <VCard :imgSrc="imgSrc" :title="title" :content="content" width="200px" />
-                                    </template> -->
+                                        <VCard :imgSrc="imgSrc" :title="title" :content="content" width="200px" />
+                                      </template> -->
     </div>
   </div>
 </template>
@@ -62,6 +62,7 @@ const cardClick = (value) => {
   display: flex;
   padding: 0 30px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .place {

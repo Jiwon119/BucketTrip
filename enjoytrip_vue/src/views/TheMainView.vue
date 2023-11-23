@@ -16,16 +16,14 @@
           당신의 여행 버킷 리스트를<br>
           버킷트립과 함께하세요
         </div>
-        <button class="btn btn-outline-secondary fs-4 ps-5 pe-5 p-2 main-btn">
+        <button class="btn btn-outline-secondary fs-4 ps-5 pe-5 p-2 main-btn" @click="$router.push({ name: 'join' })">
           <font-awesome-icon icon="campground" />
-          Start
-
-          Bucket Trip</button>
+          Start Bucket Trip</button>
       </div>
       <div class="col-7 right">
         <div class="row p-3">
           <div class="col-4">
-            <label class="main-label">라벨</label>
+            <img class="main-img-1" src="@/assets/main_3.jpg" />
           </div>
           <div class="col-8">
             <img class="main-img-1" src="@/assets/main_1.jpg" />
@@ -72,6 +70,7 @@
 .main-img-1 {
   width: 100%;
   border-radius: 10px;
+  height: 100%;
 }
 
 .main-img-3 {
