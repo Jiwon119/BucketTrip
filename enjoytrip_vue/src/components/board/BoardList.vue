@@ -77,7 +77,7 @@ const onPageChange = (val) => {
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10">
-        <h2 class="my-3 py-3 text-center">글목록</h2>
+        <h2 class="my-3 py-3 text-center">전체 게시판</h2>
       </div>
       <div class="col-lg-10 board-list-item">
         <div class="row align-self-center mb-2">
