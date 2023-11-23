@@ -52,6 +52,13 @@
 		select *
 		from travel_plan
 		where user_id = #{userId}
+		union
+		select *
+		from travel_plan
+		where id in (select plan_id
+					 from join_friend
+					 where user_id=#{userId})
+	
 	</select>
 
 	<insert id="createPlan" parameterType="PlanDto">
