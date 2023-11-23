@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
@@ -16,19 +16,30 @@ const refreshFriendList = () => {
 
 }
 
-const userProfile = ref({})
-
-onMounted(() => {
-    userProfile.value = {
-        id: userInfo.value.id,
-        name: userInfo.value.name,
-        profilePicture: userInfo.value.profilePicture,
-        birth: userInfo.value.birth.slice(0, 10),
-        email: userInfo.value.email,
-        phone: userInfo.value.phone,
-        joinDate: userInfo.value.joinDate.slice(0, 10),
-    };
+const userProfile = ref({
+    id: userInfo.value.id,
+    name: userInfo.value.name,
+    profilePicture: userInfo.value.profilePicture,
+    birth: userInfo.value.birth.slice(0, 10),
+    email: userInfo.value.email,
+    phone: userInfo.value.phone,
+    joinDate: userInfo.value.joinDate.slice(0, 10),
 })
+
+watch(
+    () => userInfo.value,
+    () => {
+        userProfile.value = {
+            id: userInfo.value.id,
+            name: userInfo.value.name,
+            profilePicture: userInfo.value.profilePicture,
+            birth: userInfo.value.birth.slice(0, 10),
+            email: userInfo.value.email,
+            phone: userInfo.value.phone,
+            joinDate: userInfo.value.joinDate.slice(0, 10)
+        }
+    }
+)
 
 </script>
 
