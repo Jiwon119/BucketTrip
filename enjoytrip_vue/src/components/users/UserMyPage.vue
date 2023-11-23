@@ -10,9 +10,9 @@ const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 const refreshAlert = ref(true);
 const refreshFriendList = () => {
-    console.log(refreshAlert.value);
+    // console.log(refreshAlert.value);
     refreshAlert.value = !refreshAlert.value
-    console.log(refreshAlert.value);
+    // console.log(refreshAlert.value);
 
 }
 

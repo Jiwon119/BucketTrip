@@ -31,20 +31,21 @@ const param = ref({
 });
 
 const toggleFavorite = async () => {
-  isFavorite.value = !isFavorite.value;
-  param.value.destinationId = props.attraction.id;
-  param.value.userId = userInfo.value.id;
-  addFavorite(param.value, isFavorite.value, (response) => {
-    // console.log(response);
-  },
-    (error) => {
-      console.log(error);
-    }
-  );
-  // console.log(param.value);
-
-  // 스타일을 동적으로 변경
-  starButtonStyle.value.color = isFavorite.value ? "gold" : "#ccc";
+  if (userInfo.value != null) {
+    isFavorite.value = !isFavorite.value;
+    param.value.destinationId = props.attraction.id;
+    param.value.userId = userInfo.value.id;
+    addFavorite(param.value, isFavorite.value, (response) => {
+    },
+      (error) => {
+        console.log(error);
+      }
+    );
+    // 스타일을 동적으로 변경
+    starButtonStyle.value.color = isFavorite.value ? "gold" : "#ccc";
+  } else {
+    router.push({ name: 'login' })
+  }
 };
 
 onMounted(() => {
@@ -61,13 +62,15 @@ watch(
 
 const setStar = () => {
   // 컴포넌트가 마운트되면서 즐겨찾기 여부를 조회
-  isFavorited(userInfo.value.id, props.attraction.id,
-    (response) => {
-      isFavorite.value = response.data; // API 응답에 따라 수정
-      starButtonStyle.value.color = isFavorite.value ? "gold" : "#ccc";
-    }, (error) => {
-      console.error("Error fetching isFavorite:", error);
-    });
+  if (userInfo.value != null) {
+    isFavorited(userInfo.value.id, props.attraction.id,
+      (response) => {
+        isFavorite.value = response.data; // API 응답에 따라 수정
+        starButtonStyle.value.color = isFavorite.value ? "gold" : "#ccc";
+      }, (error) => {
+        console.error("Error fetching isFavorite:", error);
+      });
+  }
 }
 
 
@@ -84,11 +87,14 @@ const closeModal = () => {
 
 //글쓰기 라우터
 const moveWrite = () => {
-  console.log(props.attraction.id);
-  router.push({
-    name: 'article-write',
-    params: { contentId: props.attraction.id }
-  });
+  if (userInfo.value != null) {
+    router.push({
+      name: 'article-write',
+      params: { contentId: props.attraction.id }
+    });
+  } else {
+    router.push({ name: 'login' })
+  }
 };
 </script>
 

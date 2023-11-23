@@ -1,4 +1,5 @@
 <script setup>
+slice
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from "pinia";
@@ -24,7 +25,6 @@ const userProfile = ref({
 
 const handleProfilePictureChange = (event) => {
     const file = event.target.files[0];
-    console.log(file);
     if (file) {
         var bodyData = new FormData();
         var imageFile = file;
@@ -43,8 +43,6 @@ const handleProfilePictureChange = (event) => {
 };
 
 const submitForm = () => {
-    console.log("유저 정보 수정");
-    console.log(userProfile.value);
     // API 호출
     update(
         userProfile.value,

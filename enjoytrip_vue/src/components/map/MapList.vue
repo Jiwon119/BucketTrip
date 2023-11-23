@@ -5,6 +5,7 @@ import { listAttraction, searchAttraction, listSido, listGugun } from "@/api/att
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
 import MapListItem from "@/components/map/item/MapListItem.vue";
 
+
 const attractionData = ref([]);
 const sidoData = ref([]);
 const gugunData = ref([]);
@@ -31,7 +32,6 @@ const getAttractionList = () => {
   // API 호출
   listAttraction(
     ({ data }) => {
-      // console.log(data);
       data.forEach(element => {
         attractionData.value.push({
           id: element.contentId,
@@ -44,13 +44,11 @@ const getAttractionList = () => {
         });
 
       });
-      // console.log(attractionData.value);
     },
     (error) => {
       console.log(error);
     }
   );
-  // console.log(attractionData);
 };
 
 const param = ref({
@@ -61,12 +59,9 @@ const param = ref({
 });
 
 const getSearchAttractionList = () => {
-  // console.log(param.value);
   searchAttraction(
     param.value,
     ({ data }) => {
-      // console.log(data);
-
       attractionData.value = [];
       data.forEach(element => {
         attractionData.value.push({
@@ -90,7 +85,6 @@ const getSidoList = () => {
   // API 호출
   listSido(
     ({ data }) => {
-      // console.log(data);
       data.forEach(element => {
         sidoData.value.push({
           sidoCode: element.sidoCode,
@@ -98,13 +92,11 @@ const getSidoList = () => {
         });
 
       });
-      // console.log(sidoData.value);
     },
     (error) => {
       console.log(error);
     }
   );
-  // console.log(sidoData);
 };
 
 const getGugunList = () => {
@@ -112,7 +104,6 @@ const getGugunList = () => {
   listGugun(
     param.value,
     ({ data }) => {
-      // console.log(data);
       data.forEach(element => {
         gugunData.value.push({
           gugunCode: element.gugunCode,
@@ -122,13 +113,11 @@ const getGugunList = () => {
 
       });
       param.value.area2 = "0";
-      // console.log(sidoData.value);
     },
     (error) => {
       console.log(error);
     }
   );
-  // console.log(sidoData);
 };
 
 const onSidoChange = () => {
