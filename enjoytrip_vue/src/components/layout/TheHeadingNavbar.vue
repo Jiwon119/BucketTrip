@@ -32,7 +32,7 @@ if (!menuState.value) {
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
         <router-link :to="{ name: 'main' }" class="navbar-brand" style="color: #7685b5">
-          <img src="@/assets/logo1.png" style="width: 200px; margin-left: 30px" />
+          <img src="@/assets/logo.png" style="width: 200px; margin-left: 30px" />
         </router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor04"
           aria-controls="navbarColor04" aria-expanded="false" aria-label="Toggle navigation"
