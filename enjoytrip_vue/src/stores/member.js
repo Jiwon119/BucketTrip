@@ -40,7 +40,7 @@ export const useMemberStore = defineStore("memberStore", () => {
           sessionStorage.setItem("refreshToken", refreshToken);
           console.log("sessiontStorage에 담았다", isLogin.value);
         } else {
-          console.log("로그인 실패했다");
+          alert("로그인 실패")
           isLogin.value = false;
           isLoginError.value = true;
           isValidToken.value = false;
@@ -48,6 +48,11 @@ export const useMemberStore = defineStore("memberStore", () => {
       },
       (error) => {
         console.error(error);
+        alert("로그인 실패")
+        isLogin.value = false;
+        isLoginError.value = true;
+        isValidToken.value = false;
+
       }
     );
   };

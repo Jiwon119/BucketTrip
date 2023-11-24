@@ -14,7 +14,7 @@ public interface MemberMapper {
 	public int regist(MemberDto member);
 	public MemberDto login(String id, String password);
 	public MemberDto selectMember(String id, String email, String name);
-	public List<MemberDto> selectMembers(String id, String eamil, String name);
+	public List<MemberDto> selectMembers(String id, String email, String name);
 	public List<MemberDto> selectAllMember();
 	public int updateMember(MemberDto member);
 	public int deleteMember(String id);

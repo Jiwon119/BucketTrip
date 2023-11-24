@@ -25,13 +25,15 @@ const loginUser = ref({
 const login = async () => {
     await userLogin(loginUser.value);
     let token = sessionStorage.getItem("accessToken");
-    if (isLogin) {
+    if (isLogin != null) {
         getUserInfo(token);
         changeMenuState();
+        menuState.value = true;
+        router.push("/");
+    } else {
+
     }
 
-    menuState.value = true;
-    router.push("/");
 };
 
 const resetPasswordModal = ref(false);
@@ -68,7 +70,7 @@ const resetPasswordSubmit = () => {
                 );
                 alert("비밀번호가 변경되었습니다.");
             }
-            else{
+            else {
                 alert("잘못된 회원정보 입니다.");
             }
         },
@@ -180,7 +182,7 @@ form {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
@@ -204,5 +206,4 @@ form {
     text-decoration: none;
     cursor: pointer;
 }
-
 </style>

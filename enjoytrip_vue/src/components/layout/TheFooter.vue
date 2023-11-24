@@ -35,19 +35,16 @@
 
       <ul class="nav col-md-4 justify-content-end">
         <li class="nav-item">
-          <a href="#" class="nav-link px-2 text-body-secondary">Home</a>
+          <a href="/" class="nav-link px-2 text-body-secondary">Home</a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link px-2 text-body-secondary">Features</a>
+          <a href="/plan" class="nav-link px-2 text-body-secondary">plan</a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link px-2 text-body-secondary">Pricing</a>
+          <a href="/hotplace" class="nav-link px-2 text-body-secondary">hotplace</a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link px-2 text-body-secondary">FAQs</a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link px-2 text-body-secondary">About</a>
+          <a href="/board" class="nav-link px-2 text-body-secondary">board</a>
         </li>
       </ul>
     </footer>
