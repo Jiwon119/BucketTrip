@@ -21,9 +21,9 @@ const logout = () => {
 };
 
 if (!menuState.value) {
-  console.log("------------------isLogin.info", isLogin.info != null);
-  if (isLogin.info != null) {
-    // changeMenuState();
+  console.log("------------------isLogin.info", isLogin.value != null);
+  if (isLogin.value) {
+    changeMenuState();
   }
 }
 </script>
