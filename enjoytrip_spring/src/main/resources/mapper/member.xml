@@ -50,8 +50,8 @@
 			<if test="id != null">
 				and user_id=#{id}
 			</if>
-			<if test="eamil != null">
-				and user_email = #{eamil}
+			<if test="email != null">
+				and user_email = #{email}
 			</if>
 			<if test="name != null">
 				and user_name like '%${name}%'
