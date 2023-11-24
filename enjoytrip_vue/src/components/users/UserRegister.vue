@@ -10,13 +10,13 @@ const memberStore = useMemberStore();
 const { userRegist } = memberStore;
 
 const registInfo = ref({
-    id: "jw",
-    password: "1234",
-    passwordCk: "1234",
-    name: "jw",
-    email: "jw@naver.com",
-    phone: "01012345678",
-    birth: "1999-01-19"
+    id: "",
+    password: "",
+    passwordCk: "",
+    name: "",
+    email: "",
+    phone: "",
+    birth: ""
 });
 
 const passwordMismatch = ref(false);
@@ -56,17 +56,17 @@ const checkExistingId = async () => {
     }
     // findById 함수 호출
     await findById(registInfo.value.id,
-        ({data}) => {
+        ({ data }) => {
             // 아이디가 존재하지 않을 경우
-            if(data){
+            if (data) {
                 isExistingId.value = true;
             }
-            else{
-            isExistingId.value = false;
+            else {
+                isExistingId.value = false;
             }
         },
-        (error)=>{
-            
+        (error) => {
+
         }
     );
 };
@@ -86,12 +86,14 @@ const checkExistingId = async () => {
             </div>
 
             <div class="form-floating mb-3" :class="{ 'has-danger': passwordMismatch, 'has-success': !passwordMismatch }">
-                <input type="password" class="form-control" placeholder="PW" v-model="registInfo.password" @input="checkPasswordMatch">
+                <input type="password" class="form-control" placeholder="PW" v-model="registInfo.password"
+                    @input="checkPasswordMatch">
                 <label for="floatingInput">비밀번호</label>
             </div>
 
             <div class="form-floating mb-3" :class="{ 'has-danger': passwordMismatch, 'has-success': !passwordMismatch }">
-                <input type="password" class="form-control" placeholder="PWCk" v-model="registInfo.passwordCk" @input="checkPasswordMatch">
+                <input type="password" class="form-control" placeholder="PWCk" v-model="registInfo.passwordCk"
+                    @input="checkPasswordMatch">
                 <label for="floatingInput">비밀번호 확인</label>
             </div>
 
@@ -101,7 +103,8 @@ const checkExistingId = async () => {
             </div>
 
             <div class="form-floating mb-3" :class="{ 'has-danger': !isEmailValid(), 'has-success': isEmailValid() }">
-                <input type="text" class="form-control" placeholder="Email" v-model="registInfo.email" @input="checkPasswordMatch">
+                <input type="text" class="form-control" placeholder="Email" v-model="registInfo.email"
+                    @input="checkPasswordMatch">
                 <label for="floatingInput">이메일</label>
             </div>
 
@@ -115,7 +118,8 @@ const checkExistingId = async () => {
                 <label for="floatingPassword">생일</label>
             </div>
 
-            <button class="btn w-100 py-2" :disabled="!isFormValid() || passwordMismatch || !isEmailValid() || isExistingId" @click="regist">회원가입</button>
+            <button class="btn w-100 py-2" :disabled="!isFormValid() || passwordMismatch || !isEmailValid() || isExistingId"
+                @click="regist">회원가입</button>
 
             <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
         </form>
@@ -161,5 +165,4 @@ form {
 
 .has-success input {
     background-color: #dff0d8;
-}
-</style>
+}</style>

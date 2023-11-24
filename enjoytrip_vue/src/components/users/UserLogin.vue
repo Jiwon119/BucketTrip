@@ -18,8 +18,8 @@ const { userLogin, getUserInfo } = memberStore;
 const { changeMenuState } = menuStore;
 
 const loginUser = ref({
-    id: "ssafy",
-    password: "1234",
+    id: "",
+    password: "",
 });
 
 const login = async () => {
