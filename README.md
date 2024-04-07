@@ -14,6 +14,7 @@
 4.	공유된 버킷리스트 일정에는 친구들과 공유 일기를 작성하고, 댓글로 소통할 수 있음.
 
 ## 🎦 동영상
+[![Video Label](http://img.youtube.com/vi/YAT4j8MRdno/0.jpg)](https://youtu.be/YAT4j8MRdno)  
 
 ## ⚒️ 기술 스택
 언어 : `Java`, `JavaScript`, `CSS3`, `HTML5`   
